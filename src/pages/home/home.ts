@@ -7,6 +7,7 @@ import {TranslateService} from "@ngx-translate/core";
 import {Storage} from '@ionic/storage';
 import {ConfigProvider} from "../../providers/config/config";
 import {NotificationsPage} from "../notifications/notifications";
+import {RatingPage} from "../rating/rating";
 declare var google;
 @Component({
   selector: 'page-home',
@@ -118,7 +119,7 @@ export class HomePage {
 
   onGoToNotification(){
     console.log('this is called on Go To notifications');
-    this.navCtrl.push(NotificationsPage);
+    this.navCtrl.push(RatingPage);
   }
 
 

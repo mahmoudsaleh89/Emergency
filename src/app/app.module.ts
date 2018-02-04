@@ -29,6 +29,7 @@ import {ImagePicker} from "@ionic-native/image-picker";
 import {Camera} from "@ionic-native/camera";
 import { AccountProvider } from '../providers/account/account';
 import {NotificationsPage} from "../pages/notifications/notifications";
+import {RatingPage} from "../pages/rating/rating";
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -47,7 +48,8 @@ export function createTranslateLoader(http: HttpClient) {
     WhereUseItPage,
     ProfilePage,
     AddSosNumberPage,
-    NotificationsPage
+    NotificationsPage,
+    RatingPage
   ],
   imports: [
     BrowserModule,
@@ -74,7 +76,8 @@ export function createTranslateLoader(http: HttpClient) {
     WhereUseItPage,
     ProfilePage,
     AddSosNumberPage,
-    NotificationsPage
+    NotificationsPage,
+    RatingPage
 
   ],
   providers: [
@@ -91,6 +94,7 @@ export function createTranslateLoader(http: HttpClient) {
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ConfigProvider,
     AccountProvider,
+    RatingPage
   ]
 })
 export class AppModule {}

@@ -58,3 +58,14 @@ ion-menu .scroll-content {
 .toast-container {
   background-color: #4f6c84 !important;
 }
+
+.list-header-ios,
+.list-header-md {
+  background-color: #F7F7F8 !important;
+}
+.item-divider-md {
+  border-bottom: 1px solid #dedede;
+  font-size: 1.4rem;
+  color: black !important;
+  background-color: #F7F7F8 !important;
+}

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "56187466951",
+    "firebase_url": "https://emergency-238dd.firebaseio.com",
+    "project_id": "emergency-238dd",
+    "storage_bucket": "emergency-238dd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:56187466951:android:cd58abf9e98a7952",
+        "android_client_info": {
+          "package_name": "com.incube.sos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "56187466951-tsjbel3lkgsfogb8heen7c7hd1oehdub.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwVopH7puuYFsWB_4_BykO4atTsApeXkE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
