@@ -1,15 +1,22 @@
-<ion-menu [content]="content">
-  <ion-header>
-    <ion-toolbar>
-      <ion-title>Menu</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-menu [side]="platform.isRTL==true?'right':'left'" [content]="content">
 
   <ion-content>
-    <ion-list>
-      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
-        {{p.title}}
-      </button>
+    <ion-list class="myMenu">
+      <ion-item class="myheader" (click)="openProfilePage()" menuClose>
+        <img class="p-image" src="{{account.userInformation.profileImage}}" width="60" onerror="this.src='assets/imgs/user.png'">
+        <h2 *ngIf="account.userInformation.phoneNumber != '' ">{{account.userInformation.firstName}}  {{account.userInformation.lastName }}</h2>
+        <h2 *ngIf="account.userInformation.phoneNumber == '' ">{{'unknownUser' | translate}}</h2>
+          <p *ngIf="account.userInformation.phoneNumber != '' " dir="ltr" text-right style="color: #1ab394 !important;">{{account.userInformation.phoneNumber}}</p>
+          <p *ngIf="account.userInformation.phoneNumber == '' " dir="ltr" text-right style="color: #1ab394 !important;">*******</p>
+      </ion-item>
+      <ion-item *ngFor="let p of pages" (click)="openPage(p)" menuClose>
+        <ion-thumbnail item-start>
+          <ion-icon name="{{p.icon}}" icon-start></ion-icon>
+        </ion-thumbnail>
+        <h2>{{p.title | translate}}</h2>
+        <p>هنالك العديد من الأنواع المتوفرة لنصوص لوريم إيبسوم، ولكن الغالبية تم تعديلها بشكل ما عبر إدخال بعض النوادر أو الكلمات العشوائي</p>
+      </ion-item>
+
     </ion-list>
   </ion-content>
 

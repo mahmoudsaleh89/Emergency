@@ -1,0 +1,106 @@
+<ion-header>
+
+  <ion-navbar color="dark">
+    <ion-buttons end>
+      <button ion-button  icon-only (click)="onAddNewContact()">
+        <ion-icon name="person-add"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>{{"profile" | translate}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+<ion-content padding>
+  <ion-list text-center>
+    <ion-item class="profile_image" ion-row text-center align-items-center>
+      <ion-col class="image_dev">
+        <img [(src)]="myProfile.profileImage"  onerror="this.src='assets/imgs/user.png'">
+      </ion-col>
+    </ion-item>
+    <button ion-button color="dark" outline (click)="onAddProfileImage()"> {{add_profile_img}} </button>
+
+  </ion-list>
+  <ion-list>
+    <ion-list-header>
+      {{"personal_info" | translate}}
+    </ion-list-header>
+    <ion-item>
+      <ion-avatar item-start>
+        <img src="assets/imgs/kuwait.svg">
+      </ion-avatar>
+      <ion-label stacked>{{"phone" | translate}} <span class="validate_note">* {{"field_required"| translate}}</span></ion-label>
+      <ion-input  type="number" [(ngModel)]="phoneNumber" placeholder="ex : 2 ??? ????"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>{{"first_name" | translate}}</ion-label>
+      <ion-input type="text" [(ngModel)]="myProfile.firstName"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>{{"last_name" | translate}}</ion-label>
+      <ion-input type="text" [(ngModel)]="myProfile.lastName"></ion-input>
+    </ion-item>
+  </ion-list>
+  <ion-list *ngIf="emergencyNumberList.length > 0 ">
+    <ion-list-header>
+      {{"emergency_number" | translate}}
+    </ion-list-header>
+    <ion-item-sliding *ngFor="let num of emergencyNumberList; let i = index" >
+      <ion-item>
+        <h2>{{num.firstName}} {{num.latName}}</h2>
+        <p>{{num.phone}}</p>
+      </ion-item>
+      <ion-item-options side="left" *ngIf="!platform.isRTL">
+        <button ion-button color="danger" (click)="config.onDeleteEmergencyNumber(i)" >
+          <ion-icon name="trash"></ion-icon>
+          {{'remove' | translate}}
+        </button>
+        <button ion-button color="primary" (click)="onViewNumber(i)">
+          <ion-icon name="create"></ion-icon>
+          {{'edit' | translate}}
+        </button>
+      </ion-item-options>
+      <ion-item-options side="right"  *ngIf="platform.isRTL">
+        <button ion-button color="danger" (click)="onDeleteNumber(i)">
+          <ion-icon name="trash"></ion-icon>
+          {{'remove' | translate}}
+        </button>
+        <button ion-button color="primary" (click)="onViewNumber(i)">
+          <ion-icon name="create"></ion-icon>
+          {{'edit' | translate}}
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+  <ion-list *ngIf="emergencyNumberList.length == 0 ">
+    <ion-list-header>
+      {{"emergency_number" | translate}}
+    </ion-list-header>
+    <div class="note-emergency">
+      <p>
+        {{"emergency_note" | translate}}
+      </p>
+    </div>
+  </ion-list>
+  <ion-list>
+    <ion-list-header>
+      {{"other" | translate}}
+    </ion-list-header>
+    <ion-item (click)="onSetGender()">
+      <ion-label stacked>{{"gender" | translate}}</ion-label>
+      <ion-input disabled="true" id="gender" [(ngModel)]='myProfile.gender' type="text"></ion-input>
+    </ion-item>
+    <ion-item (click)="onSetBirthday()">
+      <ion-label stacked>{{"birthday" | translate}}</ion-label>
+      <ion-input disabled="true" id="birthday" type="text" [(ngModel)]='myProfile.birthday'></ion-input>
+    </ion-item>
+    <ion-item (click)="onSetLanguage()">
+      <ion-label stacked>{{"language" | translate}}</ion-label>
+      <ion-input disabled="true" id="lang" [(ngModel)]='myProfile.language' type="text"></ion-input>
+    </ion-item>
+  </ion-list>
+
+  <div text-center>
+    <button ion-button color="primary" outline (click)="onSaveProfile()"> {{"save" | translate}} </button>
+  </div>
+
+</ion-content>

@@ -1,0 +1,25 @@
+page-settings {
+  /*.list-md .item-block .item-inner{
+    border-bottom: 1px solid #dedede !important;
+  }*/
+  /*.list-md .item-md.item-input.item-input-has-focus{
+    border-bottom : 1px   #1ab394!important;
+    box-shadow: inset 0 -1px 0 0 #1ab394 !important;
+  }*/
+  /*.list-md .item-input:last-child{
+    border-bottom : 0 !important;
+  }
+  .list-md .item-input{
+    border-bottom : 0 !important;
+  }*/
+  .list-md .item-block .item-inner {
+    border-bottom: 1px solid #dedede;
+  }
+  .list-header-md{
+    background-color: #dedede;
+  }
+  /*.list-md .item-md.item-input.item-input-has-focus:last-child{
+    border-bottom : 1px   #1ab394!important;
+    box-shadow: inset 0 -1px 0 0 #1ab394 !important;
+  }*/
+}

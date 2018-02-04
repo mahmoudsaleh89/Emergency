@@ -1,0 +1,72 @@
+<ion-header>
+
+  <ion-navbar color="dark">
+    <ion-title>{{"settings" | translate}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+    <ion-item text-center>
+     <button ion-button color="dark" outline> {{"add_profile_img" | translate}} </button>
+    </ion-item>
+  </ion-list>
+  <ion-list>
+    <ion-list-header>
+      {{"personal_info" | translate}}
+    </ion-list-header>
+    <ion-item>
+      <ion-label stacked>{{"first_name" | translate}}</ion-label>
+      <ion-input type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>{{"last_name" | translate}}</ion-label>
+      <ion-input type="text"></ion-input>
+    </ion-item>
+  </ion-list>
+  <ion-list>
+    <ion-list-header>
+      {{"emergency_number" | translate}}
+    </ion-list-header>
+    <ion-item>
+      <ion-label stacked>{{"first_number" | translate}}</ion-label>
+      <ion-input type="number"></ion-input>
+    </ion-item>
+    <ion-item *ngIf="countICENumbers == 1 ||  countICENumbers == 2">
+      <ion-label  stacked>{{"scened_number" | translate}}  <ion-icon name="trash" color="danger" item-end></ion-icon></ion-label>
+      <ion-input type="number"></ion-input>
+    </ion-item>
+    <ion-item *ngIf="countICENumbers == 2">
+      <ion-label stacked>{{"third_number" | translate}}  <ion-icon name="trash" color="danger" item-end></ion-icon></ion-label>
+      <ion-input type="number"></ion-input>
+    </ion-item>
+    <ion-item *ngIf="countICENumbers < 2">
+      <button ion-button color="dark" outline (click)="onAddIceNumbers()"> <ion-icon name="add-circle" ></ion-icon> </button>
+    </ion-item>
+  </ion-list>
+  <ion-list>
+    <ion-list-header>
+      {{"other" | translate}}
+    </ion-list-header>
+    <ion-item (click)="onSetGender()">
+      <ion-label stacked>{{"gender" | translate}}</ion-label>
+      <ion-input disabled="true" id="gender" value='{{"unspecified" | translate}}' type="text"></ion-input>
+    </ion-item>
+    <ion-item (click)="onSetBirthday()">
+      <ion-label stacked>{{"birthday" | translate}}</ion-label>
+      <ion-input disabled="true" id="birthday" type="text"></ion-input>
+    </ion-item>
+    <ion-item (click)="onSetLanguage()">
+      <ion-label stacked>{{"language" | translate}}</ion-label>
+      <ion-input disabled="true" id="lang" value='{{"arabic" | translate}}' type="text"></ion-input>
+    </ion-item>
+  </ion-list>
+
+  <div text-center>
+    <button ion-button color="primary" outline> {{"save" | translate}} </button>
+  </div>
+
+</ion-content>

@@ -1,18 +1,49 @@
 <ion-header>
-  <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>Home</ion-title>
+  <ion-navbar color="dark">
+    <ion-buttons float-start>
+      <button ion-button menuToggle icon-only>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-buttons float-start>
+      <button ion-button icon-only (click)="onGoToNotification()">
+        <ion-icon name="notifications"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-buttons float-end>
+      <button ion-button  icon-only>
+        <img src="assets/imgs/MOILogo.png" width="40">
+      </button>
+    </ion-buttons>
+    <ion-title text-left>
+   <span class="name-of-header">{{'operation_management' | translate}}</span>
+    </ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <h3>Ionic Menu Starter</h3>
+<ion-content>
+ <div #mapHome  id="map">
+ </div>
+  <ion-fab bottom right >
+    <button ion-fab>
+      <img src="assets/imgs/noTalk.png">
+    </button>
+    <ion-fab-list side="top" >
+      <button  ion-fab color="primary" (click)="onSilentCall()"><img src="assets/imgs/fire.svg" width="80"></button>
+      <button  ion-fab color="primary" (click)="onSilentCall()"><img src="assets/imgs/police.svg" width="80"></button>
+      <button  ion-fab color="primary" (click)="onSilentCall()"><img src="assets/imgs/ambulance.svg" width="80"></button>
+    </ion-fab-list>
 
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
-  </p>
-
-  <button ion-button secondary menuToggle>Toggle Menu</button>
+  </ion-fab>
+  <ion-fab bottom left>
+    <button ion-fab><img src="assets/imgs/Talk.png"></button>
+    <ion-fab-list side="top">
+      <button ion-fab color="primary" (click)="onVoiceCall()"><img src="assets/imgs/fire.svg" width="80"></button>
+      <button  ion-fab color="primary" (click)="onVoiceCall()"><img src="assets/imgs/police.svg" width="80"></button>
+      <button  ion-fab color="primary" (click)="onVoiceCall()"><img src="assets/imgs/ambulance.svg" width="80"></button>
+    </ion-fab-list>
+  </ion-fab>
+  <ion-fab bottom center >
+    <button ion-fab color="danger" (click)="onVoiceCall()"><img src="assets/imgs/112.png" width="80"></button>
+  </ion-fab>
 </ion-content>

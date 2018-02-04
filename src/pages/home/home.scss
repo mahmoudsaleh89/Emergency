@@ -1,3 +1,10 @@
 page-home {
-
+#map{
+  min-height: 500px;
+  height: -webkit-fill-available !important;
+}
+  /*ion-fab[middle] {
+    margin-top: -36px;
+    top: 82%;
+  }*/
 }

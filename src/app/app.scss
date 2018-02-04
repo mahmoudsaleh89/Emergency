@@ -14,3 +14,47 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+.myMenu ion-thumbnail{
+  margin: 0 !important;
+  text-align: -webkit-center !important;
+  font-size: 26px !important;
+  line-height: 3 !important;
+}
+.myMenu ion-item{
+  padding-right: 0 !important;
+  background-color: #2f404f;
+  color: #fff;
+}
+.myMenu ion-icon{
+  color: #a7b1c2 !important;
+}
+.myMenu h2 {
+  color: #ffffff;
+  font-size: 21px;
+}
+.myMenu p {
+  color: #a7b1c2 !important;
+}
+.myMenu.list-md .item-block .item-inner {
+  border-bottom: 1px solid #2f404e !important;
+}
+
+ion-menu .scroll-content {
+  background-color: #2f404f !important;
+}
+.myheader{
+  background-image: url(../assets/imgs/header-profile.png);
+  min-height: 160px;
+  min-width: 50px;
+}
+.myheader .item-inner {
+  padding-right: 25% !important;
+}
+.p-image{
+  border-radius: 50%;
+  width: 60px !important;
+  height: 60px !important;
+}
+.toast-container {
+  background-color: #4f6c84 !important;
+}

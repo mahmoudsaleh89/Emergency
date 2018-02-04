@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-navbar color="dark">
+    <ion-buttons end>
+      <button ion-button  icon-only (click)="importFromContact()">
+        {{"import_from_phone" | translate}}
+      </button>
+    </ion-buttons>
+    <ion-title>{{"emergency_number" | translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <div class="note-emergency">
+    <p>
+      {{"emergency_note" | translate}}
+    </p>
+  </div>
+
+  <ion-list padding-horizontal>
+   <ion-list-header>
+     {{"contact_info" | translate}}
+   </ion-list-header>
+      <ion-item>
+        <ion-label stacked>{{"phone" | translate}} <span class="validate_note">* {{"field_required"| translate}}</span></ion-label>
+        <ion-input  type="number" [(ngModel)]="phoneNumber"></ion-input>
+      </ion-item>
+
+      <ion-item>
+      <ion-label stacked>{{"first_name" | translate}}</ion-label>
+      <ion-input  type="text" [(ngModel)]="firstName"></ion-input>
+    </ion-item>
+
+      <ion-item>
+      <ion-label stacked>{{"last_name" | translate}}</ion-label>
+      <ion-input  type="text" [(ngModel)]="lastName"></ion-input>
+    </ion-item>
+      <ion-item>
+      <ion-label>{{"relative" | translate}}</ion-label>
+      <ion-select ngModel="relative" okText="{{okay}}" cancelText="{{dismiss}}">
+        <ion-option value="friend">{{"friend" | translate}}</ion-option>
+        <ion-option value="colleague">{{"colleague" | translate}}</ion-option>
+        <ion-option value="daughter">{{"daughter" | translate}}</ion-option>
+        <ion-option value="son">{{"son" | translate}} </ion-option>
+        <ion-option value="brother">{{"brother" | translate}}</ion-option>
+        <ion-option value="mother">{{"mother" | translate}}</ion-option>
+        <ion-option value="wife">{{"wife" | translate}}</ion-option>
+        <ion-option value="husband">{{"husband" | translate}}</ion-option>
+        <ion-option value="grandmother">{{"grandmother" | translate}}</ion-option>
+        <ion-option value="grandfather">{{"grandfather" | translate}}</ion-option>
+        <ion-option value="father">{{"father" | translate}}</ion-option>
+        <ion-option value="sister">{{"sister" | translate}}</ion-option>
+        <ion-option value="other">{{"other" | translate}}</ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+  <ion-row>
+    <ion-col text-center>
+      <button ion-button outline (click)="saveContact()">{{"save_contact" | translate}}</button>
+    </ion-col>
+  </ion-row>
+
+</ion-content>
