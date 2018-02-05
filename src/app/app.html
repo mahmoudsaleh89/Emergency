@@ -9,7 +9,7 @@
           <p *ngIf="account.userInformation.phoneNumber != '' " dir="ltr" text-right style="color: #1ab394 !important;">{{account.userInformation.phoneNumber}}</p>
           <p *ngIf="account.userInformation.phoneNumber == '' " dir="ltr" text-right style="color: #1ab394 !important;">*******</p>
       </ion-item>
-      <ion-item *ngFor="let p of pages" (click)="openPage(p)" menuClose>
+      <ion-item *ngFor="let p of pages; let i = index" (click)="openPage(p)" menuClose>
         <ion-thumbnail item-start>
           <ion-icon name="{{p.icon}}" icon-start></ion-icon>
         </ion-thumbnail>

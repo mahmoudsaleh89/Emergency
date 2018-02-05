@@ -16,6 +16,7 @@ import {ConfigProvider} from "../providers/config/config";
 import {TranslateService} from "@ngx-translate/core";
 import {ProfilePage} from "../pages/profile/profile";
 import {AccountProvider} from "../providers/account/account";
+import {AddClaimPage} from "../pages/add-claim/add-claim";
 
 @Component({
   templateUrl: 'app.html'
@@ -45,8 +46,9 @@ export class MyApp {
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'home', component: HomePage,icon:"home", desc:""},
-      { title: 'guide', component: GuidePage ,icon:"md-help", desc:""},
       { title: 'profile', component: ProfilePage ,icon:"person", desc:""},
+      { title: 'send_claim', component: AddClaimPage ,icon:"bookmarks", desc:""},
+      { title: 'guide', component: GuidePage ,icon:"md-help", desc:""},
       { title: 'tutorials', component: TutorialPage,icon:"color-wand", desc:"" },
       { title: 'about_us', component: WhereUseItPageModule,icon:"information-circle", desc:"" },
       { title: 'faq', component: FaqPage,icon:"md-help", desc:"" },

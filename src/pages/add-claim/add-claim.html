@@ -1,0 +1,27 @@
+<ion-content class="modal-cusom-bg" has-bouncing="false">
+  <div class="background-claim">
+    <div class="close-modal">
+      <button color="light" ion-button clear block text-center (click)="onCloseModal()">
+        <ion-icon name="ios-close-circle-outline"></ion-icon>
+      </button>
+    </div>
+    <div class="faces">
+      <img style="width: 30%" src="assets/imgs/MOILogo.png">
+
+      <ion-list inset>
+        <ion-item-divider>
+          {{"claim" | translate}}
+        </ion-item-divider>
+        <ion-item>
+          <ion-textarea  rows="4" placeholder="{{'describe_your_issue' | translate}}"></ion-textarea>
+        </ion-item>
+        <ion-item text-center style="background-color: transparent;">
+          <button [disabled] ion-button large outline>
+            {{'send' | translate}}
+          </button>
+
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>
+</ion-content>

@@ -30,6 +30,7 @@ import {Camera} from "@ionic-native/camera";
 import { AccountProvider } from '../providers/account/account';
 import {NotificationsPage} from "../pages/notifications/notifications";
 import {RatingPage} from "../pages/rating/rating";
+import {AddClaimPage} from "../pages/add-claim/add-claim";
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -49,7 +50,8 @@ export function createTranslateLoader(http: HttpClient) {
     ProfilePage,
     AddSosNumberPage,
     NotificationsPage,
-    RatingPage
+    RatingPage,
+    AddClaimPage
   ],
   imports: [
     BrowserModule,
@@ -77,7 +79,8 @@ export function createTranslateLoader(http: HttpClient) {
     ProfilePage,
     AddSosNumberPage,
     NotificationsPage,
-    RatingPage
+    RatingPage,
+    AddClaimPage
 
   ],
   providers: [
