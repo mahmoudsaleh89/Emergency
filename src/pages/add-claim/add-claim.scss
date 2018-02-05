@@ -23,12 +23,12 @@ page-add-claim {
     font-size: 25px;
   }
   @media (max-width: 359px) {
-    .background-rate {
+    .background-claim {
       padding-top: 5%;
     }
   }
   @media (max-width: 767px) {
-    .modal-cusom-bg {
+    .modal-custom-bg {
       background-color: rgba(0, 0, 0, 0.75) !important;
     }
 
@@ -37,7 +37,7 @@ page-add-claim {
     .button-clear-md-light {
       font-size: 25px;
     }
-    .modal-cusom-bg {
+    .modal-custom-bg {
       background-color: rgba(0, 0, 0, 0.45) !important;
     }
   }

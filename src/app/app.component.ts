@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import {MenuController, Modal, ModalController, Nav, Platform} from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import {Storage} from '@ionic/storage';
@@ -40,14 +40,16 @@ export class MyApp {
               public storage: Storage,
               public config:ConfigProvider,
               public account:AccountProvider,
-              public translate: TranslateService) {
+              public translate: TranslateService,
+              public modalCtrl : ModalController,
+              public menuCtrl: MenuController) {
     this.initializeApp();
       this.userNavInfo = this.account.userInformation;
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'home', component: HomePage,icon:"home", desc:""},
       { title: 'profile', component: ProfilePage ,icon:"person", desc:""},
-      { title: 'send_claim', component: AddClaimPage ,icon:"bookmarks", desc:""},
+      /*{ title: 'send_claim', component: AddClaimPage ,icon:"bookmarks", desc:""},*/
       { title: 'guide', component: GuidePage ,icon:"md-help", desc:""},
       { title: 'tutorials', component: TutorialPage,icon:"color-wand", desc:"" },
       { title: 'about_us', component: WhereUseItPageModule,icon:"information-circle", desc:"" },
@@ -155,6 +157,10 @@ export class MyApp {
     }
 
 
+  }
+  onGoToAddCliam() {
+    this.modalCtrl.create(AddClaimPage).present();
+    this.menuCtrl.close();
   }
   openProfilePage(){
     this.nav.push(ProfilePage);

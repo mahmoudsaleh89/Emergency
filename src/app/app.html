@@ -13,7 +13,14 @@
         <ion-thumbnail item-start>
           <ion-icon name="{{p.icon}}" icon-start></ion-icon>
         </ion-thumbnail>
-        <h2>{{p.title | translate}}</h2>
+        <h2>{{p.title  | translate}}</h2>
+        <p>هنالك العديد من الأنواع المتوفرة لنصوص لوريم إيبسوم، ولكن الغالبية تم تعديلها بشكل ما عبر إدخال بعض النوادر أو الكلمات العشوائي</p>
+      </ion-item>
+      <ion-item  (click)="onGoToAddCliam()">
+        <ion-thumbnail item-start>
+          <ion-icon name="bookmarks" icon-start></ion-icon>
+        </ion-thumbnail>
+        <h2>{{"send_claim" | translate}}</h2>
         <p>هنالك العديد من الأنواع المتوفرة لنصوص لوريم إيبسوم، ولكن الغالبية تم تعديلها بشكل ما عبر إدخال بعض النوادر أو الكلمات العشوائي</p>
       </ion-item>
 

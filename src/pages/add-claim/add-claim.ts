@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {IonicPage, MenuController, NavController, NavParams} from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -7,14 +7,22 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'add-claim.html',
 })
 export class AddClaimPage {
-
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+claimTxt="";
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              public menuCtrl: MenuController) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AddClaimPage');
   }
 
+
+  onSendClaim(){
+    console.log(this.claimTxt);
+    this.navCtrl.pop();
+
+  }
 
   onCloseModal() {
     this.navCtrl.pop();

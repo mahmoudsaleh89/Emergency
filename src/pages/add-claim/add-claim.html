@@ -1,4 +1,4 @@
-<ion-content class="modal-cusom-bg" has-bouncing="false">
+<ion-content class="modal-custom-bg" has-bouncing="false">
   <div class="background-claim">
     <div class="close-modal">
       <button color="light" ion-button clear block text-center (click)="onCloseModal()">
@@ -13,10 +13,10 @@
           {{"claim" | translate}}
         </ion-item-divider>
         <ion-item>
-          <ion-textarea  rows="4" placeholder="{{'describe_your_issue' | translate}}"></ion-textarea>
+          <ion-textarea [(ngModel)]="claimTxt"  rows="4" placeholder="{{'describe_your_issue' | translate}}"></ion-textarea>
         </ion-item>
         <ion-item text-center style="background-color: transparent;">
-          <button [disabled] ion-button large outline>
+          <button [disabled]="claimTxt == '' " ion-button large [outline]="claimTxt == '' " (click)="onSendClaim()">
             {{'send' | translate}}
           </button>
 
