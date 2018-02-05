@@ -9,6 +9,7 @@ export class ConfigProvider {
     side='right';
     emergencyNumberList = [];
     numberObject={};
+    ratingQuestions:any;
   constructor(public http: HttpClient,
               private storage : Storage) {
     console.log('Hello ConfigProvider Provider');
@@ -34,9 +35,6 @@ export class ConfigProvider {
         })
 
     });
-
-
-
 
   }
 
@@ -83,6 +81,29 @@ export class ConfigProvider {
         })
         .catch((err)=>{})
     });
+  }
+
+  getRatingQuestion(){
+    return new Promise((resolve)=>{
+      this.ratingQuestions =[
+        {
+          qusID:1,
+          qusText:"سرعة الاستجابة",
+          value:0},
+        {
+          qusID:1,
+          qusText:"مستوى تقيمك للخدمة",
+          value:0
+        },
+        {
+          qusID:1,
+          qusText:"تعامل الافراد مع الحاله",
+          value:0
+        }
+      ];
+      resolve(this.ratingQuestions);
+    })
+
   }
 
 }

@@ -15,43 +15,26 @@
 
   <ion-list padding-horizontal class="rating-list">
 
-    <ion-item-divider>{{"response_time" | translate}}</ion-item-divider>
-    <p>{{"your_rated" | translate}}: {{ratedValueQuestion1}}</p>
-    <ion-item dir="ltr">
-      <ion-range step="1" min="0" max="5" pin="true" [(ngModel)]="ratedValueQuestion1" color="primary" snaps="true">
-        <ion-icon [ngClass]="{'active-face': ratedValueQuestion1 == 1 || ratedValueQuestion1 == 2 }" color="dark" range-left name="ios-sad-outline"></ion-icon>
-        <ion-icon [ngClass]="{'active-face': ratedValueQuestion1 == 3 || ratedValueQuestion1 == 4 }" color="dark" range-right name="ios-happy-outline"></ion-icon>
-      </ion-range>
-    </ion-item>
-
-    <ion-item-divider>{{"service_rate" | translate}}</ion-item-divider>
-    <p>{{"your_rated" | translate}}: {{ratedValueQuestion2}}</p>
-    <ion-item dir="ltr">
-      <ion-range step="1" min="0" max="5" pin="true" [(ngModel)]="ratedValueQuestion2" color="primary" snaps="true">
-        <ion-icon color="dark" range-left name="ios-sad-outline"></ion-icon>
-        <ion-icon color="dark" range-right name="ios-happy-outline"></ion-icon>
-      </ion-range>
-    </ion-item>
-
-
-    <ion-item-divider>{{"delivered" | translate}}</ion-item-divider>
-    <p>{{"your_rated" | translate}}: {{ratedValueQuestion3}}</p>
-    <ion-item dir="ltr">
-      <ion-range step="1" min="0" max="5" pin="true" [(ngModel)]="ratedValueQuestion3" color="primary" snaps="true">
-        <ion-icon color="dark" range-left name="ios-sad-outline"></ion-icon>
-        <ion-icon color="dark" range-right name="ios-happy-outline"></ion-icon>
-      </ion-range>
-    </ion-item>
+          <div *ngFor="let q of ratingQuestions" >
+              <ion-item-divider>{{q.qusText}}</ion-item-divider>
+              <p>{{"your_rated" | translate}}: {{q.value}}</p>
+              <ion-item dir="ltr">
+                <ion-range [disabled]="activeDisabled" step="1" min="0" max="5" pin="true" [(ngModel)]="q.value" color="primary" snaps="true">
+                  <ion-icon [ngClass]="{'active-face': q.value == 1 || q.value == 2 }" color="dark" range-left name="ios-sad-outline"></ion-icon>
+                  <ion-icon [ngClass]="{'active-face': q.value == 3 || q.value == 4 || q.value == 4}" color="dark" range-right name="ios-happy-outline"></ion-icon>
+                </ion-range>
+              </ion-item>
+          </div>
 
 
     <ion-item-divider>{{"other_rate" | translate}}</ion-item-divider>
     <ion-item>
-      <ion-textarea placeholder='{{"type_your_note" | translate}}'></ion-textarea>
+      <ion-textarea [disabled]="activeDisabled" [(ngModel)]="suggest" placeholder='{{"type_your_note" | translate}}'></ion-textarea>
     </ion-item>
 
     <ion-row text-center>
       <ion-col text-center>
-        <button ion-button outline color="primary">{{"submit" | translate}}</button>
+        <button [disabled]="activeDisabled" ion-button outline color="primary" (click)="onsetRate()">{{"submit" | translate}}</button>
       </ion-col>
     </ion-row>
   </ion-list>
