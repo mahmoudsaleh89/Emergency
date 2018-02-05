@@ -1,18 +1,18 @@
-<!--
-  Generated template for the NotificationsPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>notifications</ion-title>
+  <ion-navbar color="dark">
+    <ion-title>{{"notifications" | translate}}</ion-title>
   </ion-navbar>
-
 </ion-header>
 
-
-<ion-content padding>
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let notify of notifications" (click)="onShowNotificationDET(notify)">
+      <ion-avatar item-start>
+        <img src="{{notify.img}}" onerror="this.src='assets/imgs/questions.svg'">
+      </ion-avatar>
+      <h2>{{notify.message}}</h2>
+      <p>{{notify.describe}}</p>
+    </ion-item>
+  </ion-list>
 
 </ion-content>

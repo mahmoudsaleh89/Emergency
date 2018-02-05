@@ -1,6 +1,12 @@
 <ion-header>
 
+
   <ion-navbar color="dark">
+    <ion-buttons float-end>
+      <button ion-button  icon-only (click)="onBackToHome()">
+        <ion-icon name="close-circle"></ion-icon>
+      </button>
+    </ion-buttons>
     <ion-title>{{"rating" | translate}}</ion-title>
   </ion-navbar>
 

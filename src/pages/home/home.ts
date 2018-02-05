@@ -119,7 +119,7 @@ export class HomePage {
 
   onGoToNotification(){
     console.log('this is called on Go To notifications');
-    this.navCtrl.push(RatingPage);
+    this.navCtrl.push(NotificationsPage);
   }
 
 

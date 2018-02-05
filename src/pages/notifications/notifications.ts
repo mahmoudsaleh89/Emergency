@@ -1,25 +1,36 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the NotificationsPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import {ConfigProvider} from "../../providers/config/config";
+import {RatingPage} from "../rating/rating";
 
 @IonicPage()
 @Component({
   selector: 'page-notifications',
   templateUrl: 'notifications.html',
 })
-export class NotificationsPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+export class NotificationsPage {
+notifications:any;
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              private config: ConfigProvider) {
+    this.config.getNotificationList().then((res)=>{
+      this.notifications = res;
+    })
   }
 
   ionViewDidLoad() {
+    console.log(this.notifications);
     console.log('ionViewDidLoad NotificationsPage');
+  }
+
+  onShowNotificationDET(notify){
+      if(notify.notifyType == 1){
+        this.navCtrl.setRoot(RatingPage);
+      }
+      else{
+        return;
+      }
   }
 
 }

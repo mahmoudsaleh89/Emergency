@@ -69,9 +69,13 @@ export class RatingPage {
     });
     this.activeDisabled = true;
     setTimeout(()=>{
-      this.navCtrl.popTo(HomePage);
+      this.navCtrl.setRoot(HomePage);
     },2500)
 
+  }
+
+  onBackToHome(){
+    this.navCtrl.setRoot(HomePage);
   }
 
   setLangAndDirction() {

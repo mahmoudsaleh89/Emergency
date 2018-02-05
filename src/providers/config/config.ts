@@ -9,6 +9,7 @@ export class ConfigProvider {
     side='right';
     emergencyNumberList = [];
     numberObject={};
+    notifications=[];
     ratingQuestions:any;
   constructor(public http: HttpClient,
               private storage : Storage) {
@@ -105,5 +106,28 @@ export class ConfigProvider {
     })
 
   }
+
+
+  getNotificationList(){
+    return new Promise((resolve)=>{
+      this.notifications =[
+        {
+          message:" تقييم الخدمه",
+          img:"assets/imgs/rating.svg",
+          describe:"من خلال هذا التقييم يتم تحسين الخدمات المقدمه",
+          notifyType:"1"
+        },
+        {
+          message:" تقييم الخدمه",
+          img:"assets/imgs/questions.svg",
+          describe:"من خلال هذا التقييم يتم تحسين الخدمات المقدمه",
+          notifyType:"1"
+        }
+      ];
+      resolve(this.notifications);
+    })
+
+  }
+
 
 }
