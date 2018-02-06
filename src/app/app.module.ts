@@ -31,6 +31,7 @@ import { AccountProvider } from '../providers/account/account';
 import {NotificationsPage} from "../pages/notifications/notifications";
 import {RatingPage} from "../pages/rating/rating";
 import {AddClaimPage} from "../pages/add-claim/add-claim";
+import {FCM} from "@ionic-native/fcm";
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -94,6 +95,7 @@ export function createTranslateLoader(http: HttpClient) {
     Contacts,
     ImagePicker,
     Camera,
+    FCM,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ConfigProvider,
     AccountProvider,

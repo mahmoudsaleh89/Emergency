@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>56187466951-pgij0kejt8lk3dffd5khb1k9b8ihntvq.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.56187466951-pgij0kejt8lk3dffd5khb1k9b8ihntvq</string>
+	<key>API_KEY</key>
+	<string>AIzaSyA8MDeA5crs5k3a1WD-KmZMEDMIe1vu5ts</string>
+	<key>GCM_SENDER_ID</key>
+	<string>56187466951</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.incube.sos</string>
+	<key>PROJECT_ID</key>
+	<string>emergency-238dd</string>
+	<key>STORAGE_BUCKET</key>
+	<string>emergency-238dd.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true></true>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false></false>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:56187466951:ios:cd58abf9e98a7952</string>
+	<key>DATABASE_URL</key>
+	<string>https://emergency-238dd.firebaseio.com</string>
+</dict>
+</plist>

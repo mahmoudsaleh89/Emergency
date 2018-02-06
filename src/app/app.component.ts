@@ -17,6 +17,7 @@ import {TranslateService} from "@ngx-translate/core";
 import {ProfilePage} from "../pages/profile/profile";
 import {AccountProvider} from "../providers/account/account";
 import {AddClaimPage} from "../pages/add-claim/add-claim";
+import {FCM} from "@ionic-native/fcm";
 
 @Component({
   templateUrl: 'app.html'
@@ -42,7 +43,8 @@ export class MyApp {
               public account:AccountProvider,
               public translate: TranslateService,
               public modalCtrl : ModalController,
-              public menuCtrl: MenuController) {
+              public menuCtrl: MenuController,
+              public fcm: FCM) {
     this.initializeApp();
       this.userNavInfo = this.account.userInformation;
     // used for an example of ngFor and navigation
@@ -60,7 +62,6 @@ export class MyApp {
 
   initializeApp() {
     this.platform.ready().then(() => {
-
       this.splashScreen.hide();
       this.statusBar.backgroundColorByHexString('#253746');
 
@@ -143,7 +144,27 @@ export class MyApp {
           this.platform.setDir('rtl', true);
           this.platform.setLang('ar', true);
         });
+
+
+      this.fcm.onNotification().subscribe(data => {
+        if (data.wasTapped) {
+
+          console.log(data);
+        } else {
+
+          console.log(data);
+
+          console.log("Received in foreground");
+        }
+        /*this method for change token id*/
+        this.fcm.onTokenRefresh().subscribe(token => {
+          this.storage.get('lang').then((data) => {
+          });
+        });
+      });
     });
+
+
   }
 
   openPage(page) {
