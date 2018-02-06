@@ -7,4 +7,16 @@ page-home {
     margin-top: -36px;
     top: 82%;
   }*/
+
+
+
+  /*fabs center custom*/
+  ion-fab[center]{
+    margin-right: -50px !important;
+  }
+
+  button.fab.fab-md.fab-md-danger {
+    width: 100px;
+    height: 100px;
+  }
 }
