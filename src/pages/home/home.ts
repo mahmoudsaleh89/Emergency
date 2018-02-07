@@ -8,7 +8,9 @@ import {Storage} from '@ionic/storage';
 import {ConfigProvider} from "../../providers/config/config";
 import {NotificationsPage} from "../notifications/notifications";
 import {RatingPage} from "../rating/rating";
+
 declare var google;
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -20,6 +22,8 @@ export class HomePage {
   Warning: string;
   NoInternetAccess: string;
   OK: string;
+  fabslist: any
+
   constructor(public navCtrl: NavController,
               public geolocation: Geolocation,
               public nativeGeocoder: NativeGeocoder,
@@ -28,9 +32,13 @@ export class HomePage {
               public translate: TranslateService,
               public storage: Storage,
               public platform: Platform,
-              public config : ConfigProvider) {
+              public config: ConfigProvider) {
+    this.config.onGetFabsOption().then((data) => {
+      this.fabslist = data;
+    })
 
   }
+
   ionViewDidLoad() {
 
     this.geolocation.getCurrentPosition(
@@ -44,7 +52,7 @@ export class HomePage {
         }
 
       }).catch(error => {
-        debugger;
+      debugger;
       this.addMap(29.266666, 47.933334);
       this.nativeGeocoder.reverseGeocode(29.266666, 47.933334)
         .then((result: NativeGeocoderReverseResult) => console.log(JSON.stringify(result)))
@@ -68,31 +76,34 @@ export class HomePage {
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
     this.addMarker(lat, long);
   }
-  addMarker(lat, long) {
-      let marker = new google.maps.Marker({
-        map: this.map,
-        animation: google.maps.Animation.DROP,
-        draggable: false,
-        position: this.map.getCenter()
-      });
-      let content = "<p>This is your current position !</p>";
-      let infoWindow = new google.maps.InfoWindow({
-        content: content
-      });
-      google.maps.event.addListener(marker, 'click', (pos) => {
-        infoWindow.open(this.map, marker);
-      });
-  }
-  onSilentCall(){
 
-      let alert = this.alertCtrl.create({
-        title: 'ادارة العمليات ',
-        subTitle: 'يرجى الهدوء تم ارسال موقعك للجهات المختصة وسيتم الوصول اليك خلال دقائق',
-        buttons: ['موافق']
-      });
-      alert.present();
-    }
-  onVoiceCall(){
+  addMarker(lat, long) {
+    let marker = new google.maps.Marker({
+      map: this.map,
+      animation: google.maps.Animation.DROP,
+      draggable: false,
+      position: this.map.getCenter()
+    });
+    let content = "<p>This is your current position !</p>";
+    let infoWindow = new google.maps.InfoWindow({
+      content: content
+    });
+    google.maps.event.addListener(marker, 'click', (pos) => {
+      infoWindow.open(this.map, marker);
+    });
+  }
+
+  onSilentCall() {
+
+    let alert = this.alertCtrl.create({
+      title: 'ادارة العمليات ',
+      subTitle: 'يرجى الهدوء تم ارسال موقعك للجهات المختصة وسيتم الوصول اليك خلال دقائق',
+      buttons: ['موافق']
+    });
+    alert.present();
+  }
+
+  onVoiceCall() {
     let confirm = this.alertCtrl.create({
       title: 'مكالمة طوارئ',
       message: 'سيتم تحويل مكالمتك وموقعك الحالي لادارة العمليات ... اضغط موافق للاتصال ب ١١٢ حالا',
@@ -117,11 +128,10 @@ export class HomePage {
     confirm.present();
   }
 
-  onGoToNotification(){
+  onGoToNotification() {
     console.log('this is called on Go To notifications');
     this.navCtrl.push(NotificationsPage);
   }
-
 
   setLangAndDirction() {
     this.storage.get('lang').then((result) => {
@@ -148,7 +158,7 @@ export class HomePage {
         this.platform.setLang('en', true);
         this.config.side = 'left';
       }
-      else  {
+      else {
         this.PleaseWait = 'يرجى الانتظار'
         this.Warning = 'تحذير';
         this.NoInternetAccess = " تأكد من اتصالك بالانترنت و تغيل خدمة المواقع";
@@ -164,6 +174,5 @@ export class HomePage {
 
     });
   }
-
 
 }
