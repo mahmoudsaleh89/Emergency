@@ -8,6 +8,7 @@ import {Storage} from '@ionic/storage';
 import {ConfigProvider} from "../../providers/config/config";
 import {NotificationsPage} from "../notifications/notifications";
 import {RatingPage} from "../rating/rating";
+import {AccountProvider} from "../../providers/account/account";
 
 declare var google;
 
@@ -32,9 +33,12 @@ export class HomePage {
               public translate: TranslateService,
               public storage: Storage,
               public platform: Platform,
-              public config: ConfigProvider) {
+              public config: ConfigProvider, public account :AccountProvider) {
     this.config.onGetFabsOption().then((data) => {
       this.fabslist = data;
+    });
+    this.account.onAddUserAccount().then((res)=>{
+      console.log('requast on home', res);
     })
 
   }

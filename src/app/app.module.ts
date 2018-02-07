@@ -32,6 +32,7 @@ import {NotificationsPage} from "../pages/notifications/notifications";
 import {RatingPage} from "../pages/rating/rating";
 import {AddClaimPage} from "../pages/add-claim/add-claim";
 import {FCM} from "@ionic-native/fcm";
+import {Http} from "@angular/http";
 
 
 export function createTranslateLoader(http: HttpClient) {
