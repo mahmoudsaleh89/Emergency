@@ -14,7 +14,7 @@
   <ion-list text-center>
     <ion-item class="profile_image" ion-row text-center align-items-center>
       <ion-col class="image_dev">
-        <img [(src)]="myProfile.profileImage"  onerror="this.src='assets/imgs/user.png'">
+        <img [(src)]="myProfile.ImageUrl"  onerror="this.src='assets/imgs/user.png'">
       </ion-col>
     </ion-item>
     <button ion-button color="dark" outline (click)="onAddProfileImage()"> {{add_profile_img}} </button>
@@ -33,11 +33,15 @@
     </ion-item>
     <ion-item>
       <ion-label stacked>{{"first_name" | translate}}</ion-label>
-      <ion-input type="text" [(ngModel)]="myProfile.firstName"></ion-input>
+      <ion-input type="text" [(ngModel)]="myProfile.FirstName"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label stacked>{{"last_name" | translate}}</ion-label>
-      <ion-input type="text" [(ngModel)]="myProfile.lastName"></ion-input>
+      <ion-input type="text" [(ngModel)]="myProfile.Lastname"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>{{"Password" | translate}}</ion-label>
+      <ion-input type="text" [(ngModel)]="myProfile.Password"></ion-input>
     </ion-item>
   </ion-list>
   <ion-list *ngIf="emergencyNumberList.length > 0 ">
@@ -85,17 +89,25 @@
     <ion-list-header>
       {{"other" | translate}}
     </ion-list-header>
-    <ion-item (click)="onSetGender()">
-      <ion-label stacked>{{"gender" | translate}}</ion-label>
-      <ion-input disabled="true" id="gender" [(ngModel)]='myProfile.gender' type="text"></ion-input>
+    <ion-item>
+      <ion-label>{{"gender" | translate}}</ion-label>
+      <ion-select [(ngModel)]="myProfile.gender" interface="popover">
+        <ion-option value="male">{{"male" | translate}}</ion-option>
+        <ion-option value="female">{{"female" | translate}}</ion-option>
+        <ion-option value="unspecified">{{"unspecified" | translate}}</ion-option>
+      </ion-select>
     </ion-item>
     <ion-item (click)="onSetBirthday()">
       <ion-label stacked>{{"birthday" | translate}}</ion-label>
       <ion-input disabled="true" id="birthday" type="text" [(ngModel)]='myProfile.birthday'></ion-input>
     </ion-item>
-    <ion-item (click)="onSetLanguage()">
-      <ion-label stacked>{{"language" | translate}}</ion-label>
-      <ion-input disabled="true" id="lang" [(ngModel)]='myProfile.language' type="text"></ion-input>
+    <ion-item>
+      <ion-label>{{"language" | translate}}</ion-label>
+      <ion-select [(ngModel)]="myProfile.language" interface="popover">
+        <ion-option value="arabic">{{"arabic" | translate}}</ion-option>
+        <ion-option value="english">{{"english" | translate}}</ion-option>
+        <ion-option value="urdu">{{"urdu" | translate}}</ion-option>
+      </ion-select>
     </ion-item>
   </ion-list>
 

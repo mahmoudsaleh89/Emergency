@@ -33,13 +33,12 @@ export class HomePage {
               public translate: TranslateService,
               public storage: Storage,
               public platform: Platform,
-              public config: ConfigProvider, public account :AccountProvider) {
+              public config: ConfigProvider,
+              public account: AccountProvider) {
     this.config.onGetFabsOption().then((data) => {
       this.fabslist = data;
     });
-    this.account.onAddUserAccount().then((res)=>{
-      console.log('requast on home', res);
-    })
+
 
   }
 
@@ -56,13 +55,100 @@ export class HomePage {
         }
 
       }).catch(error => {
-      debugger;
+
       this.addMap(29.266666, 47.933334);
       this.nativeGeocoder.reverseGeocode(29.266666, 47.933334)
         .then((result: NativeGeocoderReverseResult) => console.log(JSON.stringify(result)))
         .catch((error: any) => console.log(error));
     });
 
+
+  }
+
+  ionViewDidEnter() {
+    debugger;
+    this.storage.get('first_run')
+      .then((res) => {
+        console.log('homeComp', res);
+        if (res == true || res == null || res == 'undefind') {
+          debugger;
+          this.storage.set('first_run', false);
+          this.alertCtrl.create({
+            title: 'استعادة الحساب',
+            message: "هل لديك حياب مسبقا ، يرجي كتابة رقم الهاتف والرقم السري لاستعاده حسابك",
+            inputs: [
+              {
+                name: 'phone_number',
+                placeholder: 'رقم الهاتف'
+              },
+              {
+                name: 'password',
+                placeholder: 'الرقم السري'
+              }
+            ],
+            buttons: [
+              {
+                text: 'الغاء',
+                handler: data => {
+                  console.log('Cancel clicked');
+                }
+              },
+              {
+                text: 'تسجيل دخول',
+                handler: data => {
+                  if (data.phone_number || data.password == ""){
+                    this.alertCtrl.create({
+                      title: 'جميع الحقول مطلوبة',
+                      subTitle: 'يمكنك المحاولة من خلا الصفحه الشخصية',
+                      buttons: ['اغلاق']
+                    }).present();
+
+                  }else{
+                    this.account.onGetProfile(data.phone_number,data.password).then((res)=>{
+                      let user = res;
+                      console.log(user, 'registerUser');
+                      this.storage.set('user',user);
+                    });
+                  }
+
+                  console.log('Saved clicked', data);
+                }
+              }
+            ]
+          }).present();
+        }
+      })
+      .catch((err)=>{
+      this.storage.set('first_run', false);
+      this.alertCtrl.create({
+        title: 'استعادة الحساب',
+        message: "هل لديك حياب مسبقا ، يرجي كتابة رقم الهاتف والرقم السري لاستعاده حسابك",
+        inputs: [
+          {
+            name: 'phone_number',
+            placeholder: 'رقم الهاتف'
+          },
+          {
+            name: 'password',
+            placeholder: 'الرقم السري'
+          }
+        ],
+        buttons: [
+          {
+            text: 'الغاء',
+            handler: data => {
+              console.log('Cancel clicked');
+            }
+          },
+          {
+            text: 'تسجيل دخول',
+            handler: data => {
+              console.log('Saved clicked');
+            }
+          }
+        ]
+      }).present();
+    });
   }
 
   addMap(lat, long) {
@@ -139,7 +225,7 @@ export class HomePage {
 
   setLangAndDirction() {
     this.storage.get('lang').then((result) => {
-      debugger;
+
       if (result == 'ar') {
         this.PleaseWait = 'يرجى الانتظار'
         this.Warning = 'تحذير';

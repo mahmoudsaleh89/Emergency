@@ -41,7 +41,6 @@
 .myMenu.list-md .item-block .item-inner {
   border-bottom: 1px solid #2f404e !important;
 }
-
 ion-menu .scroll-content {
   background-color: #2f404f !important;
 }
@@ -72,7 +71,9 @@ ion-menu .scroll-content {
   color: black !important;
   background-color: #F7F7F8 !important;
 }
-
+[dir="rtl"] .alert-md .alert-input{
+  text-align: right !important;
+}
 
 
 

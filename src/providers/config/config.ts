@@ -134,11 +134,20 @@ export class ConfigProvider {
   }
 
   onGetFabsOption() {
-    return new Promise((resolve)=>{
+    return new Promise((resolve) => {
       this.fabsOptions = [
-        {imgSrc: 'assets/imgs/fire.svg'},
-        {imgSrc: 'assets/imgs/police.svg'},
-        {imgSrc: 'assets/imgs/ambulance.svg'}
+        {
+          Deparment: "",
+          imgSrc: 'assets/imgs/fire.svg'
+        },
+        {
+          imgSrc: 'assets/imgs/police.svg',
+          DeparmentId: "",
+        },
+        {
+          imgSrc: 'assets/imgs/ambulance.svg',
+          DeparmentId: "",
+        }
       ];
       resolve(this.fabsOptions);
     });

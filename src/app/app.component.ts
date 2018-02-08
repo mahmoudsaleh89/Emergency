@@ -1,12 +1,12 @@
-import { Component, ViewChild } from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {MenuController, Modal, ModalController, Nav, Platform} from 'ionic-angular';
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
+import {StatusBar} from '@ionic-native/status-bar';
+import {SplashScreen} from '@ionic-native/splash-screen';
 import {Storage} from '@ionic/storage';
 
 
-import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
+import {HomePage} from '../pages/home/home';
+import {ListPage} from '../pages/list/list';
 import {GuidePage} from "../pages/guide/guide";
 import {SettingsPage} from "../pages/settings/settings";
 import {TutorialPage} from "../pages/tutorial/tutorial";
@@ -25,37 +25,30 @@ import {FCM} from "@ionic-native/fcm";
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
   rootPage: any = HomePage;
-  userNavInfo={
-      firstName:"",
-      lastName:"",
-      profileImage:"",
-      phoneNumber:"",
-      gender:"",
-      birthday:""
-    };
-  pages: Array<{title: string, component: any,icon:any,desc:any}>;
+  userNavInfo: any;
+  pages: Array<{ title: string, component: any, icon: any, desc: any }>;
 
   constructor(public platform: Platform,
               public statusBar: StatusBar,
               public splashScreen: SplashScreen,
               public storage: Storage,
-              public config:ConfigProvider,
-              public account:AccountProvider,
+              public config: ConfigProvider,
+              public account: AccountProvider,
               public translate: TranslateService,
-              public modalCtrl : ModalController,
+              public modalCtrl: ModalController,
               public menuCtrl: MenuController,
               public fcm: FCM) {
     this.initializeApp();
-      this.userNavInfo = this.account.userInformation;
+    this.userNavInfo = this.account.userInformation;
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'home', component: HomePage,icon:"home", desc:""},
-      { title: 'profile', component: ProfilePage ,icon:"person", desc:""},
+      {title: 'home', component: HomePage, icon: "home", desc: ""},
+      {title: 'profile', component: ProfilePage, icon: "person", desc: ""},
       /*{ title: 'send_claim', component: AddClaimPage ,icon:"bookmarks", desc:""},*/
-      { title: 'guide', component: GuidePage ,icon:"md-help", desc:""},
-      { title: 'tutorials', component: TutorialPage,icon:"color-wand", desc:"" },
-      { title: 'about_us', component: WhereUseItPageModule,icon:"information-circle", desc:"" },
-      { title: 'faq', component: FaqPage,icon:"md-help", desc:"" },
+      {title: 'guide', component: GuidePage, icon: "md-help", desc: ""},
+      {title: 'tutorials', component: TutorialPage, icon: "color-wand", desc: ""},
+      {title: 'about_us', component: WhereUseItPageModule, icon: "information-circle", desc: ""},
+      {title: 'faq', component: FaqPage, icon: "md-help", desc: ""},
     ];
 
   }
@@ -65,69 +58,165 @@ export class MyApp {
       this.splashScreen.hide();
       this.statusBar.backgroundColorByHexString('#253746');
 
-      this.storage.get('user').then((userInfo)=>{
-        console.log(userInfo.length);
-        if (userInfo.phoneNumber !=""){
-          this.account.userInformation = userInfo;
-          this.userNavInfo = this.account.userInformation;
-          this.storage.set('user',this.account.userInformation);
-        }else {
-         this.account.userInformation = {
-              firstName:"",
-              lastName:"",
-              profileImage:"",
-              phoneNumber:"",
-              gender:"",
-              birthday:"",
-              language:""
-            };
-          this.userNavInfo = this.account.userInformation;
-            this.storage.set('user',this.account.userInformation);
-        }
-      }).catch(()=>{
-        this.account.userInformation = {
-          firstName:"",
-          lastName:"",
-          profileImage:"",
-          phoneNumber:"",
-          gender:"",
-          birthday:"",
-          language:""
-        };
-        this.storage.set('user',this.account.userInformation);
-      });
+      this.storage.get('user')
+        .then((userInfo) => {
+          console.log(userInfo.length);
+          if (userInfo.Id != "") {
+            this.userNavInfo = userInfo;
+            this.account.userInformation = userInfo;
+            this.storage.set('user', this.account.userInformation);
+          } else {
+            debugger
+            this.storage.get('lang')
+              .then((lanRes) => {
+                if (lanRes == 'en') {
 
-      this.storage.get('lang')
-        .then((language)=>{
-          if (language == 'en'){
-            if(this.userNavInfo.phoneNumber == ""){
-              this.userNavInfo ={
-                firstName:"Guest",
-                lastName:"user",
-                profileImage:"assets/imgs/user.png",
-                phoneNumber:"**********",
-                gender:"",
-                birthday:"",
+                  this.userNavInfo = {
+                    Id: "",
+                    FirstName: "Guest",
+                    Lastname: "user",
+                    PhoneNumber: "",
+                    ImageUrl: "assets/imgs/user.png",
+                    Gender: "",
+                    Birthday: "",
+                    Language: "",
+                    Password: "",
+                    Relatives: [
+                      {
+                        Id: "",
+                        Name: "",
+                        PhoneNumber: "",
+                        RelativeDescription: "",
+                        MobileUserProfileId: ""
+                      },
+                      {
+                        Id: "",
+                        Name: "",
+                        PhoneNumber: "",
+                        RelativeDescription: "",
+                        MobileUserProfileId: ""
+                      }
+                    ]
+                  };
+                  this.storage.set('user', this.userNavInfo);
+                }
+                else {
+                  debugger
+                  this.userNavInfo = {
+                    Id: "",
+                    FirstName: "مستخدم",
+                    Lastname: "غير معرف",
+                    PhoneNumber: "",
+                    ImageUrl: "assets/imgs/user.png",
+                    Gender: "",
+                    Birthday: "",
+                    Language: "",
+                    Password: "",
+                    Relatives: [
+                      {
+                        Id: "",
+                        Name: "",
+                        PhoneNumber: "",
+                        RelativeDescription: "",
+                        MobileUserProfileId: ""
+                      },
+                      {
+                        Id: "",
+                        Name: "",
+                        PhoneNumber: "",
+                        RelativeDescription: "",
+                        MobileUserProfileId: ""
+                      }
+                    ]
+                  };
+                  this.storage.set('user', this.userNavInfo);
+                }
 
+              });
+          }
+
+        })
+        .catch(() => {
+          this.storage.get('lang')
+            .then((lanRes) => {
+              if (lanRes == 'en') {
+                this.userNavInfo = {
+                  Id: "",
+                  FirstName: "Guest",
+                  Lastname: "user",
+                  PhoneNumber: "",
+                  ImageUrl: "assets/imgs/user.png",
+                  Gender: "",
+                  Birthday: "",
+                  Language: "",
+                  Password: "",
+                  Relatives: [
+                    {
+                      Id: "",
+                      Name: "",
+                      PhoneNumber: "",
+                      RelativeDescription: "",
+                      MobileUserProfileId: ""
+                    },
+                    {
+                      Id: "",
+                      Name: "",
+                      PhoneNumber: "",
+                      RelativeDescription: "",
+                      MobileUserProfileId: ""
+                    }
+                  ]
+                };
+                this.account.userInformation = this.userNavInfo;
+                this.storage.set('user', this.account.userInformation);
               }
-            }
+              else {
+                debugger
+                this.userNavInfo = {
+                  Id: "",
+                  FirstName: "مستخدم",
+                  Lastname: "غير معرف",
+                  PhoneNumber: "",
+                  ImageUrl: "assets/imgs/user.png",
+                  Gender: "",
+                  Birthday: "",
+                  Language: "",
+                  Password: "",
+                  Relatives: [
+                    {
+                      Id: "",
+                      Name: "",
+                      PhoneNumber: "",
+                      RelativeDescription: "",
+                      MobileUserProfileId: ""
+                    },
+                    {
+                      Id: "",
+                      Name: "",
+                      PhoneNumber: "",
+                      RelativeDescription: "",
+                      MobileUserProfileId: ""
+                    }
+                  ]
+                };
+                this.account.userInformation = this.userNavInfo;
+                this.storage.set('user', this.account.userInformation);
+              }
+
+            });
+        });
+      /*Start set lang and Dir*/
+      this.storage.get('lang')
+        .then((language) => {
+          if (language == 'en') {
+
             this.config.language = 'en';
             this.config.side = "left";
             this.translate.setDefaultLang('en');
             this.platform.setDir('ltr', true);
             this.platform.setLang('en', true);
-          }else{
-            debugger;
-            if(this.userNavInfo.phoneNumber == ""){
-              this.userNavInfo ={
-                firstName:"مستخدم ",
-                lastName:"غير معرف",
-                profileImage:"assets/imgs/user.png",
-                phoneNumber:"**********",
-                gender:"",
-                birthday:""
-              }
-            }
+          } else {
+
             this.storage.set('lang', 'ar');
             this.config.language = 'ar';
             this.config.side = "right";
@@ -136,7 +225,7 @@ export class MyApp {
             this.platform.setLang('ar', true);
           }
         })
-        .catch((error)=>{
+        .catch((error) => {
           this.storage.set('lang', 'ar');
           this.config.language = 'ar';
           this.config.side = "right";
@@ -144,8 +233,6 @@ export class MyApp {
           this.platform.setDir('rtl', true);
           this.platform.setLang('ar', true);
         });
-
-
       this.fcm.onNotification().subscribe(data => {
         if (data.wasTapped) {
 
@@ -170,20 +257,22 @@ export class MyApp {
   openPage(page) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
-    if (page.component == HomePage){
+    if (page.component == HomePage) {
       this.nav.setRoot(page.component);
 
-    }else{
+    } else {
       this.nav.push(page.component)
     }
 
 
   }
+
   onGoToAddCliam() {
     this.modalCtrl.create(AddClaimPage).present();
     this.menuCtrl.close();
   }
-  openProfilePage(){
+
+  openProfilePage() {
     this.nav.push(ProfilePage);
   }
 }
