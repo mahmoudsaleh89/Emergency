@@ -13,6 +13,7 @@ import {Camera, CameraOptions} from "@ionic-native/camera";
 import {StatusBar} from "@ionic-native/status-bar";
 import {AccountProvider} from "../../providers/account/account";
 import {HomePage} from "../home/home";
+import {NgForm} from "@angular/forms";
 
 
 @Injectable()
@@ -468,8 +469,9 @@ export class ProfilePage {
 
   }
 
-  onSaveProfile() {
+  onSaveProfile(form:NgForm) {
     debugger;
+    console.log(form.value);
     let first = this.myProfile.FirstName;
     let last = this.myProfile.Lastname;
     let imgUrl = this.imgURL;
