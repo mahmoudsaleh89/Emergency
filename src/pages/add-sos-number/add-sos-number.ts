@@ -6,6 +6,7 @@ import {TranslateService} from "@ngx-translate/core";
 import {Contacts,Contact} from "@ionic-native/contacts";
 import {StatusBar} from "@ionic-native/status-bar";
 import {ProfilePage} from "../profile/profile";
+import {NgForm} from "@angular/forms";
 
 
 @IonicPage()
@@ -24,7 +25,7 @@ export class AddSosNumberPage {
   err_import="";
   okay="";
   dismiss ="";
-  number:any;
+  contactInfo:any;
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public statusBar: StatusBar,
@@ -36,19 +37,24 @@ export class AddSosNumberPage {
               public toastCtrl: ToastController
               ) {
     this.setLangAndDirction();
+    debugger;
+    this.contactInfo= this.navParams.get('contact');
   }
 
   ionViewDidLoad() {
-    this.number= this.navParams.data;
-    if (this.number){
+
+
+    /*if (this.number){
       debugger;
       this.phoneNumber = this.number.phone;
       this.firstName= this.number.firstName;
       this.lastName = this.number.latName;
-    }
+    }*/
     console.log('ionViewDidLoad AddSosNumberPage');
   }
-  saveContact(){
+  saveContact(form:NgForm){
+    console.log(form);
+    console.log(form.value);
     debugger;
 
     if (this.phoneNumber) {

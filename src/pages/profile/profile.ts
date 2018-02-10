@@ -254,125 +254,205 @@ export class ProfilePage {
   }
 
   onAddNewContact() {
-    this.navCtrl.push(AddSosNumberPage);
-  }
+    let contact: Contact = {
+      phoneNumber: "",
+      firstName: "",
+      lastName: "",
+      RelativeDescription: "",
+      MobileUserProfileId: this.myProfile.Id,
+      active: true,
+    };
+    this.navCtrl.push(AddSosNumberPage, {contact});
+}
 
-  onAddProfileImage() {
-    this.imgURL = "";
-    let actionSheet = this.actionSheetCtrl.create({
-      title: this.selectImage,
-      buttons: [
-        {
-          text: this.takePic,
-          handler: () => {
-            this.onTakeImage();
-            console.log('tak pic clicked');
-          }
-        },
-        {
-          text: this.choseFromGallery,
-          handler: () => {
-            this.onSelectFromGallery();
-            console.log('choseFromGallery clicked');
-          }
+onAddProfileImage()
+{
+  this.imgURL = "";
+  let actionSheet = this.actionSheetCtrl.create({
+    title: this.selectImage,
+    buttons: [
+      {
+        text: this.takePic,
+        handler: () => {
+          this.onTakeImage();
+          console.log('tak pic clicked');
         }
-      ]
-    });
-    actionSheet.present();
+      },
+      {
+        text: this.choseFromGallery,
+        handler: () => {
+          this.onSelectFromGallery();
+          console.log('choseFromGallery clicked');
+        }
+      }
+    ]
+  });
+  actionSheet.present();
+}
+
+onTakeImage()
+{
+  debugger;
+  let options: CameraOptions;
+  if (this.platform.is('ios')) {
+    options = {
+
+      encodingType: this.camera.EncodingType.JPEG,
+      correctOrientation: true
+    }
+  } else if (this.platform.is('android')) {
+    options = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      correctOrientation: true
+
+    };
   }
 
-  onTakeImage() {
+  this.camera.getPicture(options).then((imageData) => {
     debugger;
-    let options: CameraOptions;
+    this.storage.get('lang').then((result) => {
+      if (result == 'ar') {
+        this.add_profile_img = " تحديث الصورة الشخصية";
+      }
+      else if (result == 'en') {
+        this.add_profile_img = "update profile image";
+      }
+      else {
+        this.add_profile_img = " تحديث الصورة الشخصية";
+
+      }
+    });
     if (this.platform.is('ios')) {
-      options = {
-
-        encodingType: this.camera.EncodingType.JPEG,
-        correctOrientation: true
-      }
-    } else if (this.platform.is('android')) {
-      options = {
-        quality: 100,
-        destinationType: this.camera.DestinationType.FILE_URI,
-        encodingType: this.camera.EncodingType.JPEG,
-        mediaType: this.camera.MediaType.PICTURE,
-        correctOrientation: true
-
-      };
-    }
-
-    this.camera.getPicture(options).then((imageData) => {
-      debugger;
-      this.storage.get('lang').then((result) => {
-        if (result == 'ar') {
-          this.add_profile_img = " تحديث الصورة الشخصية";
-        }
-        else if (result == 'en') {
-          this.add_profile_img = "update profile image";
-        }
-        else {
-          this.add_profile_img = " تحديث الصورة الشخصية";
-
-        }
-      });
-      if (this.platform.is('ios')) {
-        this.imgURL = imageData;
-        this.myProfile.ImageUrl = this.imgURL;
-        this.imgURL = this.imgURL.replace(/^file:\/\//, '');
-      }
-      else if (this.platform.is('android')) {
-        this.imgURL = imageData;
-        this.myProfile.ImageUrl = this.imgURL;
-      }
-      //let base64Image = 'data:image/jpeg;base64,' + imageData;
-      //this image to upload
-    }, (err) => {
-      this.imgURL = "";
-      this.statusBar.backgroundColorByHexString('#4f6c84');
-      let toast = this.toastCtrl.create({
-        message: this.errImage,
-        duration: 3000,
-        position: 'top'
-      });
-
-      toast.present();
-      toast.onDidDismiss(() => {
-        this.statusBar.backgroundColorByHexString('#253746');
-      });
-    });
-  }
-
-  onSelectFromGallery() {
-    debugger;
-    let options = {
-      maximumImagesCount: 1
-    }
-    this.imagePicker.getPictures(options).then((results) => {
-      this.imgURL = results[0];
+      this.imgURL = imageData;
       this.myProfile.ImageUrl = this.imgURL;
+      this.imgURL = this.imgURL.replace(/^file:\/\//, '');
+    }
+    else if (this.platform.is('android')) {
+      this.imgURL = imageData;
+      this.myProfile.ImageUrl = this.imgURL;
+    }
+    //let base64Image = 'data:image/jpeg;base64,' + imageData;
+    //this image to upload
+  }, (err) => {
+    this.imgURL = "";
+    this.statusBar.backgroundColorByHexString('#4f6c84');
+    let toast = this.toastCtrl.create({
+      message: this.errImage,
+      duration: 3000,
+      position: 'top'
+    });
+
+    toast.present();
+    toast.onDidDismiss(() => {
+      this.statusBar.backgroundColorByHexString('#253746');
+    });
+  });
+}
+
+onSelectFromGallery()
+{
+  debugger;
+  let options = {
+    maximumImagesCount: 1
+  }
+  this.imagePicker.getPictures(options).then((results) => {
+    this.imgURL = results[0];
+    this.myProfile.ImageUrl = this.imgURL;
 
 
-      this.storage.get('lang').then((result) => {
-        if (result == 'ar') {
-          this.add_profile_img = " تحديث الصورة الشخصية";
+    this.storage.get('lang').then((result) => {
+      if (result == 'ar') {
+        this.add_profile_img = " تحديث الصورة الشخصية";
+      }
+      else if (result == 'en') {
+        this.add_profile_img = "update profile image";
+      }
+      else {
+        this.add_profile_img = " تحديث الصورة الشخصية";
+
+      }
+
+    });
+    console.log(results);
+    /*console.log('Image URI: ' + results[i]);*/
+
+  }, (err) => {
+    this.statusBar.backgroundColorByHexString('#4f6c84');
+    this.imgURL = "";
+    let toast = this.toastCtrl.create({
+      message: this.errSelectImage,
+      duration: 3000,
+      position: 'top'
+    });
+    toast.present();
+    toast.onDidDismiss(() => {
+      this.statusBar.backgroundColorByHexString('#253746');
+    });
+    console.log(err);
+
+  });
+
+}
+
+onChangePassword()
+{
+  console.log('change pass clicked');
+  this.alertCtrl.create({
+    title: 'تغير رالرقم السري',
+    message: "يرجى ادخال الرقم الحالي والجديد",
+    inputs: [
+      {
+        name: 'phone_number',
+        placeholder: 'الرقم السري الحالي'
+      },
+      {
+        name: 'password',
+        placeholder: 'الرقم السري'
+      }
+    ],
+    buttons: [
+      {
+        text: 'تغير',
+        handler: data => {
+          console.log('Saved clicked');
         }
-        else if (result == 'en') {
-          this.add_profile_img = "update profile image";
+      },
+      {
+        text: 'الغاء',
+        handler: data => {
+          console.log('Cancel clicked');
         }
-        else {
-          this.add_profile_img = " تحديث الصورة الشخصية";
+      }
 
-        }
+    ]
+  }).present();
 
-      });
-      console.log(results);
-      /*console.log('Image URI: ' + results[i]);*/
 
-    }, (err) => {
+}
+
+onSaveProfile(form
+:
+NgForm
+)
+{
+
+  console.log(form.value);
+  let loader = this.loadingCtrl.create({
+    content: this.pleaseWait,
+  });
+  loader.present();
+
+
+  this.account.onCreateProfile(this.imgURL, form.value.firstName, form.value.lastName, form.value.gender, form.value.phoneNumber, form.value.birthday, form.value.language, form.value.password).then((res) => {
+    debugger;
+
+    if (res == 'no_user') {
       this.statusBar.backgroundColorByHexString('#4f6c84');
-      this.imgURL = "";
       let toast = this.toastCtrl.create({
-        message: this.errSelectImage,
+        message: 'هذا الرقم تم تسجيله سابقا',
         duration: 3000,
         position: 'top'
       });
@@ -380,103 +460,73 @@ export class ProfilePage {
       toast.onDidDismiss(() => {
         this.statusBar.backgroundColorByHexString('#253746');
       });
-      console.log(err);
+    }
+    else if (res == 'no_user_err') {
+      this.statusBar.backgroundColorByHexString('#4f6c84');
+      let toast = this.toastCtrl.create({
+        message: this.errServer,
+        duration: 2000,
+        position: 'top'
+      });
+      toast.present();
+      toast.onDidDismiss(() => {
+        this.statusBar.backgroundColorByHexString('#253746');
+      });
 
+    }
+    else if (res) {
+      this.myProfile = res;
+      this.account.userInformation = this.myProfile;
+      this.storage.set('user', this.account.userInformation);
+      this.statusBar.backgroundColorByHexString('#4f6c84');
+      loader.dismiss();
+      let toast = this.toastCtrl.create({
+        message: this.saveSuccess,
+        duration: 2000,
+        position: 'top'
+      });
+      this.storage.set('have_account', true);
+      toast.present();
+      toast.onDidDismiss(() => {
+        this.statusBar.backgroundColorByHexString('#253746');
+        this.navCtrl.popTo(HomePage);
+      });
+    }
+    /* else{
+       this.statusBar.backgroundColorByHexString('#4f6c84');
+       let toast = this.toastCtrl.create({
+         message: 'هذا الرقم تم تسجيله سابقا',
+         duration: 3000,
+         position: 'top'
+       });
+       toast.present();
+       toast.onDidDismiss(() => {
+         this.statusBar.backgroundColorByHexString('#253746');
+       });
+     }*/
+  }).catch((err) => {
+    let toast = this.toastCtrl.create({
+      message: 'حصل خطأ اثناء التسجيل يرجى المحاولة لاحقا ',
+      duration: 3000,
+      position: 'top'
     });
-
-  }
-
-  onChangePassword() {
-    console.log('change pass clicked');
-    this.alertCtrl.create({
-      title: 'تغير رالرقم السري',
-      message: "يرجى ادخال الرقم الحالي والجديد",
-      inputs: [
-        {
-          name: 'phone_number',
-          placeholder: 'الرقم السري الحالي'
-        },
-        {
-          name: 'password',
-          placeholder: 'الرقم السري'
-        }
-      ],
-      buttons: [
-        {
-          text: 'تغير',
-          handler: data => {
-            console.log('Saved clicked');
-          }
-        },
-        {
-          text: 'الغاء',
-          handler: data => {
-            console.log('Cancel clicked');
-          }
-        }
-
-      ]
-    }).present();
-
-
-  }
-
-  onSaveProfile(form: NgForm) {
-
-    console.log(form.value);
-    let loader = this.loadingCtrl.create({
-      content: this.pleaseWait,
+    toast.present();
+    toast.onDidDismiss(() => {
+      this.statusBar.backgroundColorByHexString('#253746');
     });
-    loader.present();
+  });
 
-
-    this.account.onCreateProfile(this.imgURL, form.value.firstName, form.value.lastName, form.value.gender, form.value.phoneNumber, form.value.birthday, form.value.language, form.value.password).then((res) => {
-      debugger;
-
-      if (res == 'no_user') {
-        this.statusBar.backgroundColorByHexString('#4f6c84');
-        let toast = this.toastCtrl.create({
-          message: 'هذا الرقم تم تسجيله سابقا',
-          duration: 3000,
-          position: 'top'
-        });
-        toast.present();
-        toast.onDidDismiss(() => {
-          this.statusBar.backgroundColorByHexString('#253746');
-        });
-      }
-      else if (res == 'no_user_err') {
-        this.statusBar.backgroundColorByHexString('#4f6c84');
-        let toast = this.toastCtrl.create({
-          message: this.errServer,
-          duration: 2000,
-          position: 'top'
-        });
-        toast.present();
-        toast.onDidDismiss(() => {
-          this.statusBar.backgroundColorByHexString('#253746');
-        });
-
-      }
-      else if (res) {
-        this.myProfile = res;
-        this.account.userInformation = this.myProfile;
-        this.storage.set('user', this.account.userInformation);
-        this.statusBar.backgroundColorByHexString('#4f6c84');
-        loader.dismiss();
-        let toast = this.toastCtrl.create({
-          message: this.saveSuccess,
-          duration: 2000,
-          position: 'top'
-        });
-        this.storage.set('have_account', true);
-        toast.present();
-        toast.onDidDismiss(() => {
-          this.statusBar.backgroundColorByHexString('#253746');
-          this.navCtrl.popTo(HomePage);
-        });
-      }
-      /* else{
+  /* if (this.phoneNumber) {
+     debugger;
+     this.myProfile.phoneNumber = this.phoneNumber;
+     /!*this.account.onCreateProfile(first,last,gender,this.phoneNumber,birthday,lang,pass).then((res)=>{
+       if(res){
+         this.myProfile = res;
+         this.account.userInformation = this.myProfile;
+         this.storage.set('user',this.account.userInformation)
+         this.navCtrl.popTo(HomePage);
+       }
+       else{
          this.statusBar.backgroundColorByHexString('#4f6c84');
          let toast = this.toastCtrl.create({
            message: 'هذا الرقم تم تسجيله سابقا',
@@ -487,62 +537,10 @@ export class ProfilePage {
          toast.onDidDismiss(() => {
            this.statusBar.backgroundColorByHexString('#253746');
          });
-       }*/
-    }).catch((err) => {
-      let toast = this.toastCtrl.create({
-        message: 'حصل خطأ اثناء التسجيل يرجى المحاولة لاحقا ',
-        duration: 3000,
-        position: 'top'
-      });
-      toast.present();
-      toast.onDidDismiss(() => {
-        this.statusBar.backgroundColorByHexString('#253746');
-      });
-    });
-
-    /* if (this.phoneNumber) {
-       debugger;
-       this.myProfile.phoneNumber = this.phoneNumber;
-       /!*this.account.onCreateProfile(first,last,gender,this.phoneNumber,birthday,lang,pass).then((res)=>{
-         if(res){
-           this.myProfile = res;
-           this.account.userInformation = this.myProfile;
-           this.storage.set('user',this.account.userInformation)
-           this.navCtrl.popTo(HomePage);
-         }
-         else{
-           this.statusBar.backgroundColorByHexString('#4f6c84');
-           let toast = this.toastCtrl.create({
-             message: 'هذا الرقم تم تسجيله سابقا',
-             duration: 3000,
-             position: 'top'
-           });
-           toast.present();
-           toast.onDidDismiss(() => {
-             this.statusBar.backgroundColorByHexString('#253746');
-           });
-         }
-       }).catch((err)=>{
-         let toast = this.toastCtrl.create({
-           message: 'حصل خطأ اثناء التسجيل يرجى المحاولة لاحقا ',
-           duration: 3000,
-           position: 'top'
-         });
-         toast.present();
-         toast.onDidDismiss(() => {
-           this.statusBar.backgroundColorByHexString('#253746');
-         });
-       });
- *!/
-      /!* this.storage.set('user', this.myProfile);
-       this.account.userInformation = this.myProfile;*!/
-       //this.myAPP.initializeApp();
-
-
-     } else {
-       this.statusBar.backgroundColorByHexString('#4f6c84');
+       }
+     }).catch((err)=>{
        let toast = this.toastCtrl.create({
-         message: this.insertALlRequired,
+         message: 'حصل خطأ اثناء التسجيل يرجى المحاولة لاحقا ',
          duration: 3000,
          position: 'top'
        });
@@ -550,157 +548,187 @@ export class ProfilePage {
        toast.onDidDismiss(() => {
          this.statusBar.backgroundColorByHexString('#253746');
        });
-     }*/
+     });
+*!/
+    /!* this.storage.set('user', this.myProfile);
+     this.account.userInformation = this.myProfile;*!/
+     //this.myAPP.initializeApp();
 
-  }
 
-  onDeleteNumber(indexNumber) {
-    let confirm = this.alertCtrl.create({
-      title: this.deleteTittle,
-      message: this.deleteMsg,
-      buttons: [
-        {
-          text: this.cancel,
-          handler: () => {
-            console.log('cancel delete clicked');
-          }
-        },
-        {
-          text: this.ok,
-          handler: () => {
-            this.config.onDeleteEmergencyNumber(indexNumber).then((res) => {
-              if (res) {
-                debugger;
-                this.emergencyNumberList = res;
-              }
-            }).catch((err) => {
-              debugger;
-              this.statusBar.backgroundColorByHexString('#4f6c84');
-              let toast = this.toastCtrl.create({
-                message: this.deleteErr,
-                duration: 3000,
-                position: 'top'
-              });
-              toast.present();
-              toast.onDidDismiss(() => {
-                this.statusBar.backgroundColorByHexString('#253746');
-              });
-            });
-            console.log('Delete clicked');
-          }
+   } else {
+     this.statusBar.backgroundColorByHexString('#4f6c84');
+     let toast = this.toastCtrl.create({
+       message: this.insertALlRequired,
+       duration: 3000,
+       position: 'top'
+     });
+     toast.present();
+     toast.onDidDismiss(() => {
+       this.statusBar.backgroundColorByHexString('#253746');
+     });
+   }*/
+
+}
+
+onDeleteNumber(indexNumber)
+{
+  let confirm = this.alertCtrl.create({
+    title: this.deleteTittle,
+    message: this.deleteMsg,
+    buttons: [
+      {
+        text: this.cancel,
+        handler: () => {
+          console.log('cancel delete clicked');
         }
-      ]
-    });
-    confirm.present();
-
-  }
-
-  onViewNumber(indexNumber) {
-    debugger;
-    this.config.onViewEmergencyNumber(indexNumber)
-      .then((res) => {
-        debugger;
-        this.navCtrl.push(AddSosNumberPage, res);
-      })
-      .catch(() => {
-
-      })
-  }
-
-  setLangAndDirction() {
-    this.storage.get('lang').then((result) => {
-      if (result == 'ar') {
-        this.setGender = "اختيار الجنس";
-        this.male = "ذكر";
-        this.fmale = "انثى";
-        this.unspecified = "غير محدد";
-        this.setlang = "تحديد اللغة";
-        this.english = "English";
-        this.arabic = "العربية";
-        this.urdo = "اردو";
-        this.takePic = "التقاط صورة";
-        this.choseFromGallery = "اختيار من معرض الصور";
-        this.cancel = "الغاء";
-        this.errImage = " الرجاء اعطاء صلاحيات للوصول للكاميرا والمحاولة مرة اخرى";
-        this.errSelectImage = " الرجاء اعطاء صلاحيات للوصول للكاميرا والمحاولة مرة اخرى";
-        this.selectImage = "اختيار صورة";
-        this.add_profile_img = "اضافة صورة شخصية";
-        this.insertALlRequired = " الرجاء ادخال جميع الحقول المطلوبة";
-        this.deleteTittle = "حذف جهة اتصال";
-        this.deleteMsg = "هل انت متاكد من رغبتك  حذف هذه الجهة؟";
-        this.ok = "موافق";
-        this.deleteErr = " عذرا حدث خطأ اثناد حذف هذه الجهه يرجى المحاوله مرة اخرى";
-        this.pleaseWait = "جاري حفظ البيانات ...";
-        this.saveSuccess = "تم الحفظ بنجاح";
-        this.errServer = "لم يتم الحفظ الشبكه مشغوله";
-        this.storage.set('lang', 'ar');
-        this.translate.setDefaultLang('ar');
-        this.platform.setDir('rtl', true);
-        this.platform.setLang('ar', true);
-        this.config.side = 'right';
+      },
+      {
+        text: this.ok,
+        handler: () => {
+          this.config.onDeleteEmergencyNumber(indexNumber).then((res) => {
+            if (res) {
+              debugger;
+              this.emergencyNumberList = res;
+            }
+          }).catch((err) => {
+            debugger;
+            this.statusBar.backgroundColorByHexString('#4f6c84');
+            let toast = this.toastCtrl.create({
+              message: this.deleteErr,
+              duration: 3000,
+              position: 'top'
+            });
+            toast.present();
+            toast.onDidDismiss(() => {
+              this.statusBar.backgroundColorByHexString('#253746');
+            });
+          });
+          console.log('Delete clicked');
+        }
       }
-      else if (result == 'en') {
-        this.setGender = " Select gender";
-        this.male = " Male";
-        this.fmale = " Female";
-        this.unspecified = "Unspecified";
-        this.setlang = "Select Language";
-        this.english = "English";
-        this.arabic = "العربية";
-        this.urdo = "اردو";
-        this.takePic = "Take image";
-        this.choseFromGallery = "Chose From albums";
-        this.cancel = "Cancel";
-        this.errImage = "your camera is disabled or don't have permission to access !";
-        this.errSelectImage = " your Gallery is disabled or don't have permission to access !";
-        this.insertALlRequired = " please insert all required fields";
-        this.selectImage = "Add image";
-        this.add_profile_img = "add profile image";
-        this.deleteTittle = "Delete contact";
-        this.deleteMsg = "Are you sure ? do you want delete this contact";
-        this.ok = "ok";
-        this.deleteErr = " Sorry , can't delete this contact please try again !";
-        this.pleaseWait = "Please wait...";
-        this.saveSuccess = "Saved successfully";
-        this.errServer = "Saved failed , Internal Server Error";
-        this.storage.set('lang', 'en');
-        this.translate.setDefaultLang('en');
-        this.platform.setDir('ltr', true);
-        this.platform.setLang('en', true);
-        this.config.side = 'left';
-      }
-      else {
-        this.setGender = "اختيار الجنس";
-        this.male = "ذكر";
-        this.fmale = "انثى";
-        this.unspecified = "غير محدد";
-        this.setlang = "تحديد اللغة";
-        this.english = "English";
-        this.arabic = "العربية";
-        this.urdo = "اردو";
-        this.takePic = "التقاط صورة";
-        this.choseFromGallery = "اختيار من معرض الصور";
-        this.cancel = "الغاء";
-        this.errImage = " الرجاء صلاحيات للوصول للكاميرا والمحاولة مرة اخرى";
-        this.selectImage = "اختيار صورة";
-        this.errSelectImage = " الرجاء اعطاء صلاحيات للوصول للكاميرا والمحاولة مرة اخرى";
-        this.add_profile_img = "اضافة صورة شخصية";
-        this.insertALlRequired = " الرجاء ادخال جميع الحقول المطلوبة";
-        this.deleteTittle = "حذف جهة اتصال";
-        this.deleteMsg = "هل انت متاكد من رغبتك  حذف هذه الجهة؟";
-        this.ok = "موافق";
-        this.deleteErr = " عذرا حدث خطأ اثناد حذف هذه الجهه يرجى المحاوله مرة اخرى";
-        this.pleaseWait = "جاري حفظ البيانات ...";
-        this.errServer = "لم يتم الحفظ الشبكه مشغوله";
-        this.storage.set('lang', 'ar');
-        this.translate.setDefaultLang('ar');
-        this.platform.setDir('rtl', true);
-        this.platform.setLang('ar', true);
-        this.config.side = 'right';
+    ]
+  });
+  confirm.present();
 
-      }
+}
 
-    });
-  }
+onViewNumber(indexNumber)
+{
+  debugger;
+  this.config.onViewEmergencyNumber(indexNumber)
+    .then((res) => {
+      debugger;
+      this.navCtrl.push(AddSosNumberPage, res);
+    })
+    .catch(() => {
 
+    })
+}
+
+setLangAndDirction()
+{
+  this.storage.get('lang').then((result) => {
+    if (result == 'ar') {
+      this.setGender = "اختيار الجنس";
+      this.male = "ذكر";
+      this.fmale = "انثى";
+      this.unspecified = "غير محدد";
+      this.setlang = "تحديد اللغة";
+      this.english = "English";
+      this.arabic = "العربية";
+      this.urdo = "اردو";
+      this.takePic = "التقاط صورة";
+      this.choseFromGallery = "اختيار من معرض الصور";
+      this.cancel = "الغاء";
+      this.errImage = " الرجاء اعطاء صلاحيات للوصول للكاميرا والمحاولة مرة اخرى";
+      this.errSelectImage = " الرجاء اعطاء صلاحيات للوصول للكاميرا والمحاولة مرة اخرى";
+      this.selectImage = "اختيار صورة";
+      this.add_profile_img = "اضافة صورة شخصية";
+      this.insertALlRequired = " الرجاء ادخال جميع الحقول المطلوبة";
+      this.deleteTittle = "حذف جهة اتصال";
+      this.deleteMsg = "هل انت متاكد من رغبتك  حذف هذه الجهة؟";
+      this.ok = "موافق";
+      this.deleteErr = " عذرا حدث خطأ اثناد حذف هذه الجهه يرجى المحاوله مرة اخرى";
+      this.pleaseWait = "جاري حفظ البيانات ...";
+      this.saveSuccess = "تم الحفظ بنجاح";
+      this.errServer = "لم يتم الحفظ الشبكه مشغوله";
+      this.storage.set('lang', 'ar');
+      this.translate.setDefaultLang('ar');
+      this.platform.setDir('rtl', true);
+      this.platform.setLang('ar', true);
+      this.config.side = 'right';
+    }
+    else if (result == 'en') {
+      this.setGender = " Select gender";
+      this.male = " Male";
+      this.fmale = " Female";
+      this.unspecified = "Unspecified";
+      this.setlang = "Select Language";
+      this.english = "English";
+      this.arabic = "العربية";
+      this.urdo = "اردو";
+      this.takePic = "Take image";
+      this.choseFromGallery = "Chose From albums";
+      this.cancel = "Cancel";
+      this.errImage = "your camera is disabled or don't have permission to access !";
+      this.errSelectImage = " your Gallery is disabled or don't have permission to access !";
+      this.insertALlRequired = " please insert all required fields";
+      this.selectImage = "Add image";
+      this.add_profile_img = "add profile image";
+      this.deleteTittle = "Delete contact";
+      this.deleteMsg = "Are you sure ? do you want delete this contact";
+      this.ok = "ok";
+      this.deleteErr = " Sorry , can't delete this contact please try again !";
+      this.pleaseWait = "Please wait...";
+      this.saveSuccess = "Saved successfully";
+      this.errServer = "Saved failed , Internal Server Error";
+      this.storage.set('lang', 'en');
+      this.translate.setDefaultLang('en');
+      this.platform.setDir('ltr', true);
+      this.platform.setLang('en', true);
+      this.config.side = 'left';
+    }
+    else {
+      this.setGender = "اختيار الجنس";
+      this.male = "ذكر";
+      this.fmale = "انثى";
+      this.unspecified = "غير محدد";
+      this.setlang = "تحديد اللغة";
+      this.english = "English";
+      this.arabic = "العربية";
+      this.urdo = "اردو";
+      this.takePic = "التقاط صورة";
+      this.choseFromGallery = "اختيار من معرض الصور";
+      this.cancel = "الغاء";
+      this.errImage = " الرجاء صلاحيات للوصول للكاميرا والمحاولة مرة اخرى";
+      this.selectImage = "اختيار صورة";
+      this.errSelectImage = " الرجاء اعطاء صلاحيات للوصول للكاميرا والمحاولة مرة اخرى";
+      this.add_profile_img = "اضافة صورة شخصية";
+      this.insertALlRequired = " الرجاء ادخال جميع الحقول المطلوبة";
+      this.deleteTittle = "حذف جهة اتصال";
+      this.deleteMsg = "هل انت متاكد من رغبتك  حذف هذه الجهة؟";
+      this.ok = "موافق";
+      this.deleteErr = " عذرا حدث خطأ اثناد حذف هذه الجهه يرجى المحاوله مرة اخرى";
+      this.pleaseWait = "جاري حفظ البيانات ...";
+      this.errServer = "لم يتم الحفظ الشبكه مشغوله";
+      this.storage.set('lang', 'ar');
+      this.translate.setDefaultLang('ar');
+      this.platform.setDir('rtl', true);
+      this.platform.setLang('ar', true);
+      this.config.side = 'right';
+
+    }
+
+  });
+}
+
+}
+
+export interface Contact {
+  phoneNumber: string ;
+  firstName: string ;
+  lastName: string;
+  RelativeDescription: string;
+  MobileUserProfileId: string
+  active: boolean;
 }

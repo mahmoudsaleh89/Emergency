@@ -16,28 +16,28 @@
       {{"emergency_note" | translate}}
     </p>
   </div>
-
+<form #contactForm="ngForm" (ngSubmit)="saveContact(contactForm)">
   <ion-list padding-horizontal>
    <ion-list-header>
      {{"contact_info" | translate}}
    </ion-list-header>
       <ion-item>
         <ion-label stacked>{{"phone" | translate}} <span class="validate_note">* {{"field_required"| translate}}</span></ion-label>
-        <ion-input  type="number" [(ngModel)]="phoneNumber"></ion-input>
+        <ion-input required name="contactPhoneNumber" type="number" [ngModel]="+contactInfo.phoneNumber"></ion-input>
       </ion-item>
 
       <ion-item>
-      <ion-label stacked>{{"first_name" | translate}}</ion-label>
-      <ion-input  type="text" [(ngModel)]="firstName"></ion-input>
+      <ion-label stacked>{{"first_name" | translate}} <span class="validate_note" >* {{"field_required"| translate}}</span></ion-label>
+      <ion-input required name="contactFirstName"  type="text" [ngModel]="contactInfo.firstName"></ion-input>
     </ion-item>
 
       <ion-item>
-      <ion-label stacked>{{"last_name" | translate}}</ion-label>
-      <ion-input  type="text" [(ngModel)]="lastName"></ion-input>
+      <ion-label stacked>{{"last_name" | translate}} <span class="validate_note" >* {{"field_required"| translate}}</span></ion-label>
+      <ion-input required name="contactLastName" type="text" [ngModel]="contactInfo.lastName"></ion-input>
     </ion-item>
       <ion-item>
-      <ion-label>{{"relative" | translate}}</ion-label>
-      <ion-select ngModel="relative" okText="{{okay}}" cancelText="{{dismiss}}">
+      <ion-label>{{"relative" | translate}} <span class="validate_note">* {{"field_required"| translate}}</span></ion-label>
+      <ion-select required [ngModel]="contactInfo.RelativeDescription" name="relativeDescription" okText="{{okay}}" cancelText="{{dismiss}}">
         <ion-option value="friend">{{"friend" | translate}}</ion-option>
         <ion-option value="colleague">{{"colleague" | translate}}</ion-option>
         <ion-option value="daughter">{{"daughter" | translate}}</ion-option>
@@ -56,8 +56,8 @@
   </ion-list>
   <ion-row>
     <ion-col text-center>
-      <button ion-button outline (click)="saveContact()">{{"save_contact" | translate}}</button>
+      <button [disabled]="!contactForm.valid" [outline]="!contactForm.valid" type="submit" ion-button>{{"save_contact" | translate}}</button>
     </ion-col>
   </ion-row>
-
+</form>
 </ion-content>
