@@ -100,7 +100,7 @@ export class ProfilePage {
       .then((res) => {
         debugger;
         console.log('hello Comp', res);
-        if (res == true || res == null || res == 'undefind') {
+        if (res == false || res == null || res == 'undefind') {
           debugger;
           this.alertCtrl.create({
             title: 'استعادة الحساب',
@@ -222,93 +222,6 @@ export class ProfilePage {
     console.log('ionViewDidLoad SettingsPage', this.myProfile);
   }
 
-  onSetGender() {
-    let actionSheet = this.actionSheetCtrl.create({
-      title: this.setGender,
-      buttons: [
-        {
-          text: this.male,
-          role: this.male,
-          handler: () => {
-            let select = document.querySelector('#gender');
-            select.innerHTML = this.male;
-            this.genderSelected = this.male;
-            this.myProfile.gender = this.male;
-            this.account.userInformation.Gender = this.male;
-            console.log('male clicked');
-          }
-        },
-        {
-          text: this.fmale,
-          role: this.fmale,
-          handler: () => {
-            let select = document.querySelector('#gender');
-            select.innerHTML = this.fmale;
-            this.genderSelected = this.fmale;
-            this.myProfile.gender = this.fmale;
-            this.account.userInformation.Gender = this.fmale;
-            console.log('Fmale clicked');
-          }
-        },
-        {
-          text: this.unspecified,
-          role: this.unspecified,
-          handler: () => {
-            let select = document.querySelector('#gender');
-            select.innerHTML = this.unspecified;
-            this.genderSelected = this.unspecified;
-            this.myProfile.gender = this.unspecified;
-            this.account.userInformation.Gender = this.unspecified;
-
-            console.log('unspecified clicked');
-          }
-        }
-      ]
-    });
-
-    actionSheet.present();
-  }
-
-  onSetLanguage() {
-    let actionSheet = this.actionSheetCtrl.create({
-      title: this.setlang,
-      buttons: [
-        {
-          text: this.arabic,
-          role: this.arabic,
-          handler: () => {
-            let select = document.querySelector('#lang');
-            select.innerHTML = this.arabic;
-            console.log('arabic clicked');
-            this.myProfile.language = this.arabic;
-          }
-        },
-        {
-          text: this.english,
-          role: this.english,
-          handler: () => {
-            let select = document.querySelector('#lang');
-            select.innerHTML = this.english;
-            this.myProfile.language = this.english;
-            console.log('English clicked');
-          }
-        },
-        {
-          text: this.urdo,
-          role: this.urdo,
-          handler: () => {
-            let select = document.querySelector('#lang');
-            select.innerHTML = this.urdo;
-            this.myProfile.language = this.urdo;
-            console.log('urdo clicked');
-          }
-        }
-      ]
-    });
-
-    actionSheet.present();
-  }
-
   onSetBirthday() {
     this.datePicker.show({
       date: new Date(),
@@ -319,6 +232,8 @@ export class ProfilePage {
     }).then(
       date => {
         debugger;
+        console.log(date);
+        console.log(typeof (date));
         this.selectedDate = date;
         let tempSelectedDate = this.selectedDate;
         this.currentDate = tempSelectedDate.toString().substr(4, 12);
@@ -338,7 +253,6 @@ export class ProfilePage {
       }
     );
   }
-
 
   onAddNewContact() {
     this.navCtrl.push(AddSosNumberPage);
@@ -482,25 +396,22 @@ export class ProfilePage {
     loader.present();
 
 
-    this.account.onCreateProfile(form.value.firstName,form.value.lastName,form.value.gender,form.value.phoneNumber,form.value.birthday,form.value.language,form.value.password).then((res)=>{
+    this.account.onCreateProfile(this.imgURL,form.value.firstName,form.value.lastName,form.value.gender,form.value.phoneNumber,form.value.birthday,form.value.language,form.value.password).then((res)=>{
       debugger;
-      if(res){
-        this.myProfile = res;
-        this.account.userInformation = this.myProfile;
-        this.storage.set('user',this.account.userInformation);
+
+      if(res== 'no_user'){
         this.statusBar.backgroundColorByHexString('#4f6c84');
-        loader.dismiss();
         let toast = this.toastCtrl.create({
-          message: this.saveSuccess,
-          duration: 2000,
+          message: 'هذا الرقم تم تسجيله سابقا',
+          duration: 3000,
           position: 'top'
         });
         toast.present();
         toast.onDidDismiss(() => {
           this.statusBar.backgroundColorByHexString('#253746');
-          this.navCtrl.popTo(HomePage);
         });
-      }else if(res =='no_user_err'){
+      }
+      else if(res =='no_user_err'){
         this.statusBar.backgroundColorByHexString('#4f6c84');
         let toast = this.toastCtrl.create({
           message: this.errServer,
@@ -513,7 +424,25 @@ export class ProfilePage {
         });
 
       }
-      else{
+      else if(res){
+        this.myProfile = res;
+        this.account.userInformation = this.myProfile;
+        this.storage.set('user',this.account.userInformation);
+        this.statusBar.backgroundColorByHexString('#4f6c84');
+        loader.dismiss();
+        let toast = this.toastCtrl.create({
+          message: this.saveSuccess,
+          duration: 2000,
+          position: 'top'
+        });
+        this.storage.set('have_account', true);
+        toast.present();
+        toast.onDidDismiss(() => {
+          this.statusBar.backgroundColorByHexString('#253746');
+          this.navCtrl.popTo(HomePage);
+        });
+      }
+     /* else{
         this.statusBar.backgroundColorByHexString('#4f6c84');
         let toast = this.toastCtrl.create({
           message: 'هذا الرقم تم تسجيله سابقا',
@@ -524,7 +453,7 @@ export class ProfilePage {
         toast.onDidDismiss(() => {
           this.statusBar.backgroundColorByHexString('#253746');
         });
-      }
+      }*/
     }).catch((err)=>{
       let toast = this.toastCtrl.create({
         message: 'حصل خطأ اثناء التسجيل يرجى المحاولة لاحقا ',

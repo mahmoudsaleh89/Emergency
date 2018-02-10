@@ -10,33 +10,33 @@ import {Injectable} from '@angular/core';
 @Injectable()
 export class AccountProvider {
   linkAPI = "http://192.168.0.230:4201/api/MobileApp/";
-  userInformation ={
-  Id: "",
-  FirstName: "Guest",
-  Lastname: "user",
-  PhoneNumber: "",
-  ImageUrl:"assets/imgs/user.png",
-  Gender: "",
-  Birthday: "",
-  Language: "",
-  Password: "",
-  Relatives: [
-    {
-      Id: "",
-      Name: "",
-      PhoneNumber: "",
-      RelativeDescription: "",
-      MobileUserProfileId: ""
-    },
-    {
-      Id: "",
-      Name: "",
-      PhoneNumber: "",
-      RelativeDescription: "",
-      MobileUserProfileId: ""
-    }
+  userInformation = {
+    Id: "",
+    FirstName: "Guest",
+    Lastname: "user",
+    PhoneNumber: "",
+    ImageUrl: "assets/imgs/user.png",
+    Gender: "",
+    Birthday: "",
+    Language: "",
+    Password: "",
+    Relatives: [
+      {
+        Id: "",
+        Name: "",
+        PhoneNumber: "",
+        RelativeDescription: "",
+        MobileUserProfileId: ""
+      },
+      {
+        Id: "",
+        Name: "",
+        PhoneNumber: "",
+        RelativeDescription: "",
+        MobileUserProfileId: ""
+      }
     ]
-};
+  };
 
 
   constructor(public http: HttpClient) {
@@ -57,7 +57,7 @@ export class AccountProvider {
             if (res) {
               debugger;
               console.log(res);
-              let response:any = res;
+              let response: any = res;
               this.userInformation = response;
               resolve(this.userInformation);
             } else {
@@ -68,7 +68,7 @@ export class AccountProvider {
                 FirstName: "",
                 Lastname: "",
                 PhoneNumber: "",
-                ImageUrl:"",
+                ImageUrl: "",
                 Gender: "",
                 Birthday: "",
                 Language: "",
@@ -103,7 +103,7 @@ export class AccountProvider {
     });
   }
 
-  onCreateProfile(firstNam,LastName,gender,phoneNumber,birthday,lang, password){
+  onCreateProfile(imageUrl, firstNam, LastName, gender, phoneNumber, birthday, lang, password) {
     debugger;
     let body = {
       FirstName: firstNam,
@@ -112,54 +112,59 @@ export class AccountProvider {
       Gender: gender,
       Birthday: birthday,
       Language: lang,
-      Password: password
+      Password: password,
+      ImageUrl: imageUrl
     };
-    console.log('GetProfile a7a' , this.linkAPI);
+    console.log('GetProfile a7a', this.linkAPI);
     console.log(this.linkAPI + '/CreateProfile');
     return new Promise(resolve => {
       this.http.post(this.linkAPI + 'CreateProfile', body)
         .subscribe(
           res => {
-            let data : any = res;
-            if (data.Id !="" || data.Id != null || data.Id != "undefined") {
-              debugger;
-              console.log(data);
-              let response:any = data;
-              this.userInformation = response;
-              resolve(this.userInformation);
-            } else {
-              debugger;
-              console.log(data);
-              this.userInformation = {
-                Id: "",
-                FirstName: "",
-                Lastname: "",
-                PhoneNumber: "",
-                ImageUrl:"",
-                Gender: "",
-                Birthday: "",
-                Language: "",
-                Password: "",
-                Relatives: [
-                  {
-                    Id: "",
-                    Name: "",
-                    PhoneNumber: "",
-                    RelativeDescription: "",
-                    MobileUserProfileId: ""
-                  },
-                  {
-                    Id: "",
-                    Name: "",
-                    PhoneNumber: "",
-                    RelativeDescription: "",
-                    MobileUserProfileId: ""
-                  }
-                ]
-              };
+            debugger;
+            if (res != null) {
+              let data: any = res;
+              if (data.Id != "" || data.Id != null || data.Id != "undefined") {
+                debugger;
+                console.log(data);
+                let response: any = data;
+                this.userInformation = response;
+                resolve(this.userInformation);
+              } else {
+                debugger;
+                console.log(data);
+                this.userInformation = {
+                  Id: "",
+                  FirstName: "",
+                  Lastname: "",
+                  PhoneNumber: "",
+                  ImageUrl: "",
+                  Gender: "",
+                  Birthday: "",
+                  Language: "",
+                  Password: "",
+                  Relatives: [
+                    {
+                      Id: "",
+                      Name: "",
+                      PhoneNumber: "",
+                      RelativeDescription: "",
+                      MobileUserProfileId: ""
+                    },
+                    {
+                      Id: "",
+                      Name: "",
+                      PhoneNumber: "",
+                      RelativeDescription: "",
+                      MobileUserProfileId: ""
+                    }
+                  ]
+                };
+                resolve('no_user');
+              }
+            }else{
               resolve('no_user');
             }
-
           },
           err => {
             debugger;
