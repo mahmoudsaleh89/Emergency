@@ -43,8 +43,8 @@
         <ion-input type="text" name="lastName" ngModel></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label stacked>{{"Password" | translate}}</ion-label>
-        <ion-input type="text" ngModel name="password"></ion-input>
+        <ion-label stacked>{{"Password" | translate}} <span class="validate_note">* {{"field_required"| translate}}</span></ion-label>
+        <ion-input required [minlength]="6" type="text" ngModel name="password"></ion-input>
       </ion-item>
     </ion-list>
     <ion-list *ngIf="emergencyNumberList.length > 0 ">

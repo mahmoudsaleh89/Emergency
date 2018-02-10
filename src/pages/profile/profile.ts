@@ -1,6 +1,6 @@
 import {Component, Injectable} from '@angular/core';
 import {
-  ActionSheetController, AlertController, IonicPage, NavController, NavParams, Platform,
+  ActionSheetController, AlertController, IonicPage, LoadingController, NavController, NavParams, Platform,
   ToastController
 } from 'ionic-angular';
 import {ConfigProvider} from "../../providers/config/config";
@@ -52,7 +52,10 @@ export class ProfilePage {
   deleteTittle = "";
   deleteMsg = "";
   ok = "";
-  deleteErr = ""
+  deleteErr = "";
+  pleaseWait="";
+  saveSuccess="";
+  errServer ="";
 
 
   constructor(public navCtrl: NavController,
@@ -68,7 +71,8 @@ export class ProfilePage {
               public camera: Camera,
               public statusBar: StatusBar,
               public account: AccountProvider,
-              public alertCtrl: AlertController) {
+              public alertCtrl: AlertController,
+              public loadingCtrl: LoadingController) {
     this.setLangAndDirction();
     this.emergencyNumberList = [];
     this.myProfile = account.userInformation;
@@ -470,40 +474,49 @@ export class ProfilePage {
   }
 
   onSaveProfile(form:NgForm) {
-    debugger;
+
     console.log(form.value);
-    let first = this.myProfile.FirstName;
-    let last = this.myProfile.Lastname;
-    let imgUrl = this.imgURL;
-    let gender = this.myProfile.Gender;
-    let birthday = this.myProfile.Birthday;
-    let lang = this.myProfile.Language;
-    let pass=this.myProfile.Password;
-    if (this.phoneNumber) {
+    let loader = this.loadingCtrl.create({
+      content: this.pleaseWait,
+    });
+    loader.present();
+
+
+    this.account.onCreateProfile(form.value.firstName,form.value.lastName,form.value.gender,form.value.phoneNumber,form.value.birthday,form.value.language,form.value.password).then((res)=>{
       debugger;
-      this.myProfile.phoneNumber = this.phoneNumber;
-      this.account.onCreateProfile(first,last,gender,this.phoneNumber,birthday,lang,pass).then((res)=>{
-        if(res){
-          this.myProfile = res;
-          this.account.userInformation = this.myProfile;
-          this.storage.set('user',this.account.userInformation)
-          this.navCtrl.popTo(HomePage);
-        }
-        else{
-          this.statusBar.backgroundColorByHexString('#4f6c84');
-          let toast = this.toastCtrl.create({
-            message: 'هذا الرقم تم تسجيله سابقا',
-            duration: 3000,
-            position: 'top'
-          });
-          toast.present();
-          toast.onDidDismiss(() => {
-            this.statusBar.backgroundColorByHexString('#253746');
-          });
-        }
-      }).catch((err)=>{
+      if(res){
+        this.myProfile = res;
+        this.account.userInformation = this.myProfile;
+        this.storage.set('user',this.account.userInformation);
+        this.statusBar.backgroundColorByHexString('#4f6c84');
+        loader.dismiss();
         let toast = this.toastCtrl.create({
-          message: 'حصل خطأ اثناء التسجيل يرجى المحاولة لاحقا ',
+          message: this.saveSuccess,
+          duration: 2000,
+          position: 'top'
+        });
+        toast.present();
+        toast.onDidDismiss(() => {
+          this.statusBar.backgroundColorByHexString('#253746');
+          this.navCtrl.popTo(HomePage);
+        });
+      }else if(res =='no_user_err'){
+        this.statusBar.backgroundColorByHexString('#4f6c84');
+        let toast = this.toastCtrl.create({
+          message: this.errServer,
+          duration: 2000,
+          position: 'top'
+        });
+        toast.present();
+        toast.onDidDismiss(() => {
+          this.statusBar.backgroundColorByHexString('#253746');
+        });
+
+      }
+      else{
+        this.statusBar.backgroundColorByHexString('#4f6c84');
+        let toast = this.toastCtrl.create({
+          message: 'هذا الرقم تم تسجيله سابقا',
           duration: 3000,
           position: 'top'
         });
@@ -511,17 +524,10 @@ export class ProfilePage {
         toast.onDidDismiss(() => {
           this.statusBar.backgroundColorByHexString('#253746');
         });
-      });
-
-     /* this.storage.set('user', this.myProfile);
-      this.account.userInformation = this.myProfile;*/
-      //this.myAPP.initializeApp();
-
-
-    } else {
-      this.statusBar.backgroundColorByHexString('#4f6c84');
+      }
+    }).catch((err)=>{
       let toast = this.toastCtrl.create({
-        message: this.insertALlRequired,
+        message: 'حصل خطأ اثناء التسجيل يرجى المحاولة لاحقا ',
         duration: 3000,
         position: 'top'
       });
@@ -529,7 +535,59 @@ export class ProfilePage {
       toast.onDidDismiss(() => {
         this.statusBar.backgroundColorByHexString('#253746');
       });
-    }
+    });
+
+    /* if (this.phoneNumber) {
+       debugger;
+       this.myProfile.phoneNumber = this.phoneNumber;
+       /!*this.account.onCreateProfile(first,last,gender,this.phoneNumber,birthday,lang,pass).then((res)=>{
+         if(res){
+           this.myProfile = res;
+           this.account.userInformation = this.myProfile;
+           this.storage.set('user',this.account.userInformation)
+           this.navCtrl.popTo(HomePage);
+         }
+         else{
+           this.statusBar.backgroundColorByHexString('#4f6c84');
+           let toast = this.toastCtrl.create({
+             message: 'هذا الرقم تم تسجيله سابقا',
+             duration: 3000,
+             position: 'top'
+           });
+           toast.present();
+           toast.onDidDismiss(() => {
+             this.statusBar.backgroundColorByHexString('#253746');
+           });
+         }
+       }).catch((err)=>{
+         let toast = this.toastCtrl.create({
+           message: 'حصل خطأ اثناء التسجيل يرجى المحاولة لاحقا ',
+           duration: 3000,
+           position: 'top'
+         });
+         toast.present();
+         toast.onDidDismiss(() => {
+           this.statusBar.backgroundColorByHexString('#253746');
+         });
+       });
+ *!/
+      /!* this.storage.set('user', this.myProfile);
+       this.account.userInformation = this.myProfile;*!/
+       //this.myAPP.initializeApp();
+
+
+     } else {
+       this.statusBar.backgroundColorByHexString('#4f6c84');
+       let toast = this.toastCtrl.create({
+         message: this.insertALlRequired,
+         duration: 3000,
+         position: 'top'
+       });
+       toast.present();
+       toast.onDidDismiss(() => {
+         this.statusBar.backgroundColorByHexString('#253746');
+       });
+     }*/
 
   }
 
@@ -609,6 +667,9 @@ export class ProfilePage {
         this.deleteMsg = "هل انت متاكد من رغبتك  حذف هذه الجهة؟";
         this.ok = "موافق";
         this.deleteErr = " عذرا حدث خطأ اثناد حذف هذه الجهه يرجى المحاوله مرة اخرى";
+        this.pleaseWait = "جاري حفظ البيانات ..." ;
+        this.saveSuccess = "تم الحفظ بنجاح";
+        this.errServer = "لم يتم الحفظ الشبكه مشغوله" ;
         this.storage.set('lang', 'ar');
         this.translate.setDefaultLang('ar');
         this.platform.setDir('rtl', true);
@@ -636,6 +697,9 @@ export class ProfilePage {
         this.deleteMsg = "Are you sure ? do you want delete this contact";
         this.ok = "ok";
         this.deleteErr = " Sorry , can't delete this contact please try again !";
+        this.pleaseWait = "Please wait...";
+        this.saveSuccess = "Saved successfully";
+        this.errServer = "Saved failed , Internal Server Error" ;
         this.storage.set('lang', 'en');
         this.translate.setDefaultLang('en');
         this.platform.setDir('ltr', true);
@@ -663,6 +727,8 @@ export class ProfilePage {
         this.deleteMsg = "هل انت متاكد من رغبتك  حذف هذه الجهة؟";
         this.ok = "موافق";
         this.deleteErr = " عذرا حدث خطأ اثناد حذف هذه الجهه يرجى المحاوله مرة اخرى";
+        this.pleaseWait = "جاري حفظ البيانات ..." ;
+        this.errServer = "لم يتم الحفظ الشبكه مشغوله" ;
         this.storage.set('lang', 'ar');
         this.translate.setDefaultLang('ar');
         this.platform.setDir('rtl', true);

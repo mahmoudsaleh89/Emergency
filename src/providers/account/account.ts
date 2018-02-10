@@ -9,7 +9,7 @@ import {Injectable} from '@angular/core';
 */
 @Injectable()
 export class AccountProvider {
-  linkAPI = "http://192.168.0.230:4201/Api/MobileApp";
+  linkAPI = "http://192.168.0.230:4201/api/MobileApp/";
   userInformation ={
   Id: "",
   FirstName: "Guest",
@@ -37,6 +37,7 @@ export class AccountProvider {
     }
     ]
 };
+
 
   constructor(public http: HttpClient) {
     console.log('Hello AccountProvider Provider');
@@ -103,6 +104,7 @@ export class AccountProvider {
   }
 
   onCreateProfile(firstNam,LastName,gender,phoneNumber,birthday,lang, password){
+    debugger;
     let body = {
       FirstName: firstNam,
       Lastname: LastName,
@@ -111,22 +113,23 @@ export class AccountProvider {
       Birthday: birthday,
       Language: lang,
       Password: password
-    }
-    console.log('GetProfile a7a');
+    };
+    console.log('GetProfile a7a' , this.linkAPI);
     console.log(this.linkAPI + '/CreateProfile');
     return new Promise(resolve => {
-      this.http.post(this.linkAPI + '/GetProfile', body)
+      this.http.post(this.linkAPI + 'CreateProfile', body)
         .subscribe(
           res => {
-            if (res) {
+            let data : any = res;
+            if (data.Id !="" || data.Id != null || data.Id != "undefined") {
               debugger;
-              console.log(res);
-              let response:any = res;
+              console.log(data);
+              let response:any = data;
               this.userInformation = response;
               resolve(this.userInformation);
             } else {
               debugger;
-              console.log(res);
+              console.log(data);
               this.userInformation = {
                 Id: "",
                 FirstName: "",
