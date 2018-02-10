@@ -53,9 +53,10 @@ export class ProfilePage {
   deleteMsg = "";
   ok = "";
   deleteErr = "";
-  pleaseWait="";
-  saveSuccess="";
-  errServer ="";
+  pleaseWait = "";
+  saveSuccess = "";
+  errServer = "";
+  have_account: boolean;
 
 
   constructor(public navCtrl: NavController,
@@ -102,6 +103,7 @@ export class ProfilePage {
         console.log('hello Comp', res);
         if (res == false || res == null || res == 'undefind') {
           debugger;
+          this.have_account = false;
           this.alertCtrl.create({
             title: 'استعادة الحساب',
             message: "هل لديك حياب مسبقا ، يرجي كتابة رقم الهاتف والرقم السري لاستعاده حسابك",
@@ -131,10 +133,12 @@ export class ProfilePage {
 
             ]
           }).present();
+        } else {
+          this.have_account = true;
         }
       })
       .catch((err) => {
-      debugger;
+        debugger;
         this.alertCtrl.create({
           title: 'استعادة الحساب',
           message: "هل لديك حياب مسبقا ، يرجي كتابة رقم الهاتف والرقم السري لاستعاده حسابك",
@@ -152,11 +156,11 @@ export class ProfilePage {
             {
               text: 'تسجيل دخول',
               handler: data => {
-                this.account.onGetProfile(data.phone_number,data.password).then((res)=>{
-                  if (res){
+                this.account.onGetProfile(data.phone_number, data.password).then((res) => {
+                  if (res) {
                     this.myProfile = res;
-                   console.log(this.myProfile);
-                  }else{
+                    console.log(this.myProfile);
+                  } else {
 
                   }
                 })
@@ -181,8 +185,8 @@ export class ProfilePage {
 
   ionViewDidLoad() {
 
-    if (this.myProfile.phoneNumber != "") {
-      if (this.myProfile.birthday == "") {
+    if (this.myProfile.Id != "") {
+      /*if (this.myProfile.birthday == "") {
         let d = new Date();
         this.currentDate = d.toString().substr(4, 12)
         let selectBirthday = document.querySelector('#birthday');
@@ -190,14 +194,14 @@ export class ProfilePage {
       } else {
         let selectBirthday = document.querySelector('#birthday');
         selectBirthday.innerHTML = this.myProfile.birthday;
-      }
+      }*/
       debugger;
       this.phoneNumber = parseInt(this.myProfile.phoneNumber);
       this.storage.set('user', this.myProfile);
     } else {
       this.storage.get('user').then((userInfo) => {
         debugger;
-        if (userInfo.phoneNumber != "") {
+        if (userInfo.Id != "") {
           this.myProfile = userInfo;
           this.storage.set('user', this.myProfile);
         } else {
@@ -210,14 +214,9 @@ export class ProfilePage {
             birthday: ""
           }
           this.storage.set('user', this.myProfile);
-          let d = new Date();
-          this.currentDate = d.toString().substr(4, 12)
-          let selectBirthday = document.querySelector('#birthday');
-          selectBirthday.innerHTML = this.currentDate;
         }
       });
     }
-
 
     console.log('ionViewDidLoad SettingsPage', this.myProfile);
   }
@@ -227,8 +226,8 @@ export class ProfilePage {
       date: new Date(),
       mode: 'date',
       androidTheme: this.datePicker.ANDROID_THEMES.THEME_DEVICE_DEFAULT_LIGHT,
-      allowOldDates: false,
-      todayText: 'today'
+      allowOldDates: true,
+      allowFutureDates: false,
     }).then(
       date => {
         debugger;
@@ -387,7 +386,42 @@ export class ProfilePage {
 
   }
 
-  onSaveProfile(form:NgForm) {
+  onChangePassword() {
+    console.log('change pass clicked');
+    this.alertCtrl.create({
+      title: 'تغير رالرقم السري',
+      message: "يرجى ادخال الرقم الحالي والجديد",
+      inputs: [
+        {
+          name: 'phone_number',
+          placeholder: 'الرقم السري الحالي'
+        },
+        {
+          name: 'password',
+          placeholder: 'الرقم السري'
+        }
+      ],
+      buttons: [
+        {
+          text: 'تغير',
+          handler: data => {
+            console.log('Saved clicked');
+          }
+        },
+        {
+          text: 'الغاء',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        }
+
+      ]
+    }).present();
+
+
+  }
+
+  onSaveProfile(form: NgForm) {
 
     console.log(form.value);
     let loader = this.loadingCtrl.create({
@@ -396,10 +430,10 @@ export class ProfilePage {
     loader.present();
 
 
-    this.account.onCreateProfile(this.imgURL,form.value.firstName,form.value.lastName,form.value.gender,form.value.phoneNumber,form.value.birthday,form.value.language,form.value.password).then((res)=>{
+    this.account.onCreateProfile(this.imgURL, form.value.firstName, form.value.lastName, form.value.gender, form.value.phoneNumber, form.value.birthday, form.value.language, form.value.password).then((res) => {
       debugger;
 
-      if(res== 'no_user'){
+      if (res == 'no_user') {
         this.statusBar.backgroundColorByHexString('#4f6c84');
         let toast = this.toastCtrl.create({
           message: 'هذا الرقم تم تسجيله سابقا',
@@ -411,7 +445,7 @@ export class ProfilePage {
           this.statusBar.backgroundColorByHexString('#253746');
         });
       }
-      else if(res =='no_user_err'){
+      else if (res == 'no_user_err') {
         this.statusBar.backgroundColorByHexString('#4f6c84');
         let toast = this.toastCtrl.create({
           message: this.errServer,
@@ -424,10 +458,10 @@ export class ProfilePage {
         });
 
       }
-      else if(res){
+      else if (res) {
         this.myProfile = res;
         this.account.userInformation = this.myProfile;
-        this.storage.set('user',this.account.userInformation);
+        this.storage.set('user', this.account.userInformation);
         this.statusBar.backgroundColorByHexString('#4f6c84');
         loader.dismiss();
         let toast = this.toastCtrl.create({
@@ -442,19 +476,19 @@ export class ProfilePage {
           this.navCtrl.popTo(HomePage);
         });
       }
-     /* else{
-        this.statusBar.backgroundColorByHexString('#4f6c84');
-        let toast = this.toastCtrl.create({
-          message: 'هذا الرقم تم تسجيله سابقا',
-          duration: 3000,
-          position: 'top'
-        });
-        toast.present();
-        toast.onDidDismiss(() => {
-          this.statusBar.backgroundColorByHexString('#253746');
-        });
-      }*/
-    }).catch((err)=>{
+      /* else{
+         this.statusBar.backgroundColorByHexString('#4f6c84');
+         let toast = this.toastCtrl.create({
+           message: 'هذا الرقم تم تسجيله سابقا',
+           duration: 3000,
+           position: 'top'
+         });
+         toast.present();
+         toast.onDidDismiss(() => {
+           this.statusBar.backgroundColorByHexString('#253746');
+         });
+       }*/
+    }).catch((err) => {
       let toast = this.toastCtrl.create({
         message: 'حصل خطأ اثناء التسجيل يرجى المحاولة لاحقا ',
         duration: 3000,
@@ -596,9 +630,9 @@ export class ProfilePage {
         this.deleteMsg = "هل انت متاكد من رغبتك  حذف هذه الجهة؟";
         this.ok = "موافق";
         this.deleteErr = " عذرا حدث خطأ اثناد حذف هذه الجهه يرجى المحاوله مرة اخرى";
-        this.pleaseWait = "جاري حفظ البيانات ..." ;
+        this.pleaseWait = "جاري حفظ البيانات ...";
         this.saveSuccess = "تم الحفظ بنجاح";
-        this.errServer = "لم يتم الحفظ الشبكه مشغوله" ;
+        this.errServer = "لم يتم الحفظ الشبكه مشغوله";
         this.storage.set('lang', 'ar');
         this.translate.setDefaultLang('ar');
         this.platform.setDir('rtl', true);
@@ -628,7 +662,7 @@ export class ProfilePage {
         this.deleteErr = " Sorry , can't delete this contact please try again !";
         this.pleaseWait = "Please wait...";
         this.saveSuccess = "Saved successfully";
-        this.errServer = "Saved failed , Internal Server Error" ;
+        this.errServer = "Saved failed , Internal Server Error";
         this.storage.set('lang', 'en');
         this.translate.setDefaultLang('en');
         this.platform.setDir('ltr', true);
@@ -656,8 +690,8 @@ export class ProfilePage {
         this.deleteMsg = "هل انت متاكد من رغبتك  حذف هذه الجهة؟";
         this.ok = "موافق";
         this.deleteErr = " عذرا حدث خطأ اثناد حذف هذه الجهه يرجى المحاوله مرة اخرى";
-        this.pleaseWait = "جاري حفظ البيانات ..." ;
-        this.errServer = "لم يتم الحفظ الشبكه مشغوله" ;
+        this.pleaseWait = "جاري حفظ البيانات ...";
+        this.errServer = "لم يتم الحفظ الشبكه مشغوله";
         this.storage.set('lang', 'ar');
         this.translate.setDefaultLang('ar');
         this.platform.setDir('rtl', true);

@@ -42,9 +42,12 @@
         <ion-label stacked>{{"last_name" | translate}}</ion-label>
         <ion-input type="text" name="lastName" [ngModel]="this.myProfile.Lastname"></ion-input>
       </ion-item>
-      <ion-item>
-        <ion-label stacked>{{"Password" | translate}} <span class="validate_note">* {{"field_required"| translate}}</span></ion-label>
-        <ion-input required [minlength]="6" type="password" [ngModel]="this.myProfile.Password" name="password"></ion-input>
+      <ion-item *ngIf="have_account" text-center>
+        <button type="button" outline ion-button   (click)="onChangePassword()"> {{"change_password"| translate}}</button>
+      </ion-item>
+      <ion-item *ngIf="!have_account">
+        <ion-label stacked disabled="false">{{"password" | translate}} <span  class="validate_note">* {{"field_required"| translate}}</span></ion-label>
+        <ion-input  required [minlength]="6" type="password" [ngModel]="this.myProfile.Password" name="password"></ion-input>
       </ion-item>
     </ion-list>
     <ion-list *ngIf="emergencyNumberList.length > 0 ">
@@ -71,7 +74,7 @@
             <ion-icon name="trash"></ion-icon>
             {{'remove' | translate}}
           </button>
-          <button type="button" ion-button color="primary" (click)="onViewNumber(i)">
+          <button type="button" ion-button  color="primary" (click)="onViewNumber(i)">
             <ion-icon name="create"></ion-icon>
             {{'edit' | translate}}
           </button>
@@ -115,8 +118,9 @@
     </ion-list>
 
     <div text-center>
+      <button *ngIf="have_account" type="submit" [disabled]="!f.valid" ion-button color="primary" [outline]="!f.valid"> {{"update" | translate}}</button>
 
-      <button type="submit" [disabled]="!f.valid" ion-button color="primary" [outline]="!f.valid"> {{"save" | translate}}</button>
+      <button *ngIf="!have_account" type="submit" [disabled]="!f.valid" ion-button color="primary" [outline]="!f.valid"> {{"save" | translate}}</button>
       <p *ngIf="!f.valid" text-center class="guideline_class">
         {{insertALlRequired}}
       </p>
