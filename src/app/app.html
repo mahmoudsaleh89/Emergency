@@ -1,14 +1,15 @@
 <ion-menu [side]="platform.isRTL==true?'right':'left'" [content]="content">
 
   <ion-content>
+    <ion-item class="myheader" id="profile_info" (click)="openProfilePage()" menuClose>
+      <img class="p-image" src="{{account.userInformation.profileImage}}" width="60" onerror="this.src='assets/imgs/user.png'">
+      <h2 *ngIf="account.userInformation.PhoneNumber != '' ">{{account.userInformation.FirstName}}  {{account.userInformation.Lastname }}</h2>
+      <h2 *ngIf="account.userInformation.PhoneNumber == '' ">{{'unknownUser' | translate}}</h2>
+      <p *ngIf="account.userInformation.PhoneNumber != '' " dir="ltr" text-right style="color: #1ab394 !important;">{{account.userInformation.PhoneNumber}}</p>
+      <p *ngIf="account.userInformation.PhoneNumber == '' " dir="ltr" text-right style="color: #1ab394 !important;">*******</p>
+    </ion-item>
     <ion-list class="myMenu">
-      <ion-item class="myheader" (click)="openProfilePage()" menuClose>
-        <img class="p-image" src="{{account.userInformation.profileImage}}" width="60" onerror="this.src='assets/imgs/user.png'">
-        <h2 *ngIf="account.userInformation.PhoneNumber != '' ">{{account.userInformation.FirstName}}  {{account.userInformation.Lastname }}</h2>
-        <h2 *ngIf="account.userInformation.PhoneNumber == '' ">{{'unknownUser' | translate}}</h2>
-          <p *ngIf="account.userInformation.PhoneNumber != '' " dir="ltr" text-right style="color: #1ab394 !important;">{{account.userInformation.PhoneNumber}}</p>
-          <p *ngIf="account.userInformation.PhoneNumber == '' " dir="ltr" text-right style="color: #1ab394 !important;">*******</p>
-      </ion-item>
+
       <ion-item *ngFor="let p of pages; let i = index" (click)="openPage(p)" menuClose>
         <ion-thumbnail item-start>
           <ion-icon name="{{p.icon}}" icon-start></ion-icon>

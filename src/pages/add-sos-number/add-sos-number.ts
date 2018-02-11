@@ -37,7 +37,7 @@ export class AddSosNumberPage {
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              public statusBar: StatusBar,
+              private statusBar: StatusBar,
               public storage: Storage,
               public platform: Platform,
               public config: ConfigProvider,
@@ -73,12 +73,15 @@ export class AddSosNumberPage {
       .then((res) => {
       if (res == 'not_added') {
         debugger;
-        this.statusBar.backgroundColorByHexString('#4f6c84');
+        this.statusBar.backgroundColorByHexString('#ed5565');
         let toast = this.toastCtrl.create({
           message: this.not_added,
           duration: 3000,
-          position: 'top'
+          position: 'top',
+          cssClass: 'warning_toast'
+
         });
+        loader.dismiss();
         toast.present();
         toast.onDidDismiss(() => {
           this.statusBar.backgroundColorByHexString('#253746');
@@ -86,12 +89,15 @@ export class AddSosNumberPage {
       }
       else if (res == 'add_Connection_error') {
         debugger;
-        this.statusBar.backgroundColorByHexString('#4f6c84');
+        console.log('omak mama')
+        this.statusBar.backgroundColorByHexString('#ed5565');
         let toast = this.toastCtrl.create({
           message: this.add_Connection_error,
           duration: 3000,
-          position: 'top'
+          position: 'top',
+          cssClass: 'warning_toast'
         });
+        loader.dismiss();
         toast.present();
         toast.onDidDismiss(() => {
           this.statusBar.backgroundColorByHexString('#253746');
@@ -110,52 +116,19 @@ export class AddSosNumberPage {
       }
     })
       .catch((err) => {
-      this.statusBar.backgroundColorByHexString('#4f6c84');
+      this.statusBar.backgroundColorByHexString('#ed5565');
       let toast = this.toastCtrl.create({
         message: this.add_Connection_error,
         duration: 3000,
-        position: 'top'
+        position: 'top',
+        cssClass: 'warning_toast'
       });
+      loader.dismiss();
       toast.present();
       toast.onDidDismiss(() => {
         this.statusBar.backgroundColorByHexString('#253746');
       });
     })
-
-
-    /*if (this.phoneNumber) {
-      if(this.config.emergencyNumberList.length > 2){
-        this.statusBar.backgroundColorByHexString('#4f6c84');
-        let toast = this.toastCtrl.create({
-          message: this.insertALlRequired,
-          duration: 3000,
-          position : 'top'
-        });
-        toast.present();
-        toast.onDidDismiss(()=>{
-          this.statusBar.backgroundColorByHexString('#253746');
-        });
-      }else{
-        this.config.emergencyNumberList.push({
-          phone: this.phoneNumber,
-          firstName: this.firstName,
-          latName : this.lastName
-        });
-        this.config.onUpdateEmergencyList();
-      }
-      this.navCtrl.popTo(ProfilePage);
-    }else{
-      this.statusBar.backgroundColorByHexString('#4f6c84');
-      let toast = this.toastCtrl.create({
-        message: this.insertALlRequired,
-        duration: 3000,
-        position : 'top'
-      });
-      toast.present();
-      toast.onDidDismiss(()=>{
-        this.statusBar.backgroundColorByHexString('#253746');
-      });
-    }*/
   }
 
   importFromContact() {
@@ -177,11 +150,12 @@ export class AddSosNumberPage {
         }
         console.log( this.contactInfo);
       }).catch((err) => {
-      this.statusBar.backgroundColorByHexString('#4f6c84');
+      this.statusBar.backgroundColorByHexString('#ed5565');
       let toast = this.toastCtrl.create({
         message: this.err_import,
         duration: 3000,
-        position: 'top'
+        position: 'top',
+        cssClass: 'warning_toast'
       });
       toast.present();
       toast.onDidDismiss(() => {

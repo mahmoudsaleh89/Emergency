@@ -1,6 +1,8 @@
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse,HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Storage} from '@ionic/storage';
+import {timeout} from "rxjs/operator/timeout";
+
 
 /*
   Generated class for the AccountProvider provider.
@@ -246,6 +248,9 @@ export class AccountProvider {
               resolve('not_added');
             }
 
+          },
+          (err) => {
+            resolve('add_Connection_error');
           }
         );
     });

@@ -431,24 +431,28 @@ export class ProfilePage {
       debugger;
 
       if (res == 'no_user') {
-        this.statusBar.backgroundColorByHexString('#4f6c84');
+        this.statusBar.backgroundColorByHexString('#ed5565');
         let toast = this.toastCtrl.create({
           message: 'هذا الرقم تم تسجيله سابقا',
           duration: 3000,
-          position: 'top'
+          position: 'top',
+          cssClass:"warning_toast"
         });
+        loader.dismiss();
         toast.present();
         toast.onDidDismiss(() => {
           this.statusBar.backgroundColorByHexString('#253746');
         });
       }
       else if (res == 'no_user_err') {
-        this.statusBar.backgroundColorByHexString('#4f6c84');
+        this.statusBar.backgroundColorByHexString('#ed5565');
         let toast = this.toastCtrl.create({
           message: this.errServer,
           duration: 2000,
-          position: 'top'
+          position: 'top',
+          cssClass:"warning_toast"
         });
+        loader.dismiss();
         toast.present();
         toast.onDidDismiss(() => {
           this.statusBar.backgroundColorByHexString('#253746');
@@ -566,6 +570,9 @@ export class ProfilePage {
         {
           text: this.ok,
           handler: () => {
+            let loader = this.loadingCtrl.create({
+              content: this.pleaseWait,
+            });
             this.account.onCreateProfileRelatives(contact.Id, contact.FirstName, contact.LastName, contact.PhoneNumber, contact.RelativeDescription, this.account.userInformation.Id, false)
               .then((newList) => {
                 debugger;
@@ -577,6 +584,7 @@ export class ProfilePage {
                   debugger;
                   console.log('add_Connection_error');
                   this.statusBar.backgroundColorByHexString('#ed5565');
+                  loader.dismiss();
                   let toast = this.toastCtrl.create({
                     message: this.not_added,
                     duration: 120000,
@@ -590,6 +598,7 @@ export class ProfilePage {
 
                 } else if (newList == "not_added") {
                   debugger;
+
                   console.log('not_added');
                   this.statusBar.backgroundColorByHexString('#ed5565');
                   let toast = this.toastCtrl.create({
@@ -598,6 +607,7 @@ export class ProfilePage {
                     position: 'top',
                     cssClass: 'warning_toast'
                   });
+                  loader.dismiss();
                   toast.present();
                   toast.onDidDismiss(() => {
                     this.statusBar.backgroundColorByHexString('#253746');
@@ -612,6 +622,7 @@ export class ProfilePage {
                     duration: 3000,
                     position: 'top',
                   });
+                  loader.dismiss();
                   toast.present();
                   toast.onDidDismiss(() => {
                     this.statusBar.backgroundColorByHexString('#253746');

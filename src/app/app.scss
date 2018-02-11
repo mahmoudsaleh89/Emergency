@@ -38,6 +38,23 @@
 .myMenu p {
   color: #a7b1c2 !important;
 }
+ion-list.myMenu.list.list-md {
+  padding-top: 90px;
+}
+.myheader h2{
+  color: #ffffff;
+  font-size: 21px;
+}
+#profile_info .item-inner{
+  border-bottom: 0px solid transparent !important;
+}
+
+
+ion-item.myheader.item.item-block.item-md {
+  position: fixed;
+  top: 0;
+  z-index: 2;
+}
 .myMenu.list-md .item-block .item-inner {
   border-bottom: 1px solid #2f404e !important;
 }
