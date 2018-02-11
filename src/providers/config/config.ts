@@ -7,12 +7,11 @@ import {Storage} from '@ionic/storage';
 export class ConfigProvider {
   language = 'ar';
   side = 'right';
-  emergencyNumberList = [];
   numberObject = {};
   notifications = [];
   fabsOptions = [];
   ratingQuestions: any;
-
+  emergencyNumberList=[];
   constructor(public http: HttpClient,
               private storage: Storage) {
     console.log('Hello ConfigProvider Provider');
@@ -46,24 +45,6 @@ export class ConfigProvider {
     this.storage.set('emList', this.emergencyNumberList);
   }
 
-  onDeleteEmergencyNumber(index) {
-    console.log('call index delete', index);
-    return new Promise(resolve => {
-      this.storage.get('emList')
-        .then((res) => {
-          if (res) {
-
-            this.emergencyNumberList = res;
-            this.emergencyNumberList.splice(index, 1);
-            this.storage.set('emList', this.emergencyNumberList);
-            resolve(this.emergencyNumberList);
-          }
-        })
-        .catch((err) => {
-        })
-    });
-
-  }
 
 
   onViewEmergencyNumber(index) {

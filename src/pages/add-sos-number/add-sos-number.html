@@ -21,19 +21,20 @@
    <ion-list-header>
      {{"contact_info" | translate}}
    </ion-list-header>
+
       <ion-item>
         <ion-label stacked>{{"phone" | translate}} <span class="validate_note">* {{"field_required"| translate}}</span></ion-label>
-        <ion-input required name="contactPhoneNumber" type="number" [ngModel]="+contactInfo.phoneNumber"></ion-input>
+        <ion-input required name="contactPhoneNumber" type="number" [ngModel]="+contactInfo.PhoneNumber"></ion-input>
       </ion-item>
 
       <ion-item>
       <ion-label stacked>{{"first_name" | translate}} <span class="validate_note" >* {{"field_required"| translate}}</span></ion-label>
-      <ion-input required name="contactFirstName"  type="text" [ngModel]="contactInfo.firstName"></ion-input>
+      <ion-input required name="contactFirstName"  type="text" [ngModel]="contactInfo.FirstName"></ion-input>
     </ion-item>
 
       <ion-item>
       <ion-label stacked>{{"last_name" | translate}} <span class="validate_note" >* {{"field_required"| translate}}</span></ion-label>
-      <ion-input required name="contactLastName" type="text" [ngModel]="contactInfo.lastName"></ion-input>
+      <ion-input required name="contactLastName" type="text" [ngModel]="contactInfo.LastName"></ion-input>
     </ion-item>
       <ion-item>
       <ion-label>{{"relative" | translate}} <span class="validate_note">* {{"field_required"| translate}}</span></ion-label>

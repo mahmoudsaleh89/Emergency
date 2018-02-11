@@ -2,7 +2,7 @@
 
   <ion-navbar color="dark">
     <ion-buttons end>
-      <button ion-button icon-only (click)="onAddNewContact()">
+      <button [disabled]="!have_account" ion-button icon-only (click)="onAddNewContact()">
         <ion-icon name="person-add"></ion-icon>
       </button>
     </ion-buttons>
@@ -56,25 +56,25 @@
       </ion-list-header>
       <ion-item-sliding *ngFor="let num of emergencyNumberList; let i = index">
         <ion-item>
-          <h2>{{num.firstName}} {{num.latName}}</h2>
-          <p>{{num.phone}}</p>
+          <h2>{{num.FirstName}} {{num.LastName}}</h2>
+          <p>{{num.PhoneNumber}}</p>
         </ion-item>
         <ion-item-options side="left" *ngIf="!platform.isRTL">
-          <button type="button" ion-button color="danger" (click)="config.onDeleteEmergencyNumber(i)">
+          <button type="button" ion-button color="danger" (click)="onDeleteNumber(num)">
             <ion-icon name="trash"></ion-icon>
             {{'remove' | translate}}
           </button>
-          <button type="button" ion-button color="primary" (click)="onViewNumber(i)">
+          <button type="button" ion-button color="primary" (click)="onViewNumber(num)">
             <ion-icon name="create"></ion-icon>
             {{'edit' | translate}}
           </button>
         </ion-item-options>
         <ion-item-options side="right" *ngIf="platform.isRTL">
-          <button type="button" ion-button color="danger" (click)="onDeleteNumber(i)">
+          <button type="button" ion-button color="danger" (click)="onDeleteNumber(num)">
             <ion-icon name="trash"></ion-icon>
             {{'remove' | translate}}
           </button>
-          <button type="button" ion-button  color="primary" (click)="onViewNumber(i)">
+          <button type="button" ion-button  color="primary" (click)="onViewNumber(num)">
             <ion-icon name="create"></ion-icon>
             {{'edit' | translate}}
           </button>
@@ -86,7 +86,10 @@
         {{"emergency_number" | translate}}
       </ion-list-header>
       <div class="note-emergency">
-        <p>
+        <p class="add_time" *ngIf="!have_account">
+          {{"emergency_add_time" | translate}}
+        </p>
+        <p *ngIf="have_account">
           {{"emergency_note" | translate}}
         </p>
       </div>

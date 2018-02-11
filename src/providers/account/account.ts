@@ -1,5 +1,6 @@
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Injectable} from '@angular/core';
+import {Storage} from '@ionic/storage';
 
 /*
   Generated class for the AccountProvider provider.
@@ -37,9 +38,9 @@ export class AccountProvider {
       }
     ]
   };
+  emergencyNumberList = [];
 
-
-  constructor(public http: HttpClient) {
+  constructor(public http: HttpClient, private storage: Storage) {
     console.log('Hello AccountProvider Provider');
   }
 
@@ -162,7 +163,7 @@ export class AccountProvider {
                 };
                 resolve('no_user');
               }
-            }else{
+            } else {
               resolve('no_user');
             }
           },
@@ -175,5 +176,104 @@ export class AccountProvider {
     });
 
   }
+
+  onCreateProfileRelatives(id, firstName, lastName, phonenumber, relativeDescription, mobileUserProfileId, active) {
+    debugger;
+    let body = {
+      Id: id,
+      FirstName: firstName,
+      LastName: lastName,
+      PhoneNumber: phonenumber,
+      RelativeDescription: relativeDescription,
+      MobileUserProfileId: mobileUserProfileId,
+      Active: active
+    };
+
+    return new Promise(resolve => {
+      this.http.post(this.linkAPI + '/CreateProfileRelatives', body)
+        .subscribe(
+          res => {
+            debugger;
+            if (res) {
+              debugger;
+              console.log(this.emergencyNumberList, 'this is update Em list');
+              let response: any = res;
+              let added = false;
+              /*this is add/ edit relative from list */
+              if (response.Active == true && (response.Id != null || response.Id != "")) {
+                for (var i = 0; i < this.emergencyNumberList.length; i++) {
+                  if (this.emergencyNumberList[i].Id == response.Id) {
+                    debugger;
+                    added = true;
+                    this.emergencyNumberList.splice(i, 1);
+                    this.emergencyNumberList.push(response);
+                    this.storage.set('emList', this.emergencyNumberList);
+                    console.log(this.emergencyNumberList, 'this is update relative from list');
+                    resolve(this.emergencyNumberList);
+                  }
+                }
+                if (!added) {
+                  debugger;
+                  this.emergencyNumberList.push(response);
+                  this.storage.set('emList', this.emergencyNumberList);
+                  console.log(this.emergencyNumberList, 'this is new relative from list');
+                  resolve(this.emergencyNumberList);
+                }
+                /*this is delete relative from list */
+              }
+              else if (response.Active == false) {
+                this.storage.get('emList')
+                  .then((res) => {
+                    debugger;
+                    if (res) {
+                      this.emergencyNumberList = res;
+                      for (var i = 0; i < this.emergencyNumberList.length; i++) {
+                        if (this.emergencyNumberList[i].Id == response.Id) {
+                          this.emergencyNumberList.splice(i, 1);
+                        }
+                      }
+                      this.storage.set('emList', this.emergencyNumberList);
+                      console.log(this.emergencyNumberList, 'this is delete relative from list');
+                      console.log('ana Hona');
+                      debugger;
+                      resolve(this.emergencyNumberList);
+                    }
+                  })
+              }
+            } else {
+              debugger;
+              console.log(res);
+              resolve('not_added');
+            }
+
+          }
+        );
+    });
+
+  }
+
+  onGetEmergencyList() {
+    debugger;
+    return new Promise(resolve => {
+      this.storage.get('emList')
+        .then((res) => {
+          if (res) {
+            this.emergencyNumberList = res;
+            this.storage.set('emList', this.emergencyNumberList);
+            resolve(res);
+          } else {
+            this.emergencyNumberList = [];
+            resolve(this.emergencyNumberList);
+          }
+        })
+        .catch((err) => {
+          this.emergencyNumberList = [];
+          resolve(this.emergencyNumberList);
+        })
+
+    });
+
+  }
+
 
 }
