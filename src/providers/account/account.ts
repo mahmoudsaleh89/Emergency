@@ -1,4 +1,4 @@
-import {HttpClient, HttpErrorResponse,HttpParams} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Storage} from '@ionic/storage';
 import {timeout} from "rxjs/operator/timeout";
@@ -106,11 +106,11 @@ export class AccountProvider {
     });
   }
 
-  onCreateProfile(imageUrl, firstNam, LastName, gender, phoneNumber, birthday, lang, password) {
+  onCreateProfile(imageUrl, firstName, lastName, gender, phoneNumber, birthday, lang, password) {
     debugger;
     let body = {
-      FirstName: firstNam,
-      Lastname: LastName,
+      FirstName: firstName,
+      Lastname: lastName,
       PhoneNumber: phoneNumber,
       Gender: gender,
       Birthday: birthday,
@@ -192,7 +192,7 @@ export class AccountProvider {
     };
 
     return new Promise(resolve => {
-      this.http.post(this.linkAPI + '/CreateProfileRelatives', body)
+      this.http.post(this.linkAPI + '/SaveProfileRelatives', body)
         .subscribe(
           res => {
             debugger;
@@ -256,6 +256,82 @@ export class AccountProvider {
     });
 
   }
+
+  onEditProfile(id, imageUrl, firstName, lastName, gender, phoneNumber, birthday, lang, password) {
+    debugger;
+    let body = {
+      Id: id,
+      FirstName: firstName,
+      Lastname: lastName,
+      PhoneNumber: phoneNumber,
+      Gender: gender,
+      Birthday: birthday,
+      Language: lang,
+      Password: password,
+      ImageUrl: imageUrl
+    };
+    return new Promise(resolve => {
+      this.http.post(this.linkAPI + 'EditProfile', body)
+        .subscribe(
+          res => {
+            debugger;
+            if (res != null) {
+              let data: any = res;
+              if (data.Id != "" || data.Id != null || data.Id != "undefined") {
+                debugger;
+                console.log(data);
+                let response: any = data;
+                this.userInformation = response;
+                resolve(this.userInformation);
+              } else {
+                debugger;
+                console.log(data);
+                this.userInformation = {
+                  Id: "",
+                  FirstName: "",
+                  Lastname: "",
+                  PhoneNumber: "",
+                  ImageUrl: "",
+                  Gender: "",
+                  Birthday: "",
+                  Language: "",
+                  Password: "",
+                  Relatives: [
+                    {
+                      Id: "",
+                      Name: "",
+                      PhoneNumber: "",
+                      RelativeDescription: "",
+                      MobileUserProfileId: ""
+                    },
+                    {
+                      Id: "",
+                      Name: "",
+                      PhoneNumber: "",
+                      RelativeDescription: "",
+                      MobileUserProfileId: ""
+                    }
+                  ]
+                };
+                resolve('no_user');
+              }
+            } else {
+              resolve('no_user');
+            }
+          },
+          err => {
+            debugger;
+            resolve('no_user_err');
+            console.log('Error occured', err);
+          }
+        );
+    });
+
+
+
+
+  }
+
 
   onGetEmergencyList() {
     debugger;

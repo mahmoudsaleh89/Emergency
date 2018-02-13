@@ -76,7 +76,8 @@
         </ion-select>
       </ion-item>
     </ion-list>
-    <ion-list *ngIf="emergencyNumberList.length > 0 ">
+
+    <ion-list style="border-bottom: 1px solid #dfdfdf;" *ngIf="emergencyNumberList.length > 0 ">
       <ion-list-header>
         {{"emergency_number" | translate}}
       </ion-list-header>
@@ -107,7 +108,7 @@
         </ion-item-options>
       </ion-item-sliding>
     </ion-list>
-    <ion-list *ngIf="emergencyNumberList.length == 0 ">
+    <ion-list style="border-bottom: 1px solid #dfdfdf;" *ngIf="emergencyNumberList.length == 0 ">
       <ion-list-header>
         {{"emergency_number" | translate}}
       </ion-list-header>
@@ -121,7 +122,7 @@
       </div>
     </ion-list>
     <div text-center>
-      <button *ngIf="have_account" type="submit" [disabled]="!f.valid" ion-button color="primary" [outline]="!f.valid"> {{"update" | translate}}</button>
+      <button *ngIf="have_account" type="button" [disabled]="!f.valid" ion-button color="primary" [outline]="!f.valid" (click)="updateUser(f)"> {{"update" | translate}}</button>
 
       <button *ngIf="!have_account" type="submit" [disabled]="!f.valid" ion-button color="primary" [outline]="!f.valid"> {{"save" | translate}}</button>
       <p *ngIf="!f.valid" text-center class="guideline_class">

@@ -555,6 +555,79 @@ export class ProfilePage {
 
   }
 
+  updateUser(form: NgForm) {
+debugger;
+    console.log(form.value);
+    let loader = this.loadingCtrl.create({
+      content: this.pleaseWait,
+    });
+    loader.present();
+
+
+    this.account.onEditProfile(this.account.userInformation.Id,this.imgURL, form.value.firstName, form.value.lastName, form.value.gender, form.value.phoneNumber, form.value.birthday, form.value.language,this.account.userInformation.Password).then((res) => {
+      debugger;
+
+      if (res == 'no_user') {
+        this.statusBar.backgroundColorByHexString('#ed5565');
+        let toast = this.toastCtrl.create({
+          message: 'نعتذر حصل خطأ اثناء تحديث البيانات',
+          duration: 3000,
+          position: 'top',
+          cssClass:"warning_toast"
+        });
+        loader.dismiss();
+        toast.present();
+        toast.onDidDismiss(() => {
+          this.statusBar.backgroundColorByHexString('#253746');
+        });
+      }
+      else if (res == 'no_user_err') {
+        this.statusBar.backgroundColorByHexString('#ed5565');
+        let toast = this.toastCtrl.create({
+          message: this.errServer,
+          duration: 2000,
+          position: 'top',
+          cssClass:"warning_toast"
+        });
+        loader.dismiss();
+        toast.present();
+        toast.onDidDismiss(() => {
+          this.statusBar.backgroundColorByHexString('#253746');
+        });
+
+      }
+      else if (res) {
+        this.myProfile = res;
+        this.account.userInformation = this.myProfile;
+        this.storage.set('user', this.account.userInformation);
+        this.statusBar.backgroundColorByHexString('#4f6c84');
+        loader.dismiss();
+        let toast = this.toastCtrl.create({
+          message: this.saveSuccess,
+          duration: 2000,
+          position: 'top'
+        });
+        this.storage.set('have_account', true);
+        toast.present();
+        toast.onDidDismiss(() => {
+          this.statusBar.backgroundColorByHexString('#253746');
+          this.navCtrl.popTo(HomePage);
+        });
+      }
+    }).catch((err) => {
+      let toast = this.toastCtrl.create({
+        message: 'حصل خطأ اثناء التسجيل يرجى المحاولة لاحقا ',
+        duration: 3000,
+        position: 'top'
+      });
+      toast.present();
+      toast.onDidDismiss(() => {
+        this.statusBar.backgroundColorByHexString('#253746');
+      });
+    });
+  }
+
+
   onDeleteNumber(contact) {
     debugger;
     let confirm = this.alertCtrl.create({
