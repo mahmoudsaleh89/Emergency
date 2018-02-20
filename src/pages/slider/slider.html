@@ -1,0 +1,24 @@
+<!--<ion-header text-end class="skip_header" *ngIf="!hide">
+  <button  ion-button outline clear (click)="goToSelectLang()">Skip</button>
+</ion-header>-->
+<ion-slides pager>
+  <ion-slide class="lang_slider">
+    <div class="select_lang">
+      <h2 style="color:#44230f">Select Language</h2>
+      <ion-row text-center>
+        <ion-col>
+          <button ion-button round color="m-dark-blue" (click)="onSetLang('english')">English</button>
+        </ion-col>
+      </ion-row>
+
+      <ion-row text-center>
+        <ion-col>
+          <button ion-button color="m-brown" round (click)="onSetLang('arabic')">العربية</button>
+        </ion-col>
+      </ion-row>
+    </div>
+  </ion-slide>
+  <ion-slide class="Login_slider">
+    hello Login
+  </ion-slide>
+</ion-slides>

@@ -18,13 +18,14 @@ import {ProfilePage} from "../pages/profile/profile";
 import {AccountProvider} from "../providers/account/account";
 import {AddClaimPage} from "../pages/add-claim/add-claim";
 import {FCM} from "@ionic-native/fcm";
+import {SliderPage} from "../pages/slider/slider";
 
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
-  rootPage: any = HomePage;
+  rootPage: any;
   userNavInfo: any;
   pages: Array<{ title: string, component: any, icon: any, desc: any }>;
 
@@ -57,182 +58,378 @@ export class MyApp {
     this.platform.ready().then(() => {
       this.splashScreen.hide();
       this.statusBar.backgroundColorByHexString('#253746');
+      this.storage.get('first_run')
+        .then((res) => {
+        debugger;
+          console.log('homeComp', res);
+          if (res == true || res == null || res == 'undefind') {
+            this.storage.set('first_run', false);
+            this.nav.setRoot(SliderPage);
+          }else {
+            this.storage.set('first_run', false);
+            this.storage.get('user')
+              .then((userInfo) => {
+                console.log(userInfo.length);
+                debugger;
+                if (userInfo.Id != "") {
+                  this.userNavInfo = userInfo;
+                  this.account.userInformation = userInfo;
+                  this.storage.set('user', this.account.userInformation);
+                } else {
+                  debugger
+                  this.storage.get('lang')
+                    .then((lanRes) => {
+                      if (lanRes == 'english') {
 
-      this.storage.get('user')
-        .then((userInfo) => {
-          console.log(userInfo.length);
-          debugger;
-          if (userInfo.Id != "") {
-            this.userNavInfo = userInfo;
-            this.account.userInformation = userInfo;
-            this.storage.set('user', this.account.userInformation);
-          } else {
-            debugger
-            this.storage.get('lang')
-              .then((lanRes) => {
-                if (lanRes == 'english') {
-
-                  this.userNavInfo = {
-                    Id: "",
-                    FirstName: "Guest",
-                    Lastname: "user",
-                    PhoneNumber: "",
-                    ImageUrl: "assets/imgs/user.png",
-                    Gender: "",
-                    Birthday: "",
-                    Language: "",
-                    Password: "",
-                    Relatives: [
-                      {
-                        Id: "",
-                        Name: "",
-                        PhoneNumber: "",
-                        RelativeDescription: "",
-                        MobileUserProfileId: ""
-                      },
-                      {
-                        Id: "",
-                        Name: "",
-                        PhoneNumber: "",
-                        RelativeDescription: "",
-                        MobileUserProfileId: ""
+                        this.userNavInfo = {
+                          Id: "",
+                          FirstName: "Guest",
+                          Lastname: "user",
+                          PhoneNumber: "",
+                          ImageUrl: "assets/imgs/user.png",
+                          Gender: "",
+                          Birthday: "",
+                          Language: "",
+                          Password: "",
+                          Relatives: [
+                            {
+                              Id: "",
+                              Name: "",
+                              PhoneNumber: "",
+                              RelativeDescription: "",
+                              MobileUserProfileId: ""
+                            },
+                            {
+                              Id: "",
+                              Name: "",
+                              PhoneNumber: "",
+                              RelativeDescription: "",
+                              MobileUserProfileId: ""
+                            }
+                          ]
+                        };
+                        this.storage.set('user', this.userNavInfo);
                       }
-                    ]
-                  };
-                  this.storage.set('user', this.userNavInfo);
+                      else {
+                        debugger
+                        this.userNavInfo = {
+                          Id: "",
+                          FirstName: "مستخدم",
+                          Lastname: "غير معرف",
+                          PhoneNumber: "",
+                          ImageUrl: "assets/imgs/user.png",
+                          Gender: "",
+                          Birthday: "",
+                          Language: "",
+                          Password: "",
+                          Relatives: [
+                            {
+                              Id: "",
+                              Name: "",
+                              PhoneNumber: "",
+                              RelativeDescription: "",
+                              MobileUserProfileId: ""
+                            },
+                            {
+                              Id: "",
+                              Name: "",
+                              PhoneNumber: "",
+                              RelativeDescription: "",
+                              MobileUserProfileId: ""
+                            }
+                          ]
+                        };
+                        this.storage.set('user', this.userNavInfo);
+                      }
+
+                    });
+                }
+
+              })
+              .catch(() => {
+                this.storage.get('lang')
+                  .then((lanRes) => {
+                    if (lanRes == 'english') {
+                      this.userNavInfo = {
+                        Id: "",
+                        FirstName: "Guest",
+                        Lastname: "user",
+                        PhoneNumber: "",
+                        ImageUrl: "assets/imgs/user.png",
+                        Gender: "",
+                        Birthday: "",
+                        Language: "",
+                        Password: "",
+                        Relatives: [
+                          {
+                            Id: "",
+                            Name: "",
+                            PhoneNumber: "",
+                            RelativeDescription: "",
+                            MobileUserProfileId: ""
+                          },
+                          {
+                            Id: "",
+                            Name: "",
+                            PhoneNumber: "",
+                            RelativeDescription: "",
+                            MobileUserProfileId: ""
+                          }
+                        ]
+                      };
+                      this.account.userInformation = this.userNavInfo;
+                      this.storage.set('user', this.account.userInformation);
+                    }
+                    else {
+                      debugger
+                      this.userNavInfo = {
+                        Id: "",
+                        FirstName: "مستخدم",
+                        Lastname: "غير معرف",
+                        PhoneNumber: "",
+                        ImageUrl: "assets/imgs/user.png",
+                        Gender: "",
+                        Birthday: "",
+                        Language: "",
+                        Password: "",
+                        Relatives: [
+                          {
+                            Id: "",
+                            Name: "",
+                            PhoneNumber: "",
+                            RelativeDescription: "",
+                            MobileUserProfileId: ""
+                          },
+                          {
+                            Id: "",
+                            Name: "",
+                            PhoneNumber: "",
+                            RelativeDescription: "",
+                            MobileUserProfileId: ""
+                          }
+                        ]
+                      };
+                      this.account.userInformation = this.userNavInfo;
+                      this.storage.set('user', this.account.userInformation);
+                    }
+
+                  });
+              });
+            /*Start set lang and Dir*/
+            this.storage.get('lang')
+              .then((language) => {
+                if (language == 'english') {
+
+                  this.config.language = 'en';
+                  this.config.side = "left";
+                  this.translate.setDefaultLang('en');
+                  this.platform.setDir('ltr', true);
+                  this.platform.setLang('en', true);
+                  this.nav.setRoot(HomePage);
                 }
                 else {
-                  debugger
-                  this.userNavInfo = {
-                    Id: "",
-                    FirstName: "مستخدم",
-                    Lastname: "غير معرف",
-                    PhoneNumber: "",
-                    ImageUrl: "assets/imgs/user.png",
-                    Gender: "",
-                    Birthday: "",
-                    Language: "",
-                    Password: "",
-                    Relatives: [
-                      {
-                        Id: "",
-                        Name: "",
-                        PhoneNumber: "",
-                        RelativeDescription: "",
-                        MobileUserProfileId: ""
-                      },
-                      {
-                        Id: "",
-                        Name: "",
-                        PhoneNumber: "",
-                        RelativeDescription: "",
-                        MobileUserProfileId: ""
-                      }
-                    ]
-                  };
-                  this.storage.set('user', this.userNavInfo);
+                  this.storage.set('lang', 'arabic');
+                  this.config.language = 'ar';
+                  this.config.side = "right";
+                  this.translate.setDefaultLang('ar');
+                  this.platform.setDir('rtl', true);
+                  this.platform.setLang('ar', true);
+                  this.nav.setRoot(HomePage);
                 }
 
+              })
+              .catch((error) => {
+                this.storage.set('lang', 'arabic');
+                this.config.language = 'ar';
+                this.config.side = "right";
+                this.translate.setDefaultLang('ar');
+                this.platform.setDir('rtl', true);
+                this.platform.setLang('ar', true);
+                this.nav.setRoot(HomePage);
               });
           }
-
         })
-        .catch(() => {
-          this.storage.get('lang')
-            .then((lanRes) => {
-              if (lanRes == 'english') {
-                this.userNavInfo = {
-                  Id: "",
-                  FirstName: "Guest",
-                  Lastname: "user",
-                  PhoneNumber: "",
-                  ImageUrl: "assets/imgs/user.png",
-                  Gender: "",
-                  Birthday: "",
-                  Language: "",
-                  Password: "",
-                  Relatives: [
-                    {
-                      Id: "",
-                      Name: "",
-                      PhoneNumber: "",
-                      RelativeDescription: "",
-                      MobileUserProfileId: ""
-                    },
-                    {
-                      Id: "",
-                      Name: "",
-                      PhoneNumber: "",
-                      RelativeDescription: "",
-                      MobileUserProfileId: ""
-                    }
-                  ]
-                };
-                this.account.userInformation = this.userNavInfo;
+        .catch((err)=>{
+          this.storage.set('first_run', false);
+          this.storage.get('user')
+            .then((userInfo) => {
+              console.log(userInfo.length);
+              debugger;
+              if (userInfo.Id != "") {
+                this.userNavInfo = userInfo;
+                this.account.userInformation = userInfo;
                 this.storage.set('user', this.account.userInformation);
-              }
-              else {
+              } else {
                 debugger
-                this.userNavInfo = {
-                  Id: "",
-                  FirstName: "مستخدم",
-                  Lastname: "غير معرف",
-                  PhoneNumber: "",
-                  ImageUrl: "assets/imgs/user.png",
-                  Gender: "",
-                  Birthday: "",
-                  Language: "",
-                  Password: "",
-                  Relatives: [
-                    {
-                      Id: "",
-                      Name: "",
-                      PhoneNumber: "",
-                      RelativeDescription: "",
-                      MobileUserProfileId: ""
-                    },
-                    {
-                      Id: "",
-                      Name: "",
-                      PhoneNumber: "",
-                      RelativeDescription: "",
-                      MobileUserProfileId: ""
+                this.storage.get('lang')
+                  .then((lanRes) => {
+                    if (lanRes == 'english') {
+
+                      this.userNavInfo = {
+                        Id: "",
+                        FirstName: "Guest",
+                        Lastname: "user",
+                        PhoneNumber: "",
+                        ImageUrl: "assets/imgs/user.png",
+                        Gender: "",
+                        Birthday: "",
+                        Language: "",
+                        Password: "",
+                        Relatives: [
+                          {
+                            Id: "",
+                            Name: "",
+                            PhoneNumber: "",
+                            RelativeDescription: "",
+                            MobileUserProfileId: ""
+                          },
+                          {
+                            Id: "",
+                            Name: "",
+                            PhoneNumber: "",
+                            RelativeDescription: "",
+                            MobileUserProfileId: ""
+                          }
+                        ]
+                      };
+                      this.storage.set('user', this.userNavInfo);
+                      this.nav.setRoot(HomePage);
                     }
-                  ]
-                };
-                this.account.userInformation = this.userNavInfo;
-                this.storage.set('user', this.account.userInformation);
+                    else {
+                      debugger
+                      this.userNavInfo = {
+                        Id: "",
+                        FirstName: "مستخدم",
+                        Lastname: "غير معرف",
+                        PhoneNumber: "",
+                        ImageUrl: "assets/imgs/user.png",
+                        Gender: "",
+                        Birthday: "",
+                        Language: "",
+                        Password: "",
+                        Relatives: [
+                          {
+                            Id: "",
+                            Name: "",
+                            PhoneNumber: "",
+                            RelativeDescription: "",
+                            MobileUserProfileId: ""
+                          },
+                          {
+                            Id: "",
+                            Name: "",
+                            PhoneNumber: "",
+                            RelativeDescription: "",
+                            MobileUserProfileId: ""
+                          }
+                        ]
+                      };
+                      this.storage.set('user', this.userNavInfo);
+                      this.nav.setRoot(HomePage);
+                    }
+
+                  });
               }
 
+            })
+            .catch(() => {
+              this.storage.get('lang')
+                .then((lanRes) => {
+                  if (lanRes == 'english') {
+                    this.userNavInfo = {
+                      Id: "",
+                      FirstName: "Guest",
+                      Lastname: "user",
+                      PhoneNumber: "",
+                      ImageUrl: "assets/imgs/user.png",
+                      Gender: "",
+                      Birthday: "",
+                      Language: "",
+                      Password: "",
+                      Relatives: [
+                        {
+                          Id: "",
+                          Name: "",
+                          PhoneNumber: "",
+                          RelativeDescription: "",
+                          MobileUserProfileId: ""
+                        },
+                        {
+                          Id: "",
+                          Name: "",
+                          PhoneNumber: "",
+                          RelativeDescription: "",
+                          MobileUserProfileId: ""
+                        }
+                      ]
+                    };
+                    this.account.userInformation = this.userNavInfo;
+                    this.storage.set('user', this.account.userInformation);
+                  }
+                  else {
+                    debugger
+                    this.userNavInfo = {
+                      Id: "",
+                      FirstName: "مستخدم",
+                      Lastname: "غير معرف",
+                      PhoneNumber: "",
+                      ImageUrl: "assets/imgs/user.png",
+                      Gender: "",
+                      Birthday: "",
+                      Language: "",
+                      Password: "",
+                      Relatives: [
+                        {
+                          Id: "",
+                          Name: "",
+                          PhoneNumber: "",
+                          RelativeDescription: "",
+                          MobileUserProfileId: ""
+                        },
+                        {
+                          Id: "",
+                          Name: "",
+                          PhoneNumber: "",
+                          RelativeDescription: "",
+                          MobileUserProfileId: ""
+                        }
+                      ]
+                    };
+                    this.account.userInformation = this.userNavInfo;
+                    this.storage.set('user', this.account.userInformation);
+                  }
+
+                });
             });
-        });
-      /*Start set lang and Dir*/
-      this.storage.get('lang')
-        .then((language) => {
-          if (language == 'english') {
+          /*Start set lang and Dir*/
+          this.storage.get('lang')
+            .then((language) => {
+              if (language == 'english') {
 
-            this.config.language = 'en';
-            this.config.side = "left";
-            this.translate.setDefaultLang('en');
-            this.platform.setDir('ltr', true);
-            this.platform.setLang('en', true);
-          } else {
+                this.config.language = 'en';
+                this.config.side = "left";
+                this.translate.setDefaultLang('en');
+                this.platform.setDir('ltr', true);
+                this.platform.setLang('en', true);
+              } else {
 
-            this.storage.set('lang', 'arabic');
-            this.config.language = 'ar';
-            this.config.side = "right";
-            this.translate.setDefaultLang('ar');
-            this.platform.setDir('rtl', true);
-            this.platform.setLang('ar', true);
-          }
-        })
-        .catch((error) => {
-          this.storage.set('lang', 'arabic');
-          this.config.language = 'ar';
-          this.config.side = "right";
-          this.translate.setDefaultLang('ar');
-          this.platform.setDir('rtl', true);
-          this.platform.setLang('ar', true);
+                this.storage.set('lang', 'arabic');
+                this.config.language = 'ar';
+                this.config.side = "right";
+                this.translate.setDefaultLang('ar');
+                this.platform.setDir('rtl', true);
+                this.platform.setLang('ar', true);
+              }
+            })
+            .catch((error) => {
+              this.storage.set('lang', 'arabic');
+              this.config.language = 'ar';
+              this.config.side = "right";
+              this.translate.setDefaultLang('ar');
+              this.platform.setDir('rtl', true);
+              this.platform.setLang('ar', true);
+            });
+
         });
       this.fcm.onNotification().subscribe(data => {
         if (data.wasTapped) {
