@@ -167,7 +167,7 @@ export class AddSosNumberPage {
 
   setLangAndDirction() {
     this.storage.get('lang').then((result) => {
-      if (result == 'ar') {
+      if (result == 'arabic') {
         this.okay = "موافق";
         this.dismiss = "الغاء";
         this.insertALlRequired = " الرجاء ادخال جميع الحقول المطلوبة";
@@ -183,7 +183,7 @@ export class AddSosNumberPage {
         this.platform.setLang('ar', true);
         this.config.side = 'right';
       }
-      else if (result == 'en') {
+      else if (result == 'english') {
         this.okay = "ok";
         this.dismiss = "cancel";
         this.insertALlRequired = " please insert all required fields";

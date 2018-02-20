@@ -61,6 +61,7 @@ export class MyApp {
       this.storage.get('user')
         .then((userInfo) => {
           console.log(userInfo.length);
+          debugger;
           if (userInfo.Id != "") {
             this.userNavInfo = userInfo;
             this.account.userInformation = userInfo;
@@ -69,7 +70,7 @@ export class MyApp {
             debugger
             this.storage.get('lang')
               .then((lanRes) => {
-                if (lanRes == 'en') {
+                if (lanRes == 'english') {
 
                   this.userNavInfo = {
                     Id: "",
@@ -139,7 +140,7 @@ export class MyApp {
         .catch(() => {
           this.storage.get('lang')
             .then((lanRes) => {
-              if (lanRes == 'en') {
+              if (lanRes == 'english') {
                 this.userNavInfo = {
                   Id: "",
                   FirstName: "Guest",
@@ -208,7 +209,7 @@ export class MyApp {
       /*Start set lang and Dir*/
       this.storage.get('lang')
         .then((language) => {
-          if (language == 'en') {
+          if (language == 'english') {
 
             this.config.language = 'en';
             this.config.side = "left";
@@ -217,7 +218,7 @@ export class MyApp {
             this.platform.setLang('en', true);
           } else {
 
-            this.storage.set('lang', 'ar');
+            this.storage.set('lang', 'arabic');
             this.config.language = 'ar';
             this.config.side = "right";
             this.translate.setDefaultLang('ar');
@@ -226,7 +227,7 @@ export class MyApp {
           }
         })
         .catch((error) => {
-          this.storage.set('lang', 'ar');
+          this.storage.set('lang', 'arabic');
           this.config.language = 'ar';
           this.config.side = "right";
           this.translate.setDefaultLang('ar');

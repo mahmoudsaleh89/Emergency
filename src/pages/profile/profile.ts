@@ -45,7 +45,33 @@ export class ProfilePage {
   selectImage = "";
   errSelectImage = "";
   add_profile_img = "";
-  myProfile: any;
+  myProfile = {
+    Id: "",
+    FirstName: "Guest",
+    Lastname: "user",
+    PhoneNumber: "",
+    ImageUrl: "assets/imgs/user.png",
+    Gender: "",
+    Birthday: "",
+    Language: "",
+    Password: "",
+    Relatives: [
+      {
+        Id: "",
+        Name: "",
+        PhoneNumber: "",
+        RelativeDescription: "",
+        MobileUserProfileId: ""
+      },
+      {
+        Id: "",
+        Name: "",
+        PhoneNumber: "",
+        RelativeDescription: "",
+        MobileUserProfileId: ""
+      }
+    ]
+  };
   phoneNumber: number;
   insertALlRequired = "";
   genderSelected = "";
@@ -56,9 +82,10 @@ export class ProfilePage {
   pleaseWait = "";
   saveSuccess = "";
   errServer = "";
-  have_account: boolean;
+  have_account: boolean = false;
   not_added = "";
   update = "";
+  isValidFormSubmitted = false;
 
 
   constructor(public navCtrl: NavController,
@@ -78,7 +105,8 @@ export class ProfilePage {
               public loadingCtrl: LoadingController) {
     this.setLangAndDirction();
     this.emergencyNumberList = [];
-    this.myProfile = account.userInformation;
+    this.myProfile = this.account.userInformation;
+
   }
 
   ionViewWillEnter() {
@@ -160,7 +188,8 @@ export class ProfilePage {
               handler: data => {
                 this.account.onGetProfile(data.phone_number, data.password).then((res) => {
                   if (res) {
-                    this.myProfile = res;
+                    let profile : any = res;
+                    this.myProfile = profile;
                     console.log(this.myProfile);
                   } else {
 
@@ -183,9 +212,24 @@ export class ProfilePage {
 
   ionViewDidLoad() {
 
-    if (this.myProfile.Id != "") {
+
+
+    if (this.myProfile.Id != "" || this.myProfile.Id != undefined || this.myProfile.Id != null) {
+      console.log(this.myProfile,"this.myProfile.Id")
+    }
+    else {
+      this.storage.get('user')
+        .then((userInfo) => {
+          console.log(userInfo, "userInfo");
+        })
+        .catch((userErr) => {
+          console.log(userErr);
+        })
+    }
+
+    /*if (this.myProfile.Id != "") {
       debugger;
-      this.phoneNumber = parseInt(this.myProfile.phoneNumber);
+      this.phoneNumber = parseInt(this.myProfile.PhoneNumber);
       this.storage.set('user', this.myProfile);
     } else {
       this.storage.get('user').then((userInfo) => {
@@ -205,7 +249,7 @@ export class ProfilePage {
           this.storage.set('user', this.myProfile);
         }
       });
-    }
+    }*/
 
     console.log('ionViewDidLoad SettingsPage', this.myProfile);
   }
@@ -301,10 +345,10 @@ export class ProfilePage {
     this.camera.getPicture(options).then((imageData) => {
       debugger;
       this.storage.get('lang').then((result) => {
-        if (result == 'ar') {
+        if (result == 'arabic') {
           this.add_profile_img = " تحديث الصورة الشخصية";
         }
-        else if (result == 'en') {
+        else if (result == 'english') {
           this.add_profile_img = "update profile image";
         }
         else {
@@ -350,10 +394,10 @@ export class ProfilePage {
 
 
       this.storage.get('lang').then((result) => {
-        if (result == 'ar') {
+        if (result == 'arabic') {
           this.add_profile_img = " تحديث الصورة الشخصية";
         }
-        else if (result == 'en') {
+        else if (result == 'english') {
           this.add_profile_img = "update profile image";
         }
         else {
@@ -419,7 +463,12 @@ export class ProfilePage {
   }
 
   onSaveProfile(form: NgForm) {
-
+    debugger;
+    this.isValidFormSubmitted = true;
+    if (form.invalid) {
+      this.isValidFormSubmitted = false;
+      return;
+    }
     console.log(form.value);
     let loader = this.loadingCtrl.create({
       content: this.pleaseWait,
@@ -436,7 +485,7 @@ export class ProfilePage {
           message: 'هذا الرقم تم تسجيله سابقا',
           duration: 3000,
           position: 'top',
-          cssClass:"warning_toast"
+          cssClass: "warning_toast"
         });
         loader.dismiss();
         toast.present();
@@ -450,7 +499,7 @@ export class ProfilePage {
           message: this.errServer,
           duration: 2000,
           position: 'top',
-          cssClass:"warning_toast"
+          cssClass: "warning_toast"
         });
         loader.dismiss();
         toast.present();
@@ -460,7 +509,8 @@ export class ProfilePage {
 
       }
       else if (res) {
-        this.myProfile = res;
+        let profile : any = res;
+        this.myProfile = profile;
         this.account.userInformation = this.myProfile;
         this.storage.set('user', this.account.userInformation);
         this.statusBar.backgroundColorByHexString('#4f6c84');
@@ -501,62 +551,17 @@ export class ProfilePage {
       });
     });
 
-    /* if (this.phoneNumber) {
-       debugger;
-       this.myProfile.phoneNumber = this.phoneNumber;
-       /!*this.account.onCreateProfile(first,last,gender,this.phoneNumber,birthday,lang,pass).then((res)=>{
-         if(res){
-           this.myProfile = res;
-           this.account.userInformation = this.myProfile;
-           this.storage.set('user',this.account.userInformation)
-           this.navCtrl.popTo(HomePage);
-         }
-         else{
-           this.statusBar.backgroundColorByHexString('#4f6c84');
-           let toast = this.toastCtrl.create({
-             message: 'هذا الرقم تم تسجيله سابقا',
-             duration: 3000,
-             position: 'top'
-           });
-           toast.present();
-           toast.onDidDismiss(() => {
-             this.statusBar.backgroundColorByHexString('#253746');
-           });
-         }
-       }).catch((err)=>{
-         let toast = this.toastCtrl.create({
-           message: 'حصل خطأ اثناء التسجيل يرجى المحاولة لاحقا ',
-           duration: 3000,
-           position: 'top'
-         });
-         toast.present();
-         toast.onDidDismiss(() => {
-           this.statusBar.backgroundColorByHexString('#253746');
-         });
-       });
-  *!/
-      /!* this.storage.set('user', this.myProfile);
-       this.account.userInformation = this.myProfile;*!/
-       //this.myAPP.initializeApp();
-
-
-     } else {
-       this.statusBar.backgroundColorByHexString('#4f6c84');
-       let toast = this.toastCtrl.create({
-         message: this.insertALlRequired,
-         duration: 3000,
-         position: 'top'
-       });
-       toast.present();
-       toast.onDidDismiss(() => {
-         this.statusBar.backgroundColorByHexString('#253746');
-       });
-     }*/
 
   }
 
   updateUser(form: NgForm) {
-debugger;
+
+    debugger;
+    this.isValidFormSubmitted = true;
+    if (form.invalid) {
+      this.isValidFormSubmitted = false;
+      return;
+    }
     console.log(form.value);
     let loader = this.loadingCtrl.create({
       content: this.pleaseWait,
@@ -564,7 +569,7 @@ debugger;
     loader.present();
 
 
-    this.account.onEditProfile(this.account.userInformation.Id,this.imgURL, form.value.firstName, form.value.lastName, form.value.gender, form.value.phoneNumber, form.value.birthday, form.value.language,this.account.userInformation.Password).then((res) => {
+    this.account.onEditProfile(this.account.userInformation.Id, this.imgURL, form.value.firstName, form.value.lastName, form.value.gender, form.value.phoneNumber, form.value.birthday, form.value.language, this.account.userInformation.Password).then((res) => {
       debugger;
 
       if (res == 'no_user') {
@@ -573,7 +578,7 @@ debugger;
           message: 'نعتذر حصل خطأ اثناء تحديث البيانات',
           duration: 3000,
           position: 'top',
-          cssClass:"warning_toast"
+          cssClass: "warning_toast"
         });
         loader.dismiss();
         toast.present();
@@ -587,7 +592,7 @@ debugger;
           message: this.errServer,
           duration: 2000,
           position: 'top',
-          cssClass:"warning_toast"
+          cssClass: "warning_toast"
         });
         loader.dismiss();
         toast.present();
@@ -597,7 +602,8 @@ debugger;
 
       }
       else if (res) {
-        this.myProfile = res;
+        let Profile:any = res;
+        this.myProfile = Profile;
         this.account.userInformation = this.myProfile;
         this.storage.set('user', this.account.userInformation);
         this.statusBar.backgroundColorByHexString('#4f6c84');
@@ -749,7 +755,7 @@ debugger;
 
   setLangAndDirction() {
     this.storage.get('lang').then((result) => {
-      if (result == 'ar') {
+      if (result == 'arabic') {
         this.setGender = "اختيار الجنس";
         this.male = "ذكر";
         this.fmale = "انثى";
@@ -781,7 +787,7 @@ debugger;
         this.platform.setLang('ar', true);
         this.config.side = 'right';
       }
-      else if (result == 'en') {
+      else if (result == 'english') {
         this.setGender = " Select gender";
         this.male = " Male";
         this.fmale = " Female";

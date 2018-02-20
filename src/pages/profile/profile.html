@@ -21,7 +21,7 @@
 
   </ion-list>
 
-  <form #f="ngForm" (ngSubmit)="onSaveProfile(f)">
+  <form #f="ngForm" (ngSubmit)="onSaveProfile(f)" novalidate>
     <ion-list>
       <ion-list-header>
         {{"personal_info" | translate}}
@@ -30,25 +30,43 @@
         <ion-avatar item-start>
           <img src="assets/imgs/kuwait.svg">
         </ion-avatar>
-        <ion-label stacked>{{"phone" | translate}} <span class="validate_note">* {{"field_required"| translate}}</span>
+        <ion-label stacked>{{"phone" | translate}} <span class="validate_note">*</span>
         </ion-label>
-        <ion-input required [minlength]="7" maxlength="10" type="number" name="phoneNumber" [ngModel]="+this.myProfile.PhoneNumber" placeholder="ex : 2 ??? ????"></ion-input>
+        <ion-input #MyphoneNumber="ngModel" required minlength="7" maxlength="10" type="number" name="phoneNumber" [ngModel]="+myProfile.PhoneNumber" placeholder="ex : 2 ??? ????"></ion-input>
       </ion-item>
+      <div *ngIf="MyphoneNumber.errors && f.submitted && !isValidFormSubmitted" [ngClass] = "'error'">
+        <div *ngIf="MyphoneNumber.errors.minlength">
+          {{'minlength_err' | translate}}
+        </div>
+
+        <div *ngIf="MyphoneNumber.errors.required">
+          {{'required_err' | translate}}
+        </div>
+      </div>
       <ion-item>
         <ion-label stacked>{{"first_name" | translate}}</ion-label>
-        <ion-input type="text" name="firstName" [ngModel]="this.myProfile.FirstName"></ion-input>
+        <ion-input type="text" name="firstName" [ngModel]="myProfile.FirstName"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label stacked>{{"last_name" | translate}}</ion-label>
-        <ion-input type="text" name="lastName" [ngModel]="this.myProfile.Lastname"></ion-input>
+        <ion-input type="text" name="lastName" [ngModel]="myProfile.Lastname"></ion-input>
       </ion-item>
       <ion-item *ngIf="have_account" text-center>
         <button type="button" outline ion-button   (click)="onChangePassword()"> {{"change_password"| translate}}</button>
       </ion-item>
-      <ion-item *ngIf="!have_account">
-        <ion-label stacked disabled="false">{{"password" | translate}} <span  class="validate_note">* {{"field_required"| translate}}</span></ion-label>
-        <ion-input  required [minlength]="6" type="password" [ngModel]="this.myProfile.Password" name="password"></ion-input>
+      <ion-item>
+        <ion-label stacked disabled="false">{{"password" | translate}} <span  class="validate_note">*</span></ion-label>
+        <ion-input #Mypassword="ngModel" required minlength="6" type="password" [ngModel]="myProfile.Password" name="password"></ion-input>
       </ion-item>
+      <div *ngIf="Mypassword.errors && f.submitted && !isValidFormSubmitted" [ngClass] = "'error'">
+        <div *ngIf="Mypassword.errors.minlength">
+          {{'minlength_err' | translate}}
+        </div>
+
+        <div *ngIf="Mypassword.errors.required">
+          {{'required_err' | translate}}
+        </div>
+      </div>
     </ion-list>
 
     <ion-list>
@@ -122,9 +140,9 @@
       </div>
     </ion-list>
     <div text-center>
-      <button *ngIf="have_account" type="button" [disabled]="!f.valid" ion-button color="primary" [outline]="!f.valid" (click)="updateUser(f)"> {{"update" | translate}}</button>
+      <button *ngIf="have_account" type="button"  ion-button color="primary" [outline]="!f.valid" (click)="updateUser(f)"> {{"update" | translate}}</button>
 
-      <button *ngIf="!have_account" type="submit" [disabled]="!f.valid" ion-button color="primary" [outline]="!f.valid"> {{"save" | translate}}</button>
+      <button *ngIf="!have_account" type="submit"  ion-button color="primary" [outline]="!f.valid"> {{"save" | translate}}</button>
       <p *ngIf="!f.valid" text-center class="guideline_class">
         {{insertALlRequired}}
       </p>

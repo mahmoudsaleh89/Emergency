@@ -156,7 +156,7 @@ export class SettingsPage {
 
   setLangAndDirction() {
     this.storage.get('lang').then((result) => {
-      if (result == 'ar') {
+      if (result == 'arabic') {
         this.setGender="اختيار الجنس";
         this.male="ذكر";
         this.fmale="انثى";
@@ -171,7 +171,7 @@ export class SettingsPage {
         this.platform.setLang('ar', true);
         this.config.side = 'right';
       }
-      else if (result == 'en') {
+      else if (result == 'english') {
         this.setGender=" Select gender";
         this.male=" Male";
         this.fmale=" Female";

@@ -277,10 +277,10 @@ export class AccountProvider {
             debugger;
             if (res != null) {
               let data: any = res;
-              if (data.Id != "" || data.Id != null || data.Id != "undefined") {
+              if (data.IsSuccessfull) {
                 debugger;
                 console.log(data);
-                let response: any = data;
+                let response: any = data.Result;
                 this.userInformation = response;
                 resolve(this.userInformation);
               } else {

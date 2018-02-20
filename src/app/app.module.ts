@@ -33,6 +33,7 @@ import {RatingPage} from "../pages/rating/rating";
 import {AddClaimPage} from "../pages/add-claim/add-claim";
 import {FCM} from "@ionic-native/fcm";
 import {Http} from "@angular/http";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -61,6 +62,8 @@ export function createTranslateLoader(http: HttpClient) {
     IonicStorageModule.forRoot(),
     IonicModule.forRoot(MyApp),
     HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

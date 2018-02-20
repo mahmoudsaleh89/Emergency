@@ -80,12 +80,12 @@ export class RatingPage {
 
   setLangAndDirction() {
     this.storage.get('lang').then((result) => {
-      if (result == 'ar') {
+      if (result == 'arabic') {
         this.PleaseWait = 'يرجى الانتظار'
         this.successNote = ' شكرا لك ، تم ارسال تقيمك بنجاح ';
         this.errNote = "عذرا ، حدث خطأ اثناء التقيم ،يرجى المحاولة مرة اخرى";
       }
-      else if (result == 'en') {
+      else if (result == 'english') {
         this.PleaseWait = 'Please Wait'
         this.successNote = 'Thank you , submitted successfully';
         this.errNote = "Warning , something wrong please try again  ";

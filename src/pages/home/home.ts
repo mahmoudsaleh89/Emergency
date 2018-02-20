@@ -226,7 +226,7 @@ export class HomePage {
   setLangAndDirction() {
     this.storage.get('lang').then((result) => {
 
-      if (result == 'ar') {
+      if (result == 'arabic') {
         this.PleaseWait = 'يرجى الانتظار'
         this.Warning = 'تحذير';
         this.NoInternetAccess = " تأكد من اتصالك بالانترنت و تغيل خدمة المواقع";
@@ -237,7 +237,7 @@ export class HomePage {
         this.platform.setLang('ar', true);
         this.config.side = 'right';
       }
-      else if (result == 'en') {
+      else if (result == 'english') {
         this.PleaseWait = 'Please Wait';
         this.Warning = 'Warning';
         this.NoInternetAccess = "please enable gps and make sure you have internet access";
