@@ -1,24 +1,123 @@
-<!--<ion-header text-end class="skip_header" *ngIf="!hide">
-  <button  ion-button outline clear (click)="goToSelectLang()">Skip</button>
-</ion-header>-->
-<ion-slides pager>
-  <ion-slide class="lang_slider">
-    <div class="select_lang">
-      <h2 style="color:#44230f">Select Language</h2>
-      <ion-row text-center>
-        <ion-col>
-          <button ion-button round color="m-dark-blue" (click)="onSetLang('english')">English</button>
-        </ion-col>
-      </ion-row>
+<ion-header text-end *ngIf="!isValidFormSubmitted" class="skip_header">
+  <button ion-button clear color="light" (click)="Skip()">Skip</button>
+</ion-header>
 
-      <ion-row text-center>
-        <ion-col>
-          <button ion-button color="m-brown" round (click)="onSetLang('arabic')">العربية</button>
-        </ion-col>
-      </ion-row>
+<div class="Login_slider">
+  <div class="login_form animated flip" *ngIf="!showRegister">
+    <div class="welcom_area" text-center>
+      <img src="assets/imgs/MOILogo.png" width="70" height="70">
+      <h1 class="welcome">{{"Welcome" | translate}}</h1>
+      <p class="descption_login">{{"descrption" | translate}}</p>
     </div>
-  </ion-slide>
-  <ion-slide class="Login_slider">
-    hello Login
-  </ion-slide>
-</ion-slides>
+    <form #login="ngForm" (ngSubmit)="onLogin(login)" novalidate  >
+      <ion-list inset>
+        <ion-item>
+          <ion-input required #loginPhone="ngModel" placeholder='{{"phone" | translate}}' type="tel" name="phone"
+                     [ngModel]="LoginInfo.userPhone"></ion-input>
+        </ion-item>
+        <div *ngIf="loginPhone.errors && login.submitted && !isValidFormSubmitted" [ngClass]="'error'">
+          <div *ngIf="loginPhone.errors.required">
+            {{'required_err' | translate}}
+          </div>
+        </div>
+
+        <ion-item>
+          <ion-input required #loginPass="ngModel" placeholder='{{"password" | translate}}' type="password" name="pass"
+                     [ngModel]="LoginInfo.pass"></ion-input>
+        </ion-item>
+
+
+        <div *ngIf="loginPass.errors && login.submitted && !isValidFormSubmitted" [ngClass]="'error'">
+          <div *ngIf="loginPass.errors.required">
+            {{'required_err' | translate}}
+          </div>
+        </div>
+        <ion-item>
+          <button type="submit" ion-button round block color="dark">
+            {{'login'| translate}}
+          </button>
+        </ion-item>
+        <ion-item>
+          <button type="button" (click)="onShowRegisterForm()" ion-button round outline block color="dark">
+            {{'register'| translate}}
+          </button>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            <ion-icon name="globe"></ion-icon>
+           {{"language" | translate}}
+          </ion-label>
+          <ion-select [ngModel]="language_is" name="language" interface="popover">
+            <ion-option value="arabic">arabic</ion-option>
+            <ion-option value="english">english</ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+    </form>
+  </div>
+
+
+  <div class="register_form animated flip" *ngIf="showRegister">
+    <form #register="ngForm" (ngSubmit)="onRegister(register)" novalidate>
+      <ion-list>
+        <ion-item>
+          <ion-input #RegisterphoneNumber="ngModel" required minlength="7" maxlength="10" type="number" name="phoneNumber" [ngModel]="newUser.PhoneNumber" placeholder='{{"phone" | translate}}'></ion-input>
+        </ion-item>
+        <div *ngIf="RegisterphoneNumber.errors && register.submitted && !isValidFormSubmitted" [ngClass] = "'error'">
+          <div *ngIf="RegisterphoneNumber.errors.minlength">
+            {{'minlength_err' | translate}}
+          </div>
+
+          <div *ngIf="RegisterphoneNumber.errors.required">
+            {{'required_err' | translate}}
+          </div>
+        </div>
+        <ion-item>
+          <ion-input  placeholder="{{'first_name' | translate}}" type="text" name="firstName" [ngModel]="newUser.firstName"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input placeholder="{{'last_name' | translate}}" type="text" name="lastName" [ngModel]="newUser.lastName"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input #Mypassword="ngModel" placeholder="{{'password' | translate}}" required minlength="6" type="password" [ngModel]="newUser.Password" name="password"></ion-input>
+        </ion-item>
+        <div *ngIf="Mypassword.errors && register.submitted && !isValidFormSubmitted" [ngClass] = "'error'">
+          <div *ngIf="Mypassword.errors.minlength">
+            {{'minlength_err' | translate}}
+          </div>
+
+          <div *ngIf="Mypassword.errors.required">
+            {{'required_err' | translate}}
+          </div>
+        </div>
+        <ion-item>
+          <ion-input #Confirmpassword="ngModel" placeholder="{{'password' | translate}}" required minlength="6" type="password" [ngModel]="newUser.ConfirmPassword" name="password"></ion-input>
+        </ion-item>
+        <div *ngIf="Confirmpassword.errors && register.submitted && !isValidFormSubmitted" [ngClass] = "'error'">
+          <div *ngIf="Confirmpassword.errors.minlength">
+            {{'minlength_err' | translate}}
+          </div>
+
+          <div *ngIf="Confirmpassword.errors.required">
+            {{'required_err' | translate}}
+          </div>
+        </div>
+        <ion-item>
+          <button type="submit" ion-button round  block color="dark">
+            {{'register'| translate}}
+          </button>
+        </ion-item>
+        <ion-item>
+          <button type="button" (click)="onShowRegisterForm()" ion-button  clear block color="dark">
+            {{'back'| translate}}
+          </button>
+        </ion-item>
+      </ion-list>
+
+    </form>
+
+  </div>
+</div>
+
