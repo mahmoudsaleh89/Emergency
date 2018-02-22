@@ -14,7 +14,6 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import {Geolocation} from "@ionic-native/geolocation";
 import {FaqPage} from "../pages/faq/faq";
 import {GuidePage} from "../pages/guide/guide";
-
 import {TutorialPage} from "../pages/tutorial/tutorial";
 import {WhereUseItPage} from "../pages/where-use-it/where-use-it";
 import {CallNumber} from "@ionic-native/call-number";
@@ -35,6 +34,7 @@ import {FCM} from "@ionic-native/fcm";
 import {Http} from "@angular/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {LoginPage} from "../pages/login/login";
+import {Sim} from "@ionic-native/sim";
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -103,6 +103,7 @@ export function createTranslateLoader(http: HttpClient) {
     ImagePicker,
     Camera,
     FCM,
+    Sim,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ConfigProvider,
     AccountProvider,

@@ -6,9 +6,7 @@ import {Storage} from '@ionic/storage';
 
 
 import {HomePage} from '../pages/home/home';
-import {ListPage} from '../pages/list/list';
 import {GuidePage} from "../pages/guide/guide";
-import {SettingsPage} from "../pages/settings/settings";
 import {TutorialPage} from "../pages/tutorial/tutorial";
 import {WhereUseItPageModule} from "../pages/where-use-it/where-use-it.module";
 import {FaqPage} from "../pages/faq/faq";
@@ -19,6 +17,7 @@ import {AccountProvider} from "../providers/account/account";
 import {AddClaimPage} from "../pages/add-claim/add-claim";
 import {FCM} from "@ionic-native/fcm";
 import {LoginPage} from "../pages/login/login";
+import {Sim} from "@ionic-native/sim";
 
 @Component({
   templateUrl: 'app.html'
@@ -28,6 +27,7 @@ export class MyApp {
   rootPage: any;
   userNavInfo: any;
   pages: Array<{ title: string, component: any, icon: any, desc: any }>;
+
   constructor(public platform: Platform,
               public statusBar: StatusBar,
               public splashScreen: SplashScreen,
@@ -37,7 +37,8 @@ export class MyApp {
               public translate: TranslateService,
               public modalCtrl: ModalController,
               public menuCtrl: MenuController,
-              public fcm: FCM) {
+              public fcm: FCM,
+              private sim: Sim) {
     this.initializeApp();
     this.userNavInfo = this.account.userInformation;
     // used for an example of ngFor and navigation
@@ -53,13 +54,13 @@ export class MyApp {
 
   }
 
-   initializeApp() {
+  initializeApp() {
     this.platform.ready().then(() => {
       this.splashScreen.hide();
       this.statusBar.backgroundColorByHexString('#253746');
       this.storage.get('first_run')
         .then((res) => {
-        debugger;
+          debugger;
           console.log('homeComp', res);
           if (res == true || res == null || res == 'undefind') {
             this.storage.set('first_run', false);
@@ -97,7 +98,7 @@ export class MyApp {
             };
             this.storage.set('user', this.account.userInformation);
             this.nav.setRoot(LoginPage);
-          }else {
+          } else {
             //this.nav.setRoot(LoginPage);
             this.storage.set('first_run', false);
             this.storage.get('user')
@@ -112,7 +113,7 @@ export class MyApp {
                   debugger
                   this.storage.get('lang')
                     .then((lanRes) => {
-                    debugger;
+                      debugger;
                       if (lanRes == 'english') {
                         this.storage.set('first_run', false);
                         this.config.language = 'en';
@@ -120,7 +121,7 @@ export class MyApp {
                         this.translate.setDefaultLang('en');
                         this.platform.setDir('ltr', true);
                         this.platform.setLang('en', true);
-                        this.account.userInformation= {
+                        this.account.userInformation = {
                           Id: "",
                           FirstName: "Guest",
                           Lastname: "user",
@@ -151,7 +152,7 @@ export class MyApp {
                         this.storage.set('lang', "english");
                         this.nav.setRoot(HomePage);
                       }
-                      else if (lanRes == 'arabic'){
+                      else if (lanRes == 'arabic') {
                         debugger;
                         this.storage.set('first_run', false);
                         this.config.language = 'ar';
@@ -189,7 +190,7 @@ export class MyApp {
                         this.storage.set('user', this.account.userInformation);
                         this.storage.set('lang', "arabic");
                         this.nav.setRoot(HomePage);
-                      }else{
+                      } else {
                         this.account.userInformation = {
                           Id: "",
                           FirstName: "Guest",
@@ -326,7 +327,7 @@ export class MyApp {
               });
           }
         })
-        .catch((err)=>{
+        .catch((err) => {
           this.storage.set('first_run', false);
           this.storage.get('user')
             .then((userInfo) => {
@@ -412,7 +413,7 @@ export class MyApp {
               this.storage.get('lang')
                 .then((lanRes) => {
                   if (lanRes == 'english') {
-                    this.account.userInformation= {
+                    this.account.userInformation = {
                       Id: "",
                       FirstName: "Guest",
                       Lastname: "user",
