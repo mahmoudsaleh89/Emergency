@@ -4,10 +4,9 @@ import {TranslateService} from "@ngx-translate/core";
 import {Storage} from '@ionic/storage';
 import {ConfigProvider} from "../../providers/config/config";
 import {NgForm} from "@angular/forms";
-import {HomePage} from "../home/home";
-import {AccountProvider} from "../../providers/account/account";
-import {MyApp} from "../../app/app.component";
-import {StatusBar} from "@ionic-native/status-bar";
+import {HomePage} from '../home/home';
+import {AccountProvider} from '../../providers/account/account';
+import {StatusBar} from '@ionic-native/status-bar';
 
 @IonicPage()
 @Component({
@@ -39,39 +38,29 @@ export class LoginPage {
               public config: ConfigProvider,
               public platform: Platform,
               public loadingCtrl: LoadingController,
-              public  account: AccountProvider,
-              public myApp : MyApp,
+              public account: AccountProvider,
               public toastCtrl : ToastController,
               public statusBar : StatusBar) {
   }
 
   ionViewDidLoad() {
-    this.translate.setDefaultLang('en');
-    this.platform.setDir('ltr', true);
-    this.platform.setLang('en', true);
-    console.log('ionViewDidLoad SliderPage');
+    this.setLangAndDirction();
 
   }
 
-  onSetLang(language) {
+  onSetLanguage() {
     debugger;
-    this.config.language = language;
-    this.storage.set('firstRun', false);
-    if (language == 'arabic') {
-      this.storage.set('lang', language);
-    } else if (language == 'english') {
-      this.translate.setDefaultLang('en');
-      this.platform.setDir('ltr', true);
-      this.platform.setLang('en', true);
-      this.storage.set('lang', language);
-
+    if (this.language_is == 'arabic'){
+      this.translate.setDefaultLang('ar');
+      this.platform.setDir('rtl', true);
+      this.platform.setLang('ar', true);
+      this.storage.set('lang', this.language_is);
     }
-    else {
+    else if (this.language_is == 'english'){
       this.translate.setDefaultLang('en');
       this.platform.setDir('ltr', true);
-      this.storage.set('lang', language);
       this.platform.setLang('en', true);
-
+      this.storage.set('lang', this.language_is);
     }
   }
 
@@ -113,6 +102,7 @@ export class LoginPage {
       debugger;
         loader.dismiss();
      if (res == 'no_user'){
+       debugger;
        this.statusBar.backgroundColorByHexString('#ed5565');
        let toast = this.toastCtrl.create({
          message: this.userErr,
@@ -120,7 +110,7 @@ export class LoginPage {
          position: 'top',
          cssClass: "warning_toast"
        });
-       loader.dismiss();
+
        toast.present();
        toast.onDidDismiss(() => {
          this.statusBar.backgroundColorByHexString('#253746');
@@ -128,6 +118,7 @@ export class LoginPage {
 
 
      }else if (res == 'no_user_err') {
+       debugger;
        this.statusBar.backgroundColorByHexString('#ed5565');
        let toast = this.toastCtrl.create({
          message: this.errServer,
@@ -135,16 +126,16 @@ export class LoginPage {
          position: 'top',
          cssClass: "warning_toast"
        });
-       loader.dismiss();
+
        toast.present();
        toast.onDidDismiss(() => {
          this.statusBar.backgroundColorByHexString('#253746');
        });
 
      }else{
+       debugger;
        let tempRes : any = res;
        this.account.userInformation =tempRes;
-       this.myApp.userNavInfo = res;
        this.storage.set('lang', this.account.userInformation.Language);
        this.storage.set('user',this.account.userInformation);
        this.navCtrl.setRoot(HomePage);

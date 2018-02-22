@@ -1,4 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, Injectable, ViewChild} from '@angular/core';
 import {MenuController, Modal, ModalController, Nav, Platform} from 'ionic-angular';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
@@ -19,6 +19,10 @@ import {AccountProvider} from "../providers/account/account";
 import {AddClaimPage} from "../pages/add-claim/add-claim";
 import {FCM} from "@ionic-native/fcm";
 import {LoginPage} from "../pages/login/login";
+
+
+
+@Injectable()
 
 @Component({
   templateUrl: 'app.html'
@@ -69,7 +73,7 @@ export class MyApp {
             this.translate.setDefaultLang('en');
             this.platform.setDir('ltr', true);
             this.platform.setLang('en', true);
-            this.userNavInfo = {
+            this.account.userInformation = {
               Id: "",
               FirstName: "Guest",
               Lastname: "user",
@@ -96,7 +100,7 @@ export class MyApp {
                 }
               ]
             };
-            this.storage.set('user', this.userNavInfo);
+            this.storage.set('user', this.account.userInformation);
             this.nav.setRoot(LoginPage);
           }else {
             this.nav.setRoot(LoginPage);
@@ -106,7 +110,7 @@ export class MyApp {
                 console.log(userInfo.length);
                 debugger;
                 if (userInfo.Id != "") {
-                  this.userNavInfo = userInfo;
+
                   this.account.userInformation = userInfo;
                   this.storage.set('user', this.account.userInformation);
                 }
@@ -121,7 +125,7 @@ export class MyApp {
                         this.translate.setDefaultLang('en');
                         this.platform.setDir('ltr', true);
                         this.platform.setLang('en', true);
-                        this.userNavInfo = {
+                        this.account.userInformation= {
                           Id: "",
                           FirstName: "Guest",
                           Lastname: "user",
@@ -148,7 +152,7 @@ export class MyApp {
                             }
                           ]
                         };
-                        this.storage.set('user', this.userNavInfo);
+                        this.storage.set('user', this.account.userInformation);
                         this.storage.set('lang', "english");
                         this.nav.setRoot(HomePage);
                       }
@@ -160,7 +164,7 @@ export class MyApp {
                         this.translate.setDefaultLang('en');
                         this.platform.setDir('ltr', true);
                         this.platform.setLang('ar', true);
-                        this.userNavInfo = {
+                        this.account.userInformation = {
                           Id: "",
                           FirstName: "مستخدم",
                           Lastname: "غير معرف",
@@ -187,11 +191,11 @@ export class MyApp {
                             }
                           ]
                         };
-                        this.storage.set('user', this.userNavInfo);
+                        this.storage.set('user', this.account.userInformation);
                         this.storage.set('lang', "arabic");
                         this.nav.setRoot(HomePage);
                       }else{
-                        this.userNavInfo = {
+                        this.account.userInformation = {
                           Id: "",
                           FirstName: "Guest",
                           Lastname: "user",
@@ -230,7 +234,7 @@ export class MyApp {
                 this.storage.get('lang')
                   .then((lanRes) => {
                     if (lanRes == 'english') {
-                      this.userNavInfo = {
+                      this.account.userInformation = {
                         Id: "",
                         FirstName: "Guest",
                         Lastname: "user",
@@ -257,12 +261,11 @@ export class MyApp {
                           }
                         ]
                       };
-                      this.account.userInformation = this.userNavInfo;
                       this.storage.set('user', this.account.userInformation);
                     }
                     else {
                       debugger
-                      this.userNavInfo = {
+                      this.account.userInformation = {
                         Id: "",
                         FirstName: "مستخدم",
                         Lastname: "غير معرف",
@@ -289,7 +292,6 @@ export class MyApp {
                           }
                         ]
                       };
-                      this.account.userInformation = this.userNavInfo;
                       this.storage.set('user', this.account.userInformation);
                     }
 
@@ -336,7 +338,6 @@ export class MyApp {
               console.log(userInfo.length);
               debugger;
               if (userInfo.Id != "") {
-                this.userNavInfo = userInfo;
                 this.account.userInformation = userInfo;
                 this.storage.set('user', this.account.userInformation);
               } else {
@@ -345,7 +346,7 @@ export class MyApp {
                   .then((lanRes) => {
                     if (lanRes == 'english') {
 
-                      this.userNavInfo = {
+                      this.account.userInformation = {
                         Id: "",
                         FirstName: "Guest",
                         Lastname: "user",
@@ -372,12 +373,12 @@ export class MyApp {
                           }
                         ]
                       };
-                      this.storage.set('user', this.userNavInfo);
+                      this.storage.set('user', this.account.userInformation);
                       this.nav.setRoot(HomePage);
                     }
                     else {
                       debugger
-                      this.userNavInfo = {
+                      this.account.userInformation = {
                         Id: "",
                         FirstName: "مستخدم",
                         Lastname: "غير معرف",
@@ -404,7 +405,7 @@ export class MyApp {
                           }
                         ]
                       };
-                      this.storage.set('user', this.userNavInfo);
+                      this.storage.set('user', this.account.userInformation);
                       this.nav.setRoot(HomePage);
                     }
 
@@ -416,7 +417,7 @@ export class MyApp {
               this.storage.get('lang')
                 .then((lanRes) => {
                   if (lanRes == 'english') {
-                    this.userNavInfo = {
+                    this.account.userInformation= {
                       Id: "",
                       FirstName: "Guest",
                       Lastname: "user",
@@ -443,12 +444,11 @@ export class MyApp {
                         }
                       ]
                     };
-                    this.account.userInformation = this.userNavInfo;
                     this.storage.set('user', this.account.userInformation);
                   }
                   else {
                     debugger
-                    this.userNavInfo = {
+                    this.account.userInformation = {
                       Id: "",
                       FirstName: "مستخدم",
                       Lastname: "غير معرف",
@@ -475,7 +475,6 @@ export class MyApp {
                         }
                       ]
                     };
-                    this.account.userInformation = this.userNavInfo;
                     this.storage.set('user', this.account.userInformation);
                   }
 
