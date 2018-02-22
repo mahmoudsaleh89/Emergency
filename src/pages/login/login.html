@@ -93,7 +93,7 @@
           </div>
         </div>
         <ion-item>
-          <ion-input #Confirmpassword="ngModel" placeholder="{{'password' | translate}}" required minlength="6" type="password" [ngModel]="newUser.ConfirmPassword" name="password"></ion-input>
+          <ion-input #Confirmpassword="ngModel" placeholder="{{'confirm_password' | translate}}" required minlength="6" type="password" [ngModel]="newUser.ConfirmPassword" name="passwordConfirm"></ion-input>
         </ion-item>
         <div *ngIf="Confirmpassword.errors && register.submitted && !isValidFormSubmitted" [ngClass] = "'error'">
           <div *ngIf="Confirmpassword.errors.minlength">
@@ -102,6 +102,11 @@
 
           <div *ngIf="Confirmpassword.errors.required">
             {{'required_err' | translate}}
+          </div>
+        </div>
+        <div *ngIf="Mypassword != Confirmpassword && register.submitted && !isValidFormSubmitted" [ngClass] = "'error'">
+          <div>
+            {{'password_didnt_match' | translate}}
           </div>
         </div>
         <ion-item>

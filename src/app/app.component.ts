@@ -1,4 +1,4 @@
-import {Component, Injectable, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Injectable, Output, ViewChild} from '@angular/core';
 import {MenuController, Modal, ModalController, Nav, Platform} from 'ionic-angular';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
@@ -20,10 +20,6 @@ import {AddClaimPage} from "../pages/add-claim/add-claim";
 import {FCM} from "@ionic-native/fcm";
 import {LoginPage} from "../pages/login/login";
 
-
-
-@Injectable()
-
 @Component({
   templateUrl: 'app.html'
 })
@@ -32,7 +28,6 @@ export class MyApp {
   rootPage: any;
   userNavInfo: any;
   pages: Array<{ title: string, component: any, icon: any, desc: any }>;
-
   constructor(public platform: Platform,
               public statusBar: StatusBar,
               public splashScreen: SplashScreen,
@@ -58,7 +53,7 @@ export class MyApp {
 
   }
 
-  initializeApp() {
+   initializeApp() {
     this.platform.ready().then(() => {
       this.splashScreen.hide();
       this.statusBar.backgroundColorByHexString('#253746');
@@ -103,14 +98,13 @@ export class MyApp {
             this.storage.set('user', this.account.userInformation);
             this.nav.setRoot(LoginPage);
           }else {
-            this.nav.setRoot(LoginPage);
+            //this.nav.setRoot(LoginPage);
             this.storage.set('first_run', false);
             this.storage.get('user')
               .then((userInfo) => {
                 console.log(userInfo.length);
                 debugger;
                 if (userInfo.Id != "") {
-
                   this.account.userInformation = userInfo;
                   this.storage.set('user', this.account.userInformation);
                 }
@@ -118,6 +112,7 @@ export class MyApp {
                   debugger
                   this.storage.get('lang')
                     .then((lanRes) => {
+                    debugger;
                       if (lanRes == 'english') {
                         this.storage.set('first_run', false);
                         this.config.language = 'en';

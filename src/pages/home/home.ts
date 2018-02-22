@@ -39,7 +39,7 @@ export class HomePage {
       this.fabslist = data;
     });
 
-
+    this.setLangAndDirction();
   }
 
   ionViewDidLoad() {
