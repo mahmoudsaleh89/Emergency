@@ -177,7 +177,7 @@ export class AddSosNumberPage {
         this.add_Connection_error = "حصل خطأ في الاتصال ، لا يوجد اتصال في الانترنت ";
         this.not_added = "عذرا ، حصل خطآ اثناء الاضافة ، يرجى المحاولة مرة اخرى";
         this.pleaseWait = "جاري حفظ البيانات ...";
-        this.storage.set('lang', 'ar');
+        this.storage.set('lang', 'arabic');
         this.translate.setDefaultLang('ar');
         this.platform.setDir('rtl', true);
         this.platform.setLang('ar', true);
@@ -191,27 +191,25 @@ export class AddSosNumberPage {
         this.maxNumberOfContact = " you have maximum number of contact ";
         this.pleaseAddProfile = "Please add profile information after";
         this.pleaseWait = "please Wait ...";
-        this.storage.set('lang', 'en');
+        this.storage.set('lang', 'english');
         this.translate.setDefaultLang('en');
         this.platform.setDir('ltr', true);
         this.platform.setLang('en', true);
         this.config.side = 'left';
       }
       else {
-        this.okay = "موافق";
-        this.dismiss = "الغاء";
-        this.insertALlRequired = " الرجاء ادخال جميع الحقول المطلوبة";
-        this.err_import = "حدث خطأ اثناء استرداد جهة الاتصال";
-        this.maxNumberOfContact = " لقد قمت باخال اكبر عدد ممكن من جهات الاتصال";
-        this.pleaseAddProfile = "لا يمكن اضافة معلومات الاتصال يرجى انشاء حسابك الشخصي اولا....";
-        this.add_Connection_error = "حصل خطأ في الاتصال ، لا يوجد اتصال في الانترنت ";
-        this.not_added = "عذرا ، حصل خطآ اثناء الاضافة ، يرجى المحاولة مرة اخرى";
-        this.pleaseWait = "جاري حفظ البيانات ...";
-        this.storage.set('lang', 'ar');
-        this.translate.setDefaultLang('ar');
-        this.platform.setDir('rtl', true);
-        this.platform.setLang('ar', true);
-        this.config.side = 'right';
+        this.okay = "ok";
+        this.dismiss = "cancel";
+        this.insertALlRequired = " please insert all required fields";
+        this.err_import = "Error while importing contact details";
+        this.maxNumberOfContact = " you have maximum number of contact ";
+        this.pleaseAddProfile = "Please add profile information after";
+        this.pleaseWait = "please Wait ...";
+        this.storage.set('lang', 'english');
+        this.translate.setDefaultLang('en');
+        this.platform.setDir('ltr', true);
+        this.platform.setLang('en', true);
+        this.config.side = 'left';
 
       }
 

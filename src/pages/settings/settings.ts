@@ -165,7 +165,7 @@ export class SettingsPage {
         this.english="English";
         this.arabic="العربية";
         this.urdo = "اردو";
-        this.storage.set('lang', 'ar');
+        this.storage.set('lang', 'arabic');
         this.translate.setDefaultLang('ar');
         this.platform.setDir('rtl', true);
         this.platform.setLang('ar', true);
@@ -180,26 +180,26 @@ export class SettingsPage {
         this.english="English";
         this.arabic="العربية";
         this.urdo = "اردو";
-        this.storage.set('lang', 'en');
+        this.storage.set('lang', 'english');
         this.translate.setDefaultLang('en');
         this.platform.setDir('ltr', true);
         this.platform.setLang('en', true);
         this.config.side = 'left';
       }
       else  {
-        this.setGender="اختيار الجنس";
-        this.male="ذكر";
-        this.fmale="انثى";
-        this.unspecified="غير محدد";
-        this.setlang = "تحديد اللغة";
+        this.setGender=" Select gender";
+        this.male=" Male";
+        this.fmale=" Female";
+        this.unspecified="Unspecified";
+        this.setlang = "Select Language";
         this.english="English";
         this.arabic="العربية";
         this.urdo = "اردو";
-        this.storage.set('lang', 'ar');
-        this.translate.setDefaultLang('ar');
-        this.platform.setDir('rtl', true);
-        this.platform.setLang('ar', true);
-        this.config.side = 'right';
+        this.storage.set('lang', 'english');
+        this.translate.setDefaultLang('en');
+        this.platform.setDir('ltr', true);
+        this.platform.setLang('en', true);
+        this.config.side = 'left';
 
       }
 

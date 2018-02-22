@@ -47,6 +47,7 @@ export class AccountProvider {
   }
 
   onGetProfile(phoneNumber, password) {
+    debugger;
     let body = {
       "PhoneNumber": phoneNumber,
       "Password": password
@@ -57,7 +58,7 @@ export class AccountProvider {
       this.http.post(this.linkAPI + '/GetProfile', body)
         .subscribe(
           res => {
-            if (res) {
+            if (res != null) {
               debugger;
               console.log(res);
               let response: any = res;

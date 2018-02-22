@@ -150,7 +150,7 @@ export class HomePage {
         this.Warning = 'تحذير';
         this.NoInternetAccess = " تأكد من اتصالك بالانترنت و تغيل خدمة المواقع";
         this.OK = "موافق";
-        this.storage.set('lang', 'ar');
+        this.storage.set('lang', 'arabic');
         this.translate.setDefaultLang('ar');
         this.platform.setDir('rtl', true);
         this.platform.setLang('ar', true);
@@ -161,23 +161,22 @@ export class HomePage {
         this.Warning = 'Warning';
         this.NoInternetAccess = "please enable gps and make sure you have internet access";
         this.OK = "Ok";
-        this.storage.set('lang', 'en');
+        this.storage.set('lang', 'english');
         this.translate.setDefaultLang('en');
         this.platform.setDir('ltr', true);
         this.platform.setLang('en', true);
         this.config.side = 'left';
       }
       else {
-        this.PleaseWait = 'يرجى الانتظار'
-        this.Warning = 'تحذير';
-        this.NoInternetAccess = " تأكد من اتصالك بالانترنت و تغيل خدمة المواقع";
-        this.OK = "موافق";
-
-        this.storage.set('lang', 'ar');
-        this.translate.setDefaultLang('ar');
-        this.platform.setDir('rtl', true);
-        this.platform.setLang('ar', true);
-        this.config.side = 'right';
+        this.PleaseWait = 'Please Wait';
+        this.Warning = 'Warning';
+        this.NoInternetAccess = "please enable gps and make sure you have internet access";
+        this.OK = "Ok";
+        this.storage.set('lang', 'english');
+        this.translate.setDefaultLang('en');
+        this.platform.setDir('ltr', true);
+        this.platform.setLang('en', true);
+        this.config.side = 'left';
 
       }
 
