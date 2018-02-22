@@ -18,7 +18,7 @@ import {ProfilePage} from "../pages/profile/profile";
 import {AccountProvider} from "../providers/account/account";
 import {AddClaimPage} from "../pages/add-claim/add-claim";
 import {FCM} from "@ionic-native/fcm";
-import {SliderPage} from "../pages/slider/slider";
+import {LoginPage} from "../pages/login/login";
 
 @Component({
   templateUrl: 'app.html'
@@ -97,9 +97,9 @@ export class MyApp {
               ]
             };
             this.storage.set('user', this.userNavInfo);
-            this.nav.setRoot(SliderPage);
+            this.nav.setRoot(LoginPage);
           }else {
-            this.nav.setRoot(SliderPage);
+            this.nav.setRoot(LoginPage);
             this.storage.set('first_run', false);
             this.storage.get('user')
               .then((userInfo) => {

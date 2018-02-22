@@ -34,7 +34,7 @@ import {AddClaimPage} from "../pages/add-claim/add-claim";
 import {FCM} from "@ionic-native/fcm";
 import {Http} from "@angular/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {SliderPage} from "../pages/slider/slider";
+import {LoginPage} from "../pages/login/login";
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -56,7 +56,7 @@ export function createTranslateLoader(http: HttpClient) {
     NotificationsPage,
     RatingPage,
     AddClaimPage,
-    SliderPage
+    LoginPage
   ],
   imports: [
     BrowserModule,
@@ -88,7 +88,7 @@ export function createTranslateLoader(http: HttpClient) {
     NotificationsPage,
     RatingPage,
     AddClaimPage,
-    SliderPage
+    LoginPage
 
   ],
   providers: [
