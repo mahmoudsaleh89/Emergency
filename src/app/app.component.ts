@@ -551,7 +551,7 @@ export class MyApp {
     this.storage.get('have_account')
       .then((res) => {
         if (res == true) {
-          this.nav.push(ProfileEditPage);
+          this.nav.push(ProfilePage);
         } else {
           this.nav.push(LoginPage);
         }

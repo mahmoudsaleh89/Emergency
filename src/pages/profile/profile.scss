@@ -1,49 +1,37 @@
 page-profile {
-  .list-md .item-block .item-inner {
-    border-bottom: 1px solid #dedede;
+
+  .card-header-md {
+    background-color: #f8f8f8;
+    padding: 8px 16px !important;
   }
 
-  .list-header-md{
-    background-color: #dedede;
+  .header-md::after{
+    background-image: none !important;
   }
-  .note-emergency{
-    padding: 3%;
-    text-align: -webkit-center;
-    border-radius: 2px;
-    color: #bdbdbd;
+  .profile_header {
+    background: url(../assets/imgs/header-profile.png) center no-repeat;
+    padding: 6%;
+    color: #fff;
+    position: relative;
+    height: 40%;
+    margin-bottom: 20px;
+    background-size: cover;
   }
-  .image_dev img {
-    image-resolution: 300dpi;
-    background-size: contain;
-    height: 85px;
-    width: 85px;
-    border-radius: 100%;
-  }
-  .add_time{
-    color: #c15454 !important;
-  }
-
-  ion-col.image_dev.col {
-/*    text-align: -webkit-center;
-    padding: 0 30%;*/
-  }
-  .validate_note{
-    color: #ed5565 !important;
-    font-size: 10px !important;
-  }
-  .list-md .profile_image.item-block .item-inner{
-    border-bottom: 1px solid #ffffff !important;
-  }
-  .changePassword_note{
+  p.em_note {
     color: #f8ac59;
-    margin: 0px !important;
-    padding: 0 !important;
-    font-size: 10px;
+    padding-top: 5px;
   }
-  .error {
-    color: #f4f4f4;
-    background-color: #F17C89;
-    padding: 0 5%;
+  .edit_profile{
+    position: absolute;
+    left: 30%;
+    bottom: -8%;
+    right: 30%;
+  }
+  .edit_profile  button {
+    background-color: #f8f8f8 !important;
+  }
+  .toolbar-md {
+    min-height: 60px;
   }
 
 }

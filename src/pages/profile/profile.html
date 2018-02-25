@@ -1,151 +1,76 @@
 <ion-header>
 
   <ion-navbar color="dark">
-    <ion-buttons end>
+    <!--<ion-buttons end>
       <button [disabled]="!have_account" ion-button icon-only (click)="onAddNewContact()">
         <ion-icon name="person-add"></ion-icon>
       </button>
-    </ion-buttons>
+    </ion-buttons>-->
     <ion-title>{{"profile" | translate}}</ion-title>
   </ion-navbar>
 
 </ion-header>
-<ion-content padding>
-  <ion-list text-center>
-    <ion-item class="profile_image" ion-row text-center align-items-center>
-      <ion-col class="image_dev">
-        <img [(src)]="myProfile.ImageUrl" onerror="this.src='assets/imgs/user.png'">
-      </ion-col>
-    </ion-item>
-    <button ion-button color="dark" outline (click)="onAddProfileImage()"> {{add_profile_img}}</button>
-  </ion-list>
+<ion-content>
+  <div class="profile_header" text-center>
+    <img [(src)]="myProfile.ImageUrl" onerror="this.src='assets/imgs/user.png'" width="60" height="60">
+    <h2>{{myProfile.FirstName}} {{myProfile.Lastname}}</h2>
+    <p>
+      <ion-icon item-start name="call"></ion-icon> &nbsp;{{myProfile.PhoneNumber}}
+    </p>
+    <div class="edit_profile" text-center>
+      <button color="dark" round outline ion-button icon-start (click)="onGoToEditPage()">
+        <ion-icon name="cog"></ion-icon>
+        {{"edit" | translate}}
+      </button>
+    </div>
+  </div>
 
-  <form #f="ngForm" (ngSubmit)="onSaveProfile(f)" novalidate>
-    <ion-list>
-      <ion-list-header>
-        {{"personal_info" | translate}}
-      </ion-list-header>
-      <ion-item>
-        <ion-avatar item-start>
-          <img src="assets/imgs/kuwait.svg">
-        </ion-avatar>
-        <ion-label stacked>{{"phone" | translate}} <span class="validate_note">*</span>
-        </ion-label>
-        <ion-input #MyphoneNumber="ngModel" required minlength="7" maxlength="10" type="number" name="phoneNumber" [ngModel]="+myProfile.PhoneNumber" placeholder="ex : 2 ??? ????"></ion-input>
-      </ion-item>
-      <div *ngIf="MyphoneNumber.errors && f.submitted && !isValidFormSubmitted" [ngClass] = "'error'">
-        <div *ngIf="MyphoneNumber.errors.minlength">
-          {{'minlength_err' | translate}}
-        </div>
-
-        <div *ngIf="MyphoneNumber.errors.required">
-          {{'required_err' | translate}}
-        </div>
-      </div>
-      <ion-item>
-        <ion-label stacked>{{"first_name" | translate}}</ion-label>
-        <ion-input type="text" name="firstName" [ngModel]="myProfile.FirstName"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label stacked>{{"last_name" | translate}}</ion-label>
-        <ion-input type="text" name="lastName" [ngModel]="myProfile.Lastname"></ion-input>
-      </ion-item>
-      <ion-item *ngIf="have_account" text-center>
-        <button type="button" outline ion-button   (click)="onChangePassword()"> {{"change_password"| translate}}</button>
-      </ion-item>
-      <ion-item>
-        <ion-label stacked disabled="false">{{"password" | translate}} <span  class="validate_note">*</span></ion-label>
-        <ion-input #Mypassword="ngModel" required minlength="6" type="password" [ngModel]="myProfile.Password" name="password"></ion-input>
-      </ion-item>
-      <div *ngIf="Mypassword.errors && f.submitted && !isValidFormSubmitted" [ngClass] = "'error'">
-        <div *ngIf="Mypassword.errors.minlength">
-          {{'minlength_err' | translate}}
-        </div>
-
-        <div *ngIf="Mypassword.errors.required">
-          {{'required_err' | translate}}
-        </div>
-      </div>
-    </ion-list>
-
-    <ion-list>
-      <ion-list-header>
-        {{"other" | translate}}
-      </ion-list-header>
-      <ion-item>
-        <ion-label>{{"gender" | translate}}</ion-label>
-        <ion-select [ngModel]="this.myProfile.Gender" interface="popover" name="gender">
-          <ion-option value="male">{{"male" | translate}}</ion-option>
-          <ion-option value="female">{{"female" | translate}}</ion-option>
-          <ion-option value="unspecified">{{"unspecified" | translate}}</ion-option>
-        </ion-select>
-      </ion-item>
-      <ion-item (click)="onSetBirthday()">
-        <ion-label stacked>{{"birthday" | translate}}</ion-label>
-        <ion-input disabled="true" id="birthday" type="text" ngModel name="birthday"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label>{{"language" | translate}}</ion-label>
-        <ion-select [ngModel]="this.myProfile.Language" interface="popover" name="language">
-          <ion-option value="arabic">{{"arabic" | translate}}</ion-option>
-          <ion-option value="english">{{"english" | translate}}</ion-option>
-          <ion-option value="urdu">{{"urdu" | translate}}</ion-option>
-        </ion-select>
-      </ion-item>
-    </ion-list>
-
-    <ion-list style="border-bottom: 1px solid #dfdfdf;" *ngIf="emergencyNumberList.length > 0 ">
-      <ion-list-header>
-        {{"emergency_number" | translate}}
-      </ion-list-header>
-      <ion-item-sliding *ngFor="let num of emergencyNumberList; let i = index">
+  <ion-card>
+    <ion-card-header>
+      {{"personal_info" | translate}}
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
         <ion-item>
-          <h2>{{num.FirstName}} {{num.LastName}}</h2>
+          <h3>{{"gender" | translate}}</h3>
+          <p>{{myProfile.Gender}}</p>
+        </ion-item>
+        <ion-item>
+          <h3>{{"birthday" | translate}}</h3>
+          <p>{{myProfile.Birthday}}</p>
+        </ion-item>
+        <ion-item>
+          <h3>{{"language" | translate}}</h3>
+          {{myProfile.Language}}
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+
+  <ion-card>
+    <ion-card-header>
+      {{"emergency_number" | translate}}
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list *ngIf="emergencyNumberList.length > 0 ">
+        <ion-item *ngFor="let num of emergencyNumberList; let i = index">
+          <h3>{{num.FirstName}} {{num.LastName}}</h3>
           <p>{{num.PhoneNumber}}</p>
         </ion-item>
-        <ion-item-options side="left" *ngIf="!platform.isRTL">
-          <button type="button" ion-button color="danger" (click)="onDeleteNumber(num)">
-            <ion-icon name="trash"></ion-icon>
-            {{'remove' | translate}}
-          </button>
-          <button type="button" ion-button color="primary" (click)="onViewNumber(num)">
-            <ion-icon name="create"></ion-icon>
-            {{'edit' | translate}}
-          </button>
-        </ion-item-options>
-        <ion-item-options side="right" *ngIf="platform.isRTL">
-          <button type="button" ion-button color="danger" (click)="onDeleteNumber(num)">
-            <ion-icon name="trash"></ion-icon>
-            {{'remove' | translate}}
-          </button>
-          <button type="button" ion-button  color="primary" (click)="onViewNumber(num)">
-            <ion-icon name="create"></ion-icon>
-            {{'edit' | translate}}
-          </button>
-        </ion-item-options>
-      </ion-item-sliding>
-    </ion-list>
-    <ion-list style="border-bottom: 1px solid #dfdfdf;" *ngIf="emergencyNumberList.length == 0 ">
-      <ion-list-header>
-        {{"emergency_number" | translate}}
-      </ion-list-header>
-      <div class="note-emergency">
-        <p class="add_time" *ngIf="!have_account">
-          {{"emergency_add_time" | translate}}
-        </p>
-        <p *ngIf="have_account">
-          {{"emergency_note" | translate}}
-        </p>
+      </ion-list>
+      <div *ngIf="emergencyNumberList.length == 0 " text-center>
+        <div class="note-emergency">
+          <p class="em_note">
+            {{"emergency_note" | translate}}
+          </p>
+        </div>
+        <button ion-button icon-start color="dark" outline (click)="onAddNewContact()">
+          <ion-icon name="person-add"></ion-icon>
+          {{"add_Contact" | translate}}
+        </button>
       </div>
-    </ion-list>
-    <div text-center>
-      <button *ngIf="have_account" type="button"  ion-button color="primary" [outline]="!f.valid" (click)="updateUser(f)"> {{"update" | translate}}</button>
-
-      <button *ngIf="!have_account" type="submit"  ion-button color="primary" [outline]="!f.valid"> {{"save" | translate}}</button>
-      <p *ngIf="!f.valid" text-center class="guideline_class">
-        {{insertALlRequired}}
-      </p>
-    </div>
-  </form>
+    </ion-card-content>
+  </ion-card>
 
 </ion-content>

@@ -1,3 +1,47 @@
 page-profile-edit {
+  .list-md .item-block .item-inner {
+    border-bottom: 1px solid #dedede;
+  }
 
+  .list-header-md {
+    background-color: #dedede;
+  }
+  .note-emergency {
+    padding: 3%;
+    text-align: -webkit-center;
+    border-radius: 2px;
+    color: #bdbdbd;
+  }
+  .image_dev img {
+    image-resolution: 300dpi;
+    background-size: contain;
+    height: 85px;
+    width: 85px;
+    border-radius: 100%;
+  }
+  .add_time {
+  }
+  ion-col.image_dev.col {
+    /*    text-align: -webkit-center;
+        padding: 0 30%;*/
+  }
+  .validate_note {
+    color: #ed5565 !important;
+    font-size: 10px !important;
+  }
+  .list-md .profile_image.item-block .item-inner {
+    border-bottom: 1px solid #ffffff !important;
+  }
+  .changePassword_note {
+    color: #f8ac59;
+    margin: 0px !important;
+    padding: 0 !important;
+    font-size: 10px;
+  }
+  .error {
+    color: #f4f4f4;
+    background-color: #F17C89;
+    padding: 0 5%;
+    color: #c15454 !important;
+  }
 }
