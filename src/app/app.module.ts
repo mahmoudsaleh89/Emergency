@@ -35,6 +35,7 @@ import {Http} from "@angular/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {LoginPage} from "../pages/login/login";
 import {Sim} from "@ionic-native/sim";
+import { OprationsProvider } from '../providers/oprations/oprations';
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -107,7 +108,8 @@ export function createTranslateLoader(http: HttpClient) {
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ConfigProvider,
     AccountProvider,
-    RatingPage
+    RatingPage,
+    OprationsProvider
   ]
 })
 export class AppModule {}

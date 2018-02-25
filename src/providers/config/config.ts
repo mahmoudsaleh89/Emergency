@@ -118,16 +118,20 @@ export class ConfigProvider {
     return new Promise((resolve) => {
       this.fabsOptions = [
         {
-          Deparment: "",
+          DepartmentId :"1",
+          Department: "fire",
           imgSrc: 'assets/imgs/fire.svg'
         },
         {
+          DepartmentId :"2",
+          Department: "police",
           imgSrc: 'assets/imgs/police.svg',
-          DeparmentId: "",
+
         },
         {
+          DepartmentId :"3",
+          Department: "police",
           imgSrc: 'assets/imgs/ambulance.svg',
-          DeparmentId: "",
         }
       ];
       resolve(this.fabsOptions);

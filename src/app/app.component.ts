@@ -17,7 +17,7 @@ import {AccountProvider} from "../providers/account/account";
 import {AddClaimPage} from "../pages/add-claim/add-claim";
 import {FCM} from "@ionic-native/fcm";
 import {LoginPage} from "../pages/login/login";
-import {Sim} from "@ionic-native/sim";
+
 
 @Component({
   templateUrl: 'app.html'
@@ -37,18 +37,17 @@ export class MyApp {
               public translate: TranslateService,
               public modalCtrl: ModalController,
               public menuCtrl: MenuController,
-              public fcm: FCM,
-              private sim: Sim) {
+              public fcm: FCM) {
     this.initializeApp();
     this.userNavInfo = this.account.userInformation;
     // used for an example of ngFor and navigation
     this.pages = [
-      {title: 'home', component: HomePage, icon: "home", desc: ""},
-      {title: 'profile', component: ProfilePage, icon: "person", desc: ""},
+      {title: 'home', component: HomePage, icon: "home", desc: "descMenu"},
+      {title: 'profile', component: ProfilePage, icon: "person", desc: "descMenu"},
       /*{ title: 'send_claim', component: AddClaimPage ,icon:"bookmarks", desc:""},*/
-      {title: 'guide', component: GuidePage, icon: "md-help", desc: ""},
-      {title: 'tutorials', component: TutorialPage, icon: "color-wand", desc: ""},
-      {title: 'about_us', component: WhereUseItPageModule, icon: "information-circle", desc: ""},
+      {title: 'guide', component: GuidePage, icon: "md-help", desc: "descMenu"},
+      {title: 'tutorials', component: TutorialPage, icon: "color-wand", desc: "descMenu"},
+      {title: 'about_us', component: WhereUseItPageModule, icon: "information-circle", desc: "descMenu"},
       {title: 'faq', component: FaqPage, icon: "md-help", desc: ""},
     ];
 

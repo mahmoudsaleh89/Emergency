@@ -95,6 +95,14 @@ ion-menu .scroll-content {
   text-align: right !important;
 }
 
+[dir="ltr"] ion-fab[center] {
+  left: 50%;
+  margin-left: -15% !important;
+}
+[dir="rtl"] ion-fab[center] {
+  left: 50%;
+  margin-right: -15% !important;
+}
 
 .guideline_class{
   color: rgba(218, 78, 93, 0.76);
