@@ -17,6 +17,7 @@ import {AccountProvider} from "../providers/account/account";
 import {AddClaimPage} from "../pages/add-claim/add-claim";
 import {FCM} from "@ionic-native/fcm";
 import {LoginPage} from "../pages/login/login";
+import {ProfileEditPage} from "../pages/profile-edit/profile-edit";
 
 
 @Component({
@@ -48,7 +49,7 @@ export class MyApp {
       {title: 'guide', component: GuidePage, icon: "md-help", desc: "descMenu"},
       {title: 'tutorials', component: TutorialPage, icon: "color-wand", desc: "descMenu"},
       {title: 'about_us', component: WhereUseItPageModule, icon: "information-circle", desc: "descMenu"},
-      {title: 'faq', component: FaqPage, icon: "md-help", desc: ""},
+      {title: 'FAQ', component: FaqPage, icon: "md-help", desc: "descMenu"},
     ];
 
   }
@@ -531,8 +532,10 @@ export class MyApp {
     // we wouldn't want the back button to show in this scenario
     if (page.component == HomePage) {
       this.nav.setRoot(page.component);
-
-    } else {
+    } else if (page.component == ProfilePage) {
+      this.openProfilePage();
+    }
+    else {
       this.nav.push(page.component)
     }
 
@@ -545,6 +548,14 @@ export class MyApp {
   }
 
   openProfilePage() {
-    this.nav.push(ProfilePage);
+    this.storage.get('have_account')
+      .then((res) => {
+        if (res == true) {
+          this.nav.push(ProfileEditPage);
+        } else {
+          this.nav.push(LoginPage);
+        }
+      })
+
   }
 }

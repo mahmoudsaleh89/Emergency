@@ -91,7 +91,7 @@ export class HomePage {
 
   ionViewDidEnter() {
     debugger;
-
+    console.log(this.account.userInformation, 'kooos omaaaak ');
   }
 
   addMap(lat, long) {
@@ -136,8 +136,8 @@ export class HomePage {
             .then(() => console.log('Launched dialer!'))
             .catch(() => console.log('Error launching dialer'));
           this.op.onCreateRequest(this.account.userInformation.PhoneNumber, this.account.userInformation.Id, "", this.lat, this.lng, true, this.location_name)
-            .then((res)=>{
-             console.log(res);
+            .then((res) => {
+              console.log(res);
             })
         }
         else {
@@ -333,7 +333,7 @@ export class HomePage {
         debugger;
         if (res == true) {
           this.op.onCreateRequest(this.account.userInformation.PhoneNumber, this.account.userInformation.Id, depId, this.lat, this.lng, false, this.location_name)
-            .then((res)=>{
+            .then((res) => {
               if (res == 'not_send') {
                 this.statusBar.backgroundColorByHexString('#ed5565');
                 let toast = this.toastCtrl.create({
@@ -473,12 +473,12 @@ export class HomePage {
                             }
                             else {
 
-                                let alert = this.alertCtrl.create({
-                                  title: this.help_title,
-                                  subTitle: this.help_guide,
-                                  buttons: [this.OK]
-                                });
-                                alert.present();
+                              let alert = this.alertCtrl.create({
+                                title: this.help_title,
+                                subTitle: this.help_guide,
+                                buttons: [this.OK]
+                              });
+                              alert.present();
                             }
 
                           })
@@ -579,7 +579,7 @@ export class HomePage {
             .then(() => console.log('Launched dialer!'))
             .catch(() => console.log('Error launching dialer'));
           this.op.onCreateRequest(this.account.userInformation.PhoneNumber, this.account.userInformation.Id, depId, this.lat, this.lng, true, this.location_name)
-            .then((res)=>{
+            .then((res) => {
               console.log(res);
             })
         }
@@ -782,7 +782,7 @@ export class HomePage {
         this.cancel_requset = "الغاء المساعده";
         this.send_help_requset = " اطلب المساعدة";
         this.help_title = "طلب المساعدة";
-        this.help_guide = "يرجى الهدوء تم ارسال موقعك الحالي ورقم هاتفك الي الجهات المختصة" ;
+        this.help_guide = "يرجى الهدوء تم ارسال موقعك الحالي ورقم هاتفك الي الجهات المختصة";
         this.storage.set('lang', 'arabic');
         this.translate.setDefaultLang('ar');
         this.platform.setDir('rtl', true);
@@ -798,7 +798,7 @@ export class HomePage {
         this.cancel_requset = "Cancel help";
         this.send_help_requset = "Send help";
         this.help_title = "Help request";
-        this.help_guide = "Please calm down your current location and your phone number has been sent to the competent authorities" ;
+        this.help_guide = "Please calm down your current location and your phone number has been sent to the competent authorities";
         this.storage.set('lang', 'english');
         this.translate.setDefaultLang('en');
         this.platform.setDir('ltr', true);
@@ -814,7 +814,7 @@ export class HomePage {
         this.cancel_requset = "Cancel help";
         this.send_help_requset = "Send help";
         this.help_title = "Help request";
-        this.help_guide = "Please calm down your current location and your phone number has been sent to the competent authorities" ;
+        this.help_guide = "Please calm down your current location and your phone number has been sent to the competent authorities";
         this.storage.set('lang', 'english');
         this.translate.setDefaultLang('en');
         this.platform.setDir('ltr', true);

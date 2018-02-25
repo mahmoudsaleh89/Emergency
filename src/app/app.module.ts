@@ -36,6 +36,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {LoginPage} from "../pages/login/login";
 import {Sim} from "@ionic-native/sim";
 import { OprationsProvider } from '../providers/oprations/oprations';
+import {ProfileEditPage} from "../pages/profile-edit/profile-edit";
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -57,7 +58,8 @@ export function createTranslateLoader(http: HttpClient) {
     NotificationsPage,
     RatingPage,
     AddClaimPage,
-    LoginPage
+    LoginPage,
+    ProfileEditPage
   ],
   imports: [
     BrowserModule,
@@ -89,7 +91,8 @@ export function createTranslateLoader(http: HttpClient) {
     NotificationsPage,
     RatingPage,
     AddClaimPage,
-    LoginPage
+    LoginPage,
+    ProfileEditPage
 
   ],
   providers: [

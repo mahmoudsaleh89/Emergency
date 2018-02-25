@@ -1,69 +1,86 @@
 <div *ngIf="this.platform.dir()==='ltr'">
-<ion-menu side="left" [content]="content">
+  <ion-menu side="left" [content]="content">
 
-  <ion-content>
-    <ion-item class="myheader" id="profile_info" (click)="openProfilePage()" menuClose>
-      <img class="p-image" src="{{account.userInformation.profileImage}}" width="60" onerror="this.src='assets/imgs/user.png'">
-      <h2 *ngIf="account.userInformation.PhoneNumber != '' ">{{account.userInformation.FirstName}}  {{account.userInformation.Lastname }}</h2>
-      <h2 *ngIf="account.userInformation.PhoneNumber == '' ">{{'unknownUser' | translate}}</h2>
-      <p *ngIf="account.userInformation.PhoneNumber != '' " dir="ltr" text-left style="color: #1ab394 !important;">{{account.userInformation.PhoneNumber}}</p>
-      <p *ngIf="account.userInformation.PhoneNumber == '' " dir="ltr" text-left style="color: #1ab394 !important;">*******</p>
-    </ion-item>
-    <ion-list class="myMenu">
-
-      <ion-item *ngFor="let p of pages; let i = index" (click)="openPage(p)" menuClose>
-        <ion-thumbnail item-start>
-          <ion-icon name="{{p.icon}}" icon-start></ion-icon>
-        </ion-thumbnail>
-        <h2>{{p.title  | translate}}</h2>
-        <p>{{p.desc | translate}}</p>
-      </ion-item>
-      <ion-item  (click)="onGoToAddCliam()">
-        <ion-thumbnail item-start>
-          <ion-icon name="bookmarks" icon-start></ion-icon>
-        </ion-thumbnail>
-        <h2>{{"send_claim" | translate}}</h2>
-        <p>desc</p>
+    <ion-content>
+      <ion-item text-center *ngIf="account.userInformation.Id != '' " class="myheader login_header" id="profile_info" (click)="openProfilePage()"
+                menuClose>
+        <img class="p-image" src="{{account.userInformation.profileImage}}" width="60"
+             onerror="this.src='assets/imgs/user.png'">
+        <h2 style="color: #a7b1c3 !important;">{{account.userInformation.FirstName}} {{account.userInformation.Lastname }}</h2>
+        <p dir="ltr" style="color: #a7b1c3 !important;">{{account.userInformation.PhoneNumber}}</p>
       </ion-item>
 
-    </ion-list>
-  </ion-content>
+      <ion-item text-center *ngIf="account.userInformation.Id == '' " class="myheader login_header" id="profile_info">
+        <img src="assets/imgs/MOILogo.png" width="70" height="70">
+        <br>
+        <button ion-button color="light" (click)="openProfilePage()" menuClose>{{"login" | translate}}</button>
 
-</ion-menu>
+      </ion-item>
+      <ion-list class="myMenu">
+
+        <ion-item *ngFor="let p of pages; let i = index" (click)="openPage(p)" menuClose>
+          <ion-thumbnail item-start>
+            <ion-icon name="{{p.icon}}" icon-start></ion-icon>
+          </ion-thumbnail>
+          <h2>{{p.title | translate}}</h2>
+          <p>{{p.desc | translate}}</p>
+        </ion-item>
+        <ion-item (click)="onGoToAddCliam()">
+          <ion-thumbnail item-start>
+            <ion-icon name="bookmarks" icon-start></ion-icon>
+          </ion-thumbnail>
+          <h2>{{"send_claim" | translate}}</h2>
+          <p>{{"descMenu" | translate}}</p>
+        </ion-item>
+
+      </ion-list>
+    </ion-content>
+
+  </ion-menu>
 </div>
 
 <div *ngIf="this.platform.dir()==='rtl'">
-<ion-menu side="right" [content]="content">
+  <ion-menu side="right" [content]="content">
 
-  <ion-content>
-    <ion-item class="myheader" id="profile_info" (click)="openProfilePage()" menuClose>
-      <img class="p-image" src="{{account.userInformation.profileImage}}" width="60" onerror="this.src='assets/imgs/user.png'">
-      <h2 *ngIf="account.userInformation.PhoneNumber != '' ">{{account.userInformation.FirstName}}  {{account.userInformation.Lastname }}</h2>
-      <h2 *ngIf="account.userInformation.PhoneNumber == '' ">{{'unknownUser' | translate}}</h2>
-      <p *ngIf="account.userInformation.PhoneNumber != '' " dir="ltr" text-right style="color: #1ab394 !important;">{{account.userInformation.PhoneNumber}}</p>
-      <p *ngIf="account.userInformation.PhoneNumber == '' " dir="ltr" text-right style="color: #1ab394 !important;">*******</p>
-    </ion-item>
-    <ion-list class="myMenu">
-
-      <ion-item *ngFor="let p of pages; let i = index" (click)="openPage(p)" menuClose>
-        <ion-thumbnail item-start>
-          <ion-icon name="{{p.icon}}" icon-start></ion-icon>
-        </ion-thumbnail>
-        <h2>{{p.title  | translate}}</h2>
-        <p>هنالك العديد من الأنواع المتوفرة لنصوص لوريم إيبسوم، ولكن الغالبية تم تعديلها بشكل ما عبر إدخال بعض النوادر أو الكلمات العشوائي</p>
-      </ion-item>
-      <ion-item  (click)="onGoToAddCliam()">
-        <ion-thumbnail item-start>
-          <ion-icon name="bookmarks" icon-start></ion-icon>
-        </ion-thumbnail>
-        <h2>{{"send_claim" | translate}}</h2>
-        <p>هنالك العديد من الأنواع المتوفرة لنصوص لوريم إيبسوم، ولكن الغالبية تم تعديلها بشكل ما عبر إدخال بعض النوادر أو الكلمات العشوائي</p>
+    <ion-content>
+      <ion-item *ngIf="account.userInformation.Id != '' " class="myheader" id="profile_info" (click)="openProfilePage()"
+                menuClose>
+        <img class="p-image" src="{{account.userInformation.profileImage}}" width="60"
+             onerror="this.src='assets/imgs/user.png'">
+        <h2>{{account.userInformation.FirstName}} {{account.userInformation.Lastname }}</h2>
+        <p dir="ltr" text-left style="color: #1ab394 !important;">{{account.userInformation.PhoneNumber}}</p>
       </ion-item>
 
-    </ion-list>
-  </ion-content>
+      <ion-item text-center *ngIf="account.userInformation.Id == '' " class="myheader login_header" id="profile_info">
+        <img src="assets/imgs/MOILogo.png" width="70" height="70">
+      <br>
+        <button ion-button color="light" (click)="openProfilePage()" menuClose>{{"login" | translate}}</button>
 
-</ion-menu>
+      </ion-item>
+
+      <ion-list class="myMenu">
+
+        <ion-item *ngFor="let p of pages; let i = index" (click)="openPage(p)" menuClose>
+          <ion-thumbnail item-start>
+            <ion-icon name="{{p.icon}}" icon-start></ion-icon>
+          </ion-thumbnail>
+          <h2>{{p.title | translate}}</h2>
+          <p>هنالك العديد من الأنواع المتوفرة لنصوص لوريم إيبسوم، ولكن الغالبية تم تعديلها بشكل ما عبر إدخال بعض النوادر
+            أو الكلمات العشوائي</p>
+        </ion-item>
+        <ion-item (click)="onGoToAddCliam()">
+          <ion-thumbnail item-start>
+            <ion-icon name="bookmarks" icon-start></ion-icon>
+          </ion-thumbnail>
+          <h2>{{"send_claim" | translate}}</h2>
+          <p>هنالك العديد من الأنواع المتوفرة لنصوص لوريم إيبسوم، ولكن الغالبية تم تعديلها بشكل ما عبر إدخال بعض النوادر
+            أو الكلمات العشوائي</p>
+        </ion-item>
+
+      </ion-list>
+    </ion-content>
+
+  </ion-menu>
 </div>
 
 <!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->

@@ -135,6 +135,7 @@ export class LoginPage {
           this.account.userInformation = tempRes;
           this.storage.set('lang', this.account.userInformation.Language);
           this.storage.set('user', this.account.userInformation);
+          this.storage.set('have_account',true);
           this.myapp.initializeApp();
           //this.navCtrl.setRoot(HomePage);
         }
@@ -205,6 +206,7 @@ export class LoginPage {
           this.account.userInformation = tempRes;
           this.storage.set('lang', this.account.userInformation.Language);
           this.storage.set('user', this.account.userInformation);
+          this.storage.set('have_account',true);
           this.myapp.initializeApp();
           //this.navCtrl.setRoot(HomePage);
         }

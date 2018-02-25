@@ -17,11 +17,16 @@
 
 @charset "UTF-8";
 
+[dir="rtl"] .myMenu ion-thumbnail {
+  text-align: -webkit-center !important;
+}
 .myMenu ion-thumbnail{
   margin: 0 !important;
-  text-align: -webkit-center !important;
+ /* text-align: -webkit-center !important;*/
   font-size: 26px !important;
   line-height: 3 !important;
+  min-width: 45px;
+  min-height: 45px;
 }
 .myMenu ion-item{
   padding-right: 0 !important;
@@ -31,7 +36,7 @@
 .myMenu ion-icon{
   color: #a7b1c2 !important;
 }
-.myMenu h2 {
+[dir="rtl"] .myMenu h2 {
   color: #ffffff;
   font-size: 21px;
 }
@@ -41,9 +46,9 @@
 ion-list.myMenu.list.list-md {
   padding-top: 90px;
 }
-.myheader h2{
+[dir = "ltr"].myheader h2{
   color: #ffffff;
-  font-size: 21px;
+  font-size: 17px;
 }
 #profile_info .item-inner{
   border-bottom: 0px solid transparent !important;
@@ -115,7 +120,12 @@ ion-menu .scroll-content {
 }
 
 
-
+.login_header.myheader .item-inner{
+  padding: 0 !important;
+}
+.login_header.myheader{
+  padding: 0px !important;
+}
 
 /*!
  * animate.css -http://daneden.me/animate
