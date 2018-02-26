@@ -126,7 +126,10 @@ ion-menu .scroll-content {
 .login_header.myheader{
   padding: 0px !important;
 }
-
+[dir="rtl"] .alert-ios .alert-input,
+[dir="rtl"] .alert-md .alert-input{
+  text-align: right !important;
+}
 /*!
  * animate.css -http://daneden.me/animate
  * Version - 3.5.2

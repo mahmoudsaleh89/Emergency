@@ -14,6 +14,7 @@ import {StatusBar} from "@ionic-native/status-bar";
 import {AccountProvider} from "../../providers/account/account";
 import {HomePage} from "../home/home";
 import {NgForm} from "@angular/forms";
+import {ProfilePage} from "../profile/profile";
 
 
 @IonicPage()
@@ -85,6 +86,14 @@ export class ProfileEditPage {
   not_added = "";
   update = "";
   isValidFormSubmitted = false;
+  changePassword_tittle = "";
+  newPassword = "";
+  oldPassword = "";
+  changePasswordDesc = "";
+  passValidation = "";
+  change = "";
+  updateErr="";
+  phoneAlreadyRegister="";
 
 
   constructor(public navCtrl: NavController,
@@ -187,7 +196,7 @@ export class ProfileEditPage {
               handler: data => {
                 this.account.onGetProfile(data.phone_number, data.password).then((res) => {
                   if (res) {
-                    let profile : any = res;
+                    let profile: any = res;
                     this.myProfile = profile;
                     console.log(this.myProfile);
                   } else {
@@ -212,9 +221,8 @@ export class ProfileEditPage {
   ionViewDidLoad() {
 
 
-
     if (this.myProfile.Id != "" || this.myProfile.Id != undefined || this.myProfile.Id != null) {
-      console.log(this.myProfile,"this.myProfile.Id")
+      console.log(this.myProfile, "this.myProfile.Id")
     }
     else {
       this.storage.get('user')
@@ -428,30 +436,110 @@ export class ProfileEditPage {
 
   onChangePassword() {
     console.log('change pass clicked');
+    debugger;
     this.alertCtrl.create({
-      title: 'تغير رالرقم السري',
-      message: "يرجى ادخال الرقم الحالي والجديد",
+      title: this.changePassword_tittle,
+      message: this.changePasswordDesc,
       inputs: [
         {
-          name: 'phone_number',
-          placeholder: 'الرقم السري الحالي'
+          name: 'old_pass',
+          placeholder: this.oldPassword
         },
         {
-          name: 'password',
-          placeholder: 'الرقم السري'
+          name: 'new_password',
+          placeholder: this.newPassword
         }
       ],
       buttons: [
+
         {
-          text: 'تغير',
+          text: this.cancel,
+          role:'cancel',
           handler: data => {
-            console.log('Saved clicked');
+            console.log('Cancel clicked');
           }
         },
         {
-          text: 'الغاء',
+          text: this.change,
           handler: data => {
-            console.log('Cancel clicked');
+            debugger;
+            if(data.old_pass == "" || data.new_password == "" ){
+              return;
+            }
+            if (data.old_pass === this.myProfile.Password) {
+              let loader = this.loadingCtrl.create({
+                content: this.pleaseWait,
+              });
+              loader.present();
+              this.account.onEditProfile(this.account.userInformation.Id, this.account.userInformation.ImageUrl, this.account.userInformation.FirstName, this.account.userInformation.Lastname, this.account.userInformation.Gender, this.account.userInformation.PhoneNumber, this.account.userInformation.Birthday, this.account.userInformation.Language, data.newPassword)
+                .then((res)=>{
+                  debugger;
+                  if (res == 'no_user') {
+                    this.statusBar.backgroundColorByHexString('#ed5565');
+                    let toast = this.toastCtrl.create({
+                      message: this.updateErr,
+                      duration: 3000,
+                      position: 'top',
+                      cssClass: "warning_toast"
+                    });
+                    loader.dismiss();
+                    toast.present();
+                    toast.onDidDismiss(() => {
+                      this.statusBar.backgroundColorByHexString('#253746');
+                    });
+                  }
+                  else if (res == 'no_user_err') {
+                    this.statusBar.backgroundColorByHexString('#ed5565');
+                    let toast = this.toastCtrl.create({
+                      message: this.errServer,
+                      duration: 2000,
+                      position: 'top',
+                      cssClass: "warning_toast"
+                    });
+                    loader.dismiss();
+                    toast.present();
+                    toast.onDidDismiss(() => {
+                      this.statusBar.backgroundColorByHexString('#253746');
+                    });
+
+                  }
+                  else if (res) {
+                    let Profile: any = res;
+                    this.myProfile = Profile;
+                    this.account.userInformation = this.myProfile;
+                    this.storage.set('user', this.account.userInformation);
+                    this.statusBar.backgroundColorByHexString('#4f6c84');
+                    loader.dismiss();
+                    let toast = this.toastCtrl.create({
+                      message: this.saveSuccess,
+                      duration: 2000,
+                      position: 'top'
+                    });
+                    this.storage.set('have_account', true);
+                    toast.present();
+                    toast.onDidDismiss(() => {
+                      this.statusBar.backgroundColorByHexString('#253746');
+                      this.navCtrl.popTo(ProfilePage);
+                    });
+                  }
+                })
+
+            }
+            else {
+              this.statusBar.backgroundColorByHexString('#ed5565');
+              let toast = this.toastCtrl.create({
+                message: this.passValidation,
+                duration: 3000,
+                position: 'top',
+                cssClass: "warning_toast"
+              });
+              toast.present();
+              toast.onDidDismiss(() => {
+                this.statusBar.backgroundColorByHexString('#253746');
+              });
+              return;
+            }
+            console.log('Saved clicked');
           }
         }
 
@@ -481,7 +569,7 @@ export class ProfileEditPage {
       if (res == 'no_user') {
         this.statusBar.backgroundColorByHexString('#ed5565');
         let toast = this.toastCtrl.create({
-          message: 'هذا الرقم تم تسجيله سابقا',
+          message: this.phoneAlreadyRegister,
           duration: 3000,
           position: 'top',
           cssClass: "warning_toast"
@@ -508,7 +596,7 @@ export class ProfileEditPage {
 
       }
       else if (res) {
-        let profile : any = res;
+        let profile: any = res;
         this.myProfile = profile;
         this.account.userInformation = this.myProfile;
         this.storage.set('user', this.account.userInformation);
@@ -601,7 +689,7 @@ export class ProfileEditPage {
 
       }
       else if (res) {
-        let Profile:any = res;
+        let Profile: any = res;
         this.myProfile = Profile;
         this.account.userInformation = this.myProfile;
         this.storage.set('user', this.account.userInformation);
@@ -621,7 +709,7 @@ export class ProfileEditPage {
       }
     }).catch((err) => {
       let toast = this.toastCtrl.create({
-        message: 'حصل خطأ اثناء التسجيل يرجى المحاولة لاحقا ',
+        message: this.updateErr,
         duration: 3000,
         position: 'top'
       });
@@ -780,6 +868,14 @@ export class ProfileEditPage {
         this.errServer = "لم يتم الحفظ الشبكه مشغوله";
         this.not_added = "عذرا حدث خطأ أثناء تحديث قائمة الطوارئ الخاصة بك";
         this.update = "تم تحديث قائمة الطوارئ الخاصة بك بنجاح";
+        this.changePassword_tittle = "تغير الرقم السري";
+        this.newPassword = "الرقم السري الجديد";
+        this.oldPassword = "الرقم السري الحالي";
+        this.changePasswordDesc = "ادخل الرقم السري الحالي و الجديد";
+        this.passValidation = "الرقم السري الذي قمت بادخاة غير صحيح";
+        this.change = "تغير";
+        this.updateErr="خطأ،لم يتم حفظ البيانات";
+        this.phoneAlreadyRegister = "هذا الرقم تم تسجيله سابقا" ;
         this.storage.set('lang', 'arabic');
         this.translate.setDefaultLang('ar');
         this.platform.setDir('rtl', true);
@@ -810,8 +906,16 @@ export class ProfileEditPage {
         this.pleaseWait = "Please wait...";
         this.saveSuccess = "Saved successfully";
         this.errServer = "Saved failed , Internal Server Error";
-        this.not_added = "not_added";
-        this.update = "update";
+        this.not_added = "Not added";
+        this.update = "Update";
+        this.changePassword_tittle = "Change password";
+        this.newPassword = "New password";
+        this.oldPassword = "Current password";
+        this.changePasswordDesc = "insert current password and new password !";
+        this.passValidation = "password you inserted wrong";
+        this.change = "Change";
+        this.updateErr="Error while updating";
+        this.phoneAlreadyRegister = "This phone already register !" ;
         this.storage.set('lang', 'english');
         this.translate.setDefaultLang('en');
         this.platform.setDir('ltr', true);
@@ -842,8 +946,16 @@ export class ProfileEditPage {
         this.pleaseWait = "Please wait...";
         this.saveSuccess = "Saved successfully";
         this.errServer = "Saved failed , Internal Server Error";
-        this.not_added = "not_added";
+        this.not_added = "Not added";
         this.update = "update";
+        this.changePassword_tittle = "Change password";
+        this.newPassword = "New password";
+        this.oldPassword = "Current password";
+        this.changePasswordDesc = "insert current password and new password !";
+        this.passValidation = "password you inserted wrong";
+        this.change = "Change";
+        this.updateErr="Error while updating";
+        this.phoneAlreadyRegister = "This phone already register !" ;
         this.storage.set('lang', 'english');
         this.translate.setDefaultLang('en');
         this.platform.setDir('ltr', true);
@@ -855,6 +967,7 @@ export class ProfileEditPage {
     });
   }
 }
+
 export interface Contact {
   phoneNumber: string ;
   firstName: string ;
