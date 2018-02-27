@@ -111,6 +111,9 @@ export class ProfilePage {
     this.myProfile = this.account.userInformation;
 
   }
+  ionViewDidEnter(){
+    this.myProfile = this.account.userInformation;
+  }
   onGoToEditPage(){
     this.navCtrl.push(ProfileEditPage);
   }

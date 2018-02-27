@@ -31,7 +31,7 @@
         </ion-avatar>
         <ion-label stacked>{{"phone" | translate}} <span class="validate_note">*</span>
         </ion-label>
-        <ion-input #MyphoneNumber="ngModel" required minlength="7" maxlength="10" type="number" name="phoneNumber" [ngModel]="+myProfile.PhoneNumber" placeholder="ex : 2 ??? ????"></ion-input>
+        <ion-input #MyphoneNumber="ngModel" required minlength="7" maxlength="10" type="number" name="phoneNumber" [(ngModel)]="+myProfile.PhoneNumber" placeholder="ex : 2 ??? ????"></ion-input>
       </ion-item>
       <div *ngIf="MyphoneNumber.errors && f.submitted && !isValidFormSubmitted" [ngClass] = "'error'">
         <div *ngIf="MyphoneNumber.errors.minlength">
@@ -44,11 +44,11 @@
       </div>
       <ion-item>
         <ion-label stacked>{{"first_name" | translate}}</ion-label>
-        <ion-input type="text" name="firstName" [ngModel]="myProfile.FirstName"></ion-input>
+        <ion-input type="text" name="firstName" [(ngModel)]="myProfile.FirstName"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label stacked>{{"last_name" | translate}}</ion-label>
-        <ion-input type="text" name="lastName" [ngModel]="myProfile.Lastname"></ion-input>
+        <ion-input type="text" name="lastName" [(ngModel)]="myProfile.Lastname"></ion-input>
       </ion-item>
       <ion-item *ngIf="have_account" text-center>
         <button type="button" outline ion-button   (click)="onChangePassword()"> {{"change_password"| translate}}</button>
@@ -61,7 +61,7 @@
       </ion-list-header>
       <ion-item>
         <ion-label>{{"gender" | translate}}</ion-label>
-        <ion-select [ngModel]="this.myProfile.Gender" interface="popover" name="gender">
+        <ion-select [(ngModel)]="this.myProfile.Gender" interface="popover" name="gender">
           <ion-option value="male">{{"male" | translate}}</ion-option>
           <ion-option value="female">{{"female" | translate}}</ion-option>
           <ion-option value="unspecified">{{"unspecified" | translate}}</ion-option>
@@ -73,7 +73,7 @@
       </ion-item>
       <ion-item>
         <ion-label>{{"language" | translate}}</ion-label>
-        <ion-select [ngModel]="this.myProfile.Language" interface="popover" name="language">
+        <ion-select [(ngModel)]="this.myProfile.Language" interface="popover" name="language">
           <ion-option value="arabic">{{"arabic" | translate}}</ion-option>
           <ion-option value="english">{{"english" | translate}}</ion-option>
           <ion-option value="urdu">{{"urdu" | translate}}</ion-option>
@@ -126,7 +126,7 @@
       </div>
     </ion-list>
     <div text-center>
-      <button type="button"  ion-button color="primary" [outline]="!f.valid" (click)="updateUser(f)"> {{"update" | translate}}</button>
+      <button type="button"  ion-button color="primary" [outline]="!f.valid" [disabled]="!f.valid"  (click)="updateUser(f)"> {{"update" | translate}}</button>
     </div>
   </form>
 

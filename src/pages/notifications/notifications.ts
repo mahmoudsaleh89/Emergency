@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {Component} from '@angular/core';
+import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {ConfigProvider} from "../../providers/config/config";
 import {RatingPage} from "../rating/rating";
 
@@ -10,11 +10,13 @@ import {RatingPage} from "../rating/rating";
 })
 
 export class NotificationsPage {
-notifications:any;
+  notifications: any;
+  ratingQuestions
+
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private config: ConfigProvider) {
-    this.config.getNotificationList().then((res)=>{
+    this.config.getNotificationList().then((res) => {
       this.notifications = res;
     })
   }
@@ -24,13 +26,18 @@ notifications:any;
     console.log('ionViewDidLoad NotificationsPage');
   }
 
-  onShowNotificationDET(notify){
-      if(notify.notifyType == 1){
-        this.navCtrl.setRoot(RatingPage);
-      }
-      else{
-        return;
-      }
+  onShowNotificationDET(notify) {
+    if (notify.notifyType == 1) {
+      this.config.getRatingQuestion().then((res) => {
+        debugger;
+        this.ratingQuestions = res;
+        this.navCtrl.setRoot(RatingPage,{qus:this.ratingQuestions});
+      });
+
+    }
+    else {
+      return;
+    }
   }
 
 }

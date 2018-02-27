@@ -5,13 +5,15 @@ import {Storage} from '@ionic/storage';
 
 @Injectable()
 export class ConfigProvider {
+  linkAPI = "http://192.168.0.230:4201/api/MobileApp/";
   language = 'ar';
   side = 'right';
   numberObject = {};
   notifications = [];
   fabsOptions = [];
   ratingQuestions: any;
-  emergencyNumberList=[];
+  emergencyNumberList = [];
+
   constructor(public http: HttpClient,
               private storage: Storage) {
     console.log('Hello ConfigProvider Provider');
@@ -46,7 +48,6 @@ export class ConfigProvider {
   }
 
 
-
   onViewEmergencyNumber(index) {
     debugger;
     console.log(index);
@@ -70,27 +71,57 @@ export class ConfigProvider {
   }
 
   getRatingQuestion() {
-    return new Promise((resolve) => {
-      this.ratingQuestions = [
-        {
-          qusID: 1,
-          qusText: "سرعة الاستجابة",
-          value: 0
-        },
-        {
-          qusID: 1,
-          qusText: "مستوى تقيمك للخدمة",
-          value: 0
-        },
-        {
-          qusID: 1,
-          qusText: "تعامل الافراد مع الحاله",
-          value: 0
-        }
-      ];
-      resolve(this.ratingQuestions);
-    })
+    return new Promise(resolve => {
+      this.http.post(this.linkAPI + '/GetQuestionRating', {})
+        .subscribe(
+          res => {
+            debugger;
+            let qustion: any = res;
+            this.ratingQuestions = [];
+            for (let i = 0; i < qustion.length; i++) {
+              let temp = {
+                qusID: qustion[i].Value,
+                qusText: qustion[i].Text,
+                value: 0
+              }
+              this.ratingQuestions.push(temp);
 
+            }
+            resolve(this.ratingQuestions);
+            console.log(this.ratingQuestions);
+            console.log(res);
+          },
+          err => {
+            debugger;
+            console.log('Error occured', err);
+          }
+        );
+    });
+  }
+
+  onSubmitRating(userId, note, phoneNumber, qustions) {
+    debugger;
+    let body = {
+      "MobileUserProfileId": userId,
+      "Note": note,
+      "PhoneNumber": phoneNumber,
+      "EvalQuestions": qustions
+    }
+    console.log(JSON.stringify(body));
+    return new Promise(resolve => {
+      this.http.post(this.linkAPI + '/CreateEvaluation', body)
+        .subscribe(
+          res => {
+            debugger;
+            resolve(res);
+          },
+          err => {
+            debugger;
+            resolve('no_user_err');
+            console.log('Error occured', err);
+          }
+        );
+    });
   }
 
   getNotificationList() {
@@ -118,18 +149,18 @@ export class ConfigProvider {
     return new Promise((resolve) => {
       this.fabsOptions = [
         {
-          DepartmentId :"1",
+          DepartmentId: "1",
           Department: "fire",
           imgSrc: 'assets/imgs/fire.svg'
         },
         {
-          DepartmentId :"2",
+          DepartmentId: "2",
           Department: "police",
           imgSrc: 'assets/imgs/police.svg',
 
         },
         {
-          DepartmentId :"3",
+          DepartmentId: "3",
           Department: "police",
           imgSrc: 'assets/imgs/ambulance.svg',
         }

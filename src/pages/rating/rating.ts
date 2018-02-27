@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
-import {IonicPage, NavController, NavParams, ToastController} from 'ionic-angular';
+import {Component} from '@angular/core';
+import {IonicPage, LoadingController, NavController, NavParams, ToastController} from 'ionic-angular';
 import {ConfigProvider} from "../../providers/config/config";
 import {HomePage} from "../home/home";
 import {Storage} from '@ionic/storage';
 import {StatusBar} from "@ionic-native/status-bar";
+import {AccountProvider} from "../../providers/account/account";
 
 @IonicPage()
 @Component({
@@ -11,28 +12,35 @@ import {StatusBar} from "@ionic-native/status-bar";
   templateUrl: 'rating.html',
 })
 export class RatingPage {
-  ratingQuestions:any;
+  ratingQuestions: any;
   suggest: string;
   answers = [];
   activeDisabled = false;
   PleaseWait;
   successNote;
-  errNote ;
+  errNote;
+  shit: any;
+  sending = "";
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public config: ConfigProvider,
               private toastCtrl: ToastController,
               private storage: Storage,
-              public statusBar :StatusBar) {
+              public statusBar: StatusBar,
+              public loadingCtrl: LoadingController,
+              public account: AccountProvider) {
     this.setLangAndDirction();
-    this.config.getRatingQuestion().then((res)=>{
-      this.ratingQuestions = res;
-    });
+    this.ratingQuestions = [];
+    debugger;
+    console.log(this.navParams);
+    this.ratingQuestions = this.navParams.get('qus');
 
   }
-  ionViewWillEnter(){
 
+  ionViewWillEnter() {
+
+    console.log(this.ratingQuestions, 'hello from page');
   }
 
   ionViewDidLoad() {
@@ -42,18 +50,65 @@ export class RatingPage {
     console.log('ionViewDidLoad RatingPage');
   }
 
-  onsetRate(){
-
-    for (var i = 0 ; i < this.ratingQuestions.length; i ++){
+  onsetRate() {
+    debugger;
+    this.answers=[];
+    for (var i = 0; i < this.ratingQuestions.length; i++) {
       debugger
       let answer = {
-        qusId : this.ratingQuestions[i].qusID,
-        qusText : this.ratingQuestions[i].qusText,
-        ratValue: this.ratingQuestions[i].value,
+        QuestionId: this.ratingQuestions[i].qusID,
+        RatingValue: this.ratingQuestions[i].value
       };
       this.answers.push(answer);
     }
-    let note = this.suggest;
+    let loading = this.loadingCtrl.create({
+      content: this.sending
+    });
+
+    loading.present();
+    debugger;
+    this.config.onSubmitRating(this.account.userInformation.Id, this.suggest, this.account.userInformation.PhoneNumber, this.answers)
+      .then((qusRes) => {
+        debugger;
+      loading.dismiss();
+        if (qusRes) {
+
+          console.log(qusRes);
+          let toast = this.toastCtrl.create({
+            message: this.successNote,
+            duration: 2500,
+            position: 'top'
+          });
+          this.statusBar.backgroundColorByHexString('#4f6c84');
+          toast.present();
+          toast.onDidDismiss(() => {
+            this.statusBar.backgroundColorByHexString('#253746');
+          });
+          this.activeDisabled = true;
+          setTimeout(() => {
+            this.navCtrl.setRoot(HomePage);
+          }, 2500)
+        }else{
+          this.statusBar.backgroundColorByHexString('#ed5565');
+          let toast = this.toastCtrl.create({
+            message: this.errNote,
+            duration: 2500,
+            position: 'top',
+            cssClass: "warning_toast"
+          });
+          toast.present();
+          toast.onDidDismiss(() => {
+            this.statusBar.backgroundColorByHexString('#253746');
+          });
+          return;
+        }
+      })
+      .catch((err) => {
+
+      })
+
+
+   /* let note = this.suggest;
     this.answers.push(note);
     console.log(this.answers);
 
@@ -64,17 +119,17 @@ export class RatingPage {
     });
     this.statusBar.backgroundColorByHexString('#4f6c84');
     toast.present();
-    toast.onDidDismiss(()=>{
+    toast.onDidDismiss(() => {
       this.statusBar.backgroundColorByHexString('#253746');
     });
     this.activeDisabled = true;
-    setTimeout(()=>{
+    setTimeout(() => {
       this.navCtrl.setRoot(HomePage);
-    },2500)
+    }, 2500)*/
 
   }
 
-  onBackToHome(){
+  onBackToHome() {
     this.navCtrl.setRoot(HomePage);
   }
 
@@ -84,16 +139,19 @@ export class RatingPage {
         this.PleaseWait = 'يرجى الانتظار'
         this.successNote = ' شكرا لك ، تم ارسال تقيمك بنجاح ';
         this.errNote = "عذرا ، حدث خطأ اثناء التقيم ،يرجى المحاولة مرة اخرى";
+        this.sending = " جاري الارسال ...";
       }
       else if (result == 'english') {
         this.PleaseWait = 'Please Wait'
         this.successNote = 'Thank you , submitted successfully';
         this.errNote = "Warning , something wrong please try again  ";
+        this.sending = "Sending ...";
       }
-      else  {
-        this.PleaseWait = 'يرجى الانتظار'
-        this.successNote = ' شكرا لك ، تم ارسال تقيمك بنجاح ';
-        this.errNote = "عذرا ، حدث خطأ اثناء التقيم ،يرجى المحاولة مرة اخرى";
+      else {
+        this.PleaseWait = 'Please Wait'
+        this.successNote = 'Thank you , submitted successfully';
+        this.errNote = "Warning , something wrong please try again  ";
+        this.sending = "Sending ...";
       }
 
     });
