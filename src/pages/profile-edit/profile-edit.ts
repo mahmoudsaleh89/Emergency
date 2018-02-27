@@ -94,6 +94,7 @@ export class ProfileEditPage {
   change = "";
   updateErr="";
   phoneAlreadyRegister="";
+  allfieldrequried = "";
 
 
   constructor(public navCtrl: NavController,
@@ -463,7 +464,22 @@ export class ProfileEditPage {
           text: this.change,
           handler: data => {
             debugger;
+            console.log(data, 'data');
+            console.log(this.myProfile, 'this.myProfile');
+            console.log(this.account.userInformation, 'this.account.userInformation');
+            debugger;
             if(data.old_pass == "" || data.new_password == "" ){
+              this.statusBar.backgroundColorByHexString('#ed5565');
+              let toast = this.toastCtrl.create({
+                message: this.allfieldrequried,
+                duration: 3000,
+                position: 'top',
+                cssClass: "warning_toast"
+              });
+              toast.present();
+              toast.onDidDismiss(() => {
+                this.statusBar.backgroundColorByHexString('#253746');
+              });
               return;
             }
             if (data.old_pass === this.myProfile.Password) {
@@ -471,7 +487,7 @@ export class ProfileEditPage {
                 content: this.pleaseWait,
               });
               loader.present();
-              this.account.onEditProfile(this.account.userInformation.Id, this.account.userInformation.ImageUrl, this.account.userInformation.FirstName, this.account.userInformation.Lastname, this.account.userInformation.Gender, this.account.userInformation.PhoneNumber, this.account.userInformation.Birthday, this.account.userInformation.Language, data.newPassword)
+              this.account.onEditProfile(this.account.userInformation.Id, this.account.userInformation.ImageUrl, this.account.userInformation.FirstName, this.account.userInformation.Lastname, this.account.userInformation.Gender, this.account.userInformation.PhoneNumber, this.account.userInformation.Birthday, this.account.userInformation.Language, data.new_password)
                 .then((res)=>{
                   debugger;
                   if (res == 'no_user') {
@@ -876,6 +892,7 @@ export class ProfileEditPage {
         this.change = "تغير";
         this.updateErr="خطأ،لم يتم حفظ البيانات";
         this.phoneAlreadyRegister = "هذا الرقم تم تسجيله سابقا" ;
+        this.allfieldrequried = "لتغير الرقم السري يجب ادخال الرقم السري الحالي والجديد "
         this.storage.set('lang', 'arabic');
         this.translate.setDefaultLang('ar');
         this.platform.setDir('rtl', true);
@@ -916,6 +933,7 @@ export class ProfileEditPage {
         this.change = "Change";
         this.updateErr="Error while updating";
         this.phoneAlreadyRegister = "This phone already register !" ;
+        this.allfieldrequried = "To change password you to insert current password and new password" ;
         this.storage.set('lang', 'english');
         this.translate.setDefaultLang('en');
         this.platform.setDir('ltr', true);
@@ -956,6 +974,7 @@ export class ProfileEditPage {
         this.change = "Change";
         this.updateErr="Error while updating";
         this.phoneAlreadyRegister = "This phone already register !" ;
+        this.allfieldrequried = "To change password you to insert current password and new password" ;
         this.storage.set('lang', 'english');
         this.translate.setDefaultLang('en');
         this.platform.setDir('ltr', true);

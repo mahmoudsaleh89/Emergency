@@ -1,4 +1,4 @@
-import {Component, Injectable} from '@angular/core';
+import {Component, forwardRef, Inject, Injectable} from '@angular/core';
 import {
   ActionSheetController, AlertController, IonicPage, LoadingController, NavController, NavParams, Platform,
   ToastController
@@ -15,6 +15,7 @@ import {AccountProvider} from "../../providers/account/account";
 import {HomePage} from "../home/home";
 import {NgForm} from "@angular/forms";
 import {ProfileEditPage} from "../profile-edit/profile-edit";
+import {MyApp} from "../../app/app.component";
 
 
 @Injectable()
@@ -103,7 +104,8 @@ export class ProfilePage {
               public statusBar: StatusBar,
               public account: AccountProvider,
               public alertCtrl: AlertController,
-              public loadingCtrl: LoadingController) {
+              public loadingCtrl: LoadingController,
+              @Inject(forwardRef(() => MyApp)) private myapp: MyApp) {
     this.setLangAndDirction();
     this.emergencyNumberList = [];
     this.myProfile = this.account.userInformation;
@@ -225,7 +227,41 @@ export class ProfilePage {
 
     });
   }
+  logOut(){
+    this.storage.set('have_account',false);
+    this.myProfile ={
+      Id: "",
+      FirstName: "Guest",
+      Lastname: "user",
+      PhoneNumber: "",
+      ImageUrl: "assets/imgs/user.png",
+      Gender: "",
+      Birthday: "",
+      Language: "",
+      Password: "",
+      Relatives: [
+        {
+          Id: "",
+          Name: "",
+          PhoneNumber: "",
+          RelativeDescription: "",
+          MobileUserProfileId: ""
+        },
+        {
+          Id: "",
+          Name: "",
+          PhoneNumber: "",
+          RelativeDescription: "",
+          MobileUserProfileId: ""
+        }
+      ]
+    };
+    this.account.userInformation = this.myProfile;
+    this.storage.set('user',this.myProfile);
+    this.storage.set('lang','english');
+    this.myapp.initializeApp();
 
+  }
 }
 export interface Contact {
   phoneNumber: string ;
