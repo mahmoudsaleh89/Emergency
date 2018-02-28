@@ -91,7 +91,6 @@ export class HomePage {
 
   ionViewDidEnter() {
     debugger;
-    console.log(this.account.userInformation, 'kooos omaaaak ');
   }
 
   addMap(lat, long) {
@@ -113,6 +112,7 @@ export class HomePage {
   addMarker(lat, long) {
     let marker = new google.maps.Marker({
       map: this.map,
+      icon: 'assets/imgs/pin.png',
       animation: google.maps.Animation.DROP,
       draggable: false,
       position: this.map.getCenter()

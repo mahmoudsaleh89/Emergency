@@ -282,8 +282,7 @@ export class AccountProvider {
                 debugger;
                 console.log(data);
                 let response: any = data.Result;
-                this.userInformation = response;
-                resolve(this.userInformation);
+                resolve(response);
               } else {
                 debugger;
                 console.log(data);

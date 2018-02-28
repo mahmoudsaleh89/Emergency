@@ -1,4 +1,4 @@
-import {Component, Injectable} from '@angular/core';
+import {Component, forwardRef, Inject, Injectable} from '@angular/core';
 import {
   ActionSheetController, AlertController, IonicPage, LoadingController, NavController, NavParams, Platform,
   ToastController
@@ -15,6 +15,7 @@ import {AccountProvider} from "../../providers/account/account";
 import {HomePage} from "../home/home";
 import {NgForm} from "@angular/forms";
 import {ProfilePage} from "../profile/profile";
+import {MyApp} from "../../app/app.component";
 
 
 @IonicPage()
@@ -92,8 +93,8 @@ export class ProfileEditPage {
   changePasswordDesc = "";
   passValidation = "";
   change = "";
-  updateErr="";
-  phoneAlreadyRegister="";
+  updateErr = "";
+  phoneAlreadyRegister = "";
   allfieldrequried = "";
 
 
@@ -111,10 +112,19 @@ export class ProfileEditPage {
               public statusBar: StatusBar,
               public account: AccountProvider,
               public alertCtrl: AlertController,
-              public loadingCtrl: LoadingController) {
+              public loadingCtrl: LoadingController,
+              @Inject(forwardRef(() => MyApp)) private myapp: MyApp) {
     this.setLangAndDirction();
     this.emergencyNumberList = [];
     this.myProfile = this.account.userInformation;
+    this.imgURL = this.myProfile.ImageUrl;
+    debugger;
+    if (this.myProfile.Birthday != "" || this.myProfile.Birthday != null) {
+      debugger;
+      this.currentDate = this.myProfile.Birthday.toString().substr(0, 10);
+      this.myProfile.Birthday = this.currentDate;
+
+    }
 
   }
 
@@ -235,29 +245,6 @@ export class ProfileEditPage {
         })
     }
 
-    /*if (this.myProfile.Id != "") {
-      debugger;
-      this.phoneNumber = parseInt(this.myProfile.PhoneNumber);
-      this.storage.set('user', this.myProfile);
-    } else {
-      this.storage.get('user').then((userInfo) => {
-        debugger;
-        if (userInfo.Id != "") {
-          this.myProfile = userInfo;
-          this.storage.set('user', this.myProfile);
-        } else {
-          this.myProfile = {
-            firstName: "",
-            lastName: "",
-            ImageUrl: "",
-            phoneNumber: "",
-            gender: "",
-            birthday: ""
-          }
-          this.storage.set('user', this.myProfile);
-        }
-      });
-    }*/
 
     console.log('ionViewDidLoad SettingsPage', this.myProfile);
   }
@@ -397,6 +384,7 @@ export class ProfileEditPage {
       maximumImagesCount: 1
     }
     this.imagePicker.getPictures(options).then((results) => {
+      debugger;
       this.imgURL = results[0];
       this.myProfile.ImageUrl = this.imgURL;
 
@@ -418,6 +406,7 @@ export class ProfileEditPage {
       /*console.log('Image URI: ' + results[i]);*/
 
     }, (err) => {
+      debugger;
       this.statusBar.backgroundColorByHexString('#4f6c84');
       this.imgURL = "";
       let toast = this.toastCtrl.create({
@@ -455,7 +444,7 @@ export class ProfileEditPage {
 
         {
           text: this.cancel,
-          role:'cancel',
+          role: 'cancel',
           handler: data => {
             console.log('Cancel clicked');
           }
@@ -468,7 +457,7 @@ export class ProfileEditPage {
             console.log(this.myProfile, 'this.myProfile');
             console.log(this.account.userInformation, 'this.account.userInformation');
             debugger;
-            if(data.old_pass == "" || data.new_password == "" ){
+            if (data.old_pass == "" || data.new_password == "") {
               this.statusBar.backgroundColorByHexString('#ed5565');
               let toast = this.toastCtrl.create({
                 message: this.allfieldrequried,
@@ -488,7 +477,7 @@ export class ProfileEditPage {
               });
               loader.present();
               this.account.onEditProfile(this.account.userInformation.Id, this.account.userInformation.ImageUrl, this.account.userInformation.FirstName, this.account.userInformation.Lastname, this.account.userInformation.Gender, this.account.userInformation.PhoneNumber, this.account.userInformation.Birthday, this.account.userInformation.Language, data.new_password)
-                .then((res)=>{
+                .then((res) => {
                   debugger;
                   if (res == 'no_user') {
                     this.statusBar.backgroundColorByHexString('#ed5565');
@@ -579,7 +568,7 @@ export class ProfileEditPage {
     loader.present();
 
 
-    this.account.onCreateProfile(this.imgURL, form.value.firstName, form.value.lastName, form.value.gender, form.value.phoneNumber, form.value.birthday, form.value.language, form.value.password).then((res) => {
+    this.account.onCreateProfile(this.imgURL, form.value.firstName, form.value.lastName, form.value.gender, form.value.phoneNumber, this.currentDate, form.value.language, form.value.password).then((res) => {
       debugger;
 
       if (res == 'no_user') {
@@ -672,68 +661,73 @@ export class ProfileEditPage {
     loader.present();
 
 
-    this.account.onEditProfile(this.account.userInformation.Id, this.imgURL, form.value.firstName, form.value.lastName, form.value.gender, form.value.phoneNumber, form.value.birthday, form.value.language, this.account.userInformation.Password).then((res) => {
-      debugger;
+    this.account.onEditProfile(this.account.userInformation.Id, this.imgURL, form.value.firstName, form.value.lastName, form.value.gender, form.value.phoneNumber, this.currentDate, form.value.language, this.account.userInformation.Password)
+      .then((res) => {
+        debugger;
 
-      if (res == 'no_user') {
-        this.statusBar.backgroundColorByHexString('#ed5565');
+        if (res == 'no_user') {
+          this.statusBar.backgroundColorByHexString('#ed5565');
+          let toast = this.toastCtrl.create({
+            message: 'نعتذر حصل خطأ اثناء تحديث البيانات',
+            duration: 3000,
+            position: 'top',
+            cssClass: "warning_toast"
+          });
+          loader.dismiss();
+          toast.present();
+          toast.onDidDismiss(() => {
+            this.statusBar.backgroundColorByHexString('#253746');
+          });
+        }
+        else if (res == 'no_user_err') {
+          this.statusBar.backgroundColorByHexString('#ed5565');
+          let toast = this.toastCtrl.create({
+            message: this.errServer,
+            duration: 2000,
+            position: 'top',
+            cssClass: "warning_toast"
+          });
+          loader.dismiss();
+          toast.present();
+          toast.onDidDismiss(() => {
+            this.statusBar.backgroundColorByHexString('#253746');
+          });
+
+        }
+        else if (res) {
+          debugger;
+          let Profile: any = res;
+          this.myProfile = Profile;
+          this.account.userInformation = this.myProfile;
+          this.storage.set('user', this.account.userInformation);
+          this.statusBar.backgroundColorByHexString('#4f6c84');
+          loader.dismiss();
+          let toast = this.toastCtrl.create({
+            message: this.saveSuccess,
+            duration: 2000,
+            position: 'top'
+          });
+          this.storage.set('have_account', true);
+          this.storage.set('lang', this.myProfile.Language);
+          toast.present();
+          toast.onDidDismiss(() => {
+            this.statusBar.backgroundColorByHexString('#253746');
+            this.myapp.initializeApp();
+            //this.navCtrl.popTo(HomePage);
+          });
+        }
+      })
+      .catch((err) => {
         let toast = this.toastCtrl.create({
-          message: 'نعتذر حصل خطأ اثناء تحديث البيانات',
+          message: this.updateErr,
           duration: 3000,
-          position: 'top',
-          cssClass: "warning_toast"
-        });
-        loader.dismiss();
-        toast.present();
-        toast.onDidDismiss(() => {
-          this.statusBar.backgroundColorByHexString('#253746');
-        });
-      }
-      else if (res == 'no_user_err') {
-        this.statusBar.backgroundColorByHexString('#ed5565');
-        let toast = this.toastCtrl.create({
-          message: this.errServer,
-          duration: 2000,
-          position: 'top',
-          cssClass: "warning_toast"
-        });
-        loader.dismiss();
-        toast.present();
-        toast.onDidDismiss(() => {
-          this.statusBar.backgroundColorByHexString('#253746');
-        });
-
-      }
-      else if (res) {
-        let Profile: any = res;
-        this.myProfile = Profile;
-        this.account.userInformation = this.myProfile;
-        this.storage.set('user', this.account.userInformation);
-        this.statusBar.backgroundColorByHexString('#4f6c84');
-        loader.dismiss();
-        let toast = this.toastCtrl.create({
-          message: this.saveSuccess,
-          duration: 2000,
           position: 'top'
         });
-        this.storage.set('have_account', true);
         toast.present();
         toast.onDidDismiss(() => {
           this.statusBar.backgroundColorByHexString('#253746');
-          this.navCtrl.popTo(HomePage);
         });
-      }
-    }).catch((err) => {
-      let toast = this.toastCtrl.create({
-        message: this.updateErr,
-        duration: 3000,
-        position: 'top'
       });
-      toast.present();
-      toast.onDidDismiss(() => {
-        this.statusBar.backgroundColorByHexString('#253746');
-      });
-    });
   }
 
 
@@ -890,8 +884,8 @@ export class ProfileEditPage {
         this.changePasswordDesc = "ادخل الرقم السري الحالي و الجديد";
         this.passValidation = "الرقم السري الذي قمت بادخاة غير صحيح";
         this.change = "تغير";
-        this.updateErr="خطأ،لم يتم حفظ البيانات";
-        this.phoneAlreadyRegister = "هذا الرقم تم تسجيله سابقا" ;
+        this.updateErr = "خطأ،لم يتم حفظ البيانات";
+        this.phoneAlreadyRegister = "هذا الرقم تم تسجيله سابقا";
         this.allfieldrequried = "لتغير الرقم السري يجب ادخال الرقم السري الحالي والجديد "
         this.storage.set('lang', 'arabic');
         this.translate.setDefaultLang('ar');
@@ -931,9 +925,9 @@ export class ProfileEditPage {
         this.changePasswordDesc = "insert current password and new password !";
         this.passValidation = "password you inserted wrong";
         this.change = "Change";
-        this.updateErr="Error while updating";
-        this.phoneAlreadyRegister = "This phone already register !" ;
-        this.allfieldrequried = "To change password you to insert current password and new password" ;
+        this.updateErr = "Error while updating";
+        this.phoneAlreadyRegister = "This phone already register !";
+        this.allfieldrequried = "To change password you to insert current password and new password";
         this.storage.set('lang', 'english');
         this.translate.setDefaultLang('en');
         this.platform.setDir('ltr', true);
@@ -972,9 +966,9 @@ export class ProfileEditPage {
         this.changePasswordDesc = "insert current password and new password !";
         this.passValidation = "password you inserted wrong";
         this.change = "Change";
-        this.updateErr="Error while updating";
-        this.phoneAlreadyRegister = "This phone already register !" ;
-        this.allfieldrequried = "To change password you to insert current password and new password" ;
+        this.updateErr = "Error while updating";
+        this.phoneAlreadyRegister = "This phone already register !";
+        this.allfieldrequried = "To change password you to insert current password and new password";
         this.storage.set('lang', 'english');
         this.translate.setDefaultLang('en');
         this.platform.setDir('ltr', true);

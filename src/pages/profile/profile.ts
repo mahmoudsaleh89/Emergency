@@ -109,6 +109,12 @@ export class ProfilePage {
     this.setLangAndDirction();
     this.emergencyNumberList = [];
     this.myProfile = this.account.userInformation;
+    if (this.myProfile.Birthday != "" || this.myProfile.Birthday != null) {
+      debugger;
+      this.currentDate = this.myProfile.Birthday.toString().substr(0, 10);
+      this.myProfile.Birthday = this.currentDate;
+
+    }
 
   }
   ionViewDidEnter(){

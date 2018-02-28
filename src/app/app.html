@@ -43,12 +43,12 @@
   <ion-menu side="right" [content]="content">
 
     <ion-content>
-      <ion-item *ngIf="account.userInformation.Id != '' " class="myheader" id="profile_info" (click)="openProfilePage()"
+      <ion-item text-center *ngIf="account.userInformation.Id != '' " class="myheader login_header" id="profile_info" (click)="openProfilePage()"
                 menuClose>
         <img class="p-image" src="{{account.userInformation.profileImage}}" width="60"
              onerror="this.src='assets/imgs/user.png'">
-        <h2>{{account.userInformation.FirstName}} {{account.userInformation.Lastname }}</h2>
-        <p dir="ltr" text-left style="color: #1ab394 !important;">{{account.userInformation.PhoneNumber}}</p>
+        <h2 style="color: #a7b1c3 !important;">{{account.userInformation.FirstName}} {{account.userInformation.Lastname }}</h2>
+        <p dir="ltr" style="color: #a7b1c3 !important;">{{account.userInformation.PhoneNumber}}</p>
       </ion-item>
 
       <ion-item text-center *ngIf="account.userInformation.Id == '' " class="myheader login_header" id="profile_info">

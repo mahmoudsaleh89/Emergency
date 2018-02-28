@@ -69,7 +69,7 @@
       </ion-item>
       <ion-item (click)="onSetBirthday()">
         <ion-label stacked>{{"birthday" | translate}}</ion-label>
-        <ion-input disabled="true" id="birthday" type="text" ngModel name="birthday"></ion-input>
+        <ion-input disabled="true" id="birthday" type="text" [(ngModel)]="myProfile.Birthday" name="birthday"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label>{{"language" | translate}}</ion-label>
