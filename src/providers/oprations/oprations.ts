@@ -47,4 +47,32 @@ export class OprationsProvider {
     });
   }
 
+  onSendCliam(userId, phoneNumber , textClaim){
+    let body = {
+      "MobileUserProfileId": userId,
+      "PhoneNumber": phoneNumber,
+      "ClaimText": textClaim
+    };
+    return new Promise(resolve => {
+      this.http.post(this.linkAPI + 'CreateClaim', body)
+        .subscribe(
+          res => {
+            debugger;
+            let response: any = res;
+            if(response){
+              resolve(true);
+            }else {
+              resolve(false);
+            }
+
+          },
+          err => {
+            debugger;
+            resolve(false);
+            console.log('Error occured', err);
+          }
+        );
+    });
+  }
+
 }

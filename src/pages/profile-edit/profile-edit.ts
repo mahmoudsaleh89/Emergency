@@ -16,6 +16,7 @@ import {HomePage} from "../home/home";
 import {NgForm} from "@angular/forms";
 import {ProfilePage} from "../profile/profile";
 import {MyApp} from "../../app/app.component";
+import {FCM} from "@ionic-native/fcm";
 
 
 @IonicPage()
@@ -113,6 +114,7 @@ export class ProfileEditPage {
               public account: AccountProvider,
               public alertCtrl: AlertController,
               public loadingCtrl: LoadingController,
+              public fcm: FCM,
               @Inject(forwardRef(() => MyApp)) private myapp: MyApp) {
     this.setLangAndDirction();
     this.emergencyNumberList = [];
@@ -566,9 +568,12 @@ export class ProfileEditPage {
       content: this.pleaseWait,
     });
     loader.present();
+    let Token = "";
+    this.fcm.onTokenRefresh().subscribe(token => {
+      Token = token;
+    });
 
-
-    this.account.onCreateProfile(this.imgURL, form.value.firstName, form.value.lastName, form.value.gender, form.value.phoneNumber, this.currentDate, form.value.language, form.value.password).then((res) => {
+    this.account.onCreateProfile(this.imgURL, form.value.firstName, form.value.lastName, form.value.gender, form.value.phoneNumber, this.currentDate, form.value.language, form.value.password,Token).then((res) => {
       debugger;
 
       if (res == 'no_user') {

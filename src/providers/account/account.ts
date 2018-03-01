@@ -107,7 +107,7 @@ export class AccountProvider {
     });
   }
 
-  onCreateProfile(imageUrl, firstName, lastName, gender, phoneNumber, birthday, lang, password) {
+  onCreateProfile(imageUrl, firstName, lastName, gender, phoneNumber, birthday, lang, password,deviceToken) {
     debugger;
     let body = {
       FirstName: firstName,
@@ -117,9 +117,9 @@ export class AccountProvider {
       Birthday: birthday,
       Language: lang,
       Password: password,
-      ImageUrl: imageUrl
+      ImageUrl: imageUrl,
+      DeviceToken : deviceToken
     };
-    console.log('GetProfile a7a', this.linkAPI);
     console.log(this.linkAPI + '/CreateProfile');
     return new Promise(resolve => {
       this.http.post(this.linkAPI + 'CreateProfile', body)

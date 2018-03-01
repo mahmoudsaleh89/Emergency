@@ -93,7 +93,7 @@ export class LoginPage {
       content: 'Please wait',
     });
     loader.present();
-    this.account.onCreateProfile("", regForm.value.firstName, regForm.value.lastName, "", regForm.value.phoneNumber, "", this.language_is, regForm.value.password)
+    this.account.onCreateProfile("", regForm.value.firstName, regForm.value.lastName, "", regForm.value.phoneNumber, "", this.language_is, regForm.value.password,"")
       .then((res) => {
         loader.dismiss();
         if (res == 'no_user') {
