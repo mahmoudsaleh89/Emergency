@@ -37,6 +37,7 @@ import {LoginPage} from "../pages/login/login";
 import {Sim} from "@ionic-native/sim";
 import { OprationsProvider } from '../providers/oprations/oprations';
 import {ProfileEditPage} from "../pages/profile-edit/profile-edit";
+import {Network} from "@ionic-native/network";
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -112,7 +113,8 @@ export function createTranslateLoader(http: HttpClient) {
     ConfigProvider,
     AccountProvider,
     RatingPage,
-    OprationsProvider
+    OprationsProvider,
+    Network
   ]
 })
 export class AppModule {}

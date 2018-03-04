@@ -11,6 +11,7 @@ import {RatingPage} from "../rating/rating";
 import {AccountProvider} from "../../providers/account/account";
 import {OprationsProvider} from "../../providers/oprations/oprations";
 import {StatusBar} from "@ionic-native/status-bar";
+import {Network} from "@ionic-native/network";
 
 declare var google;
 
@@ -49,7 +50,8 @@ export class HomePage {
               public account: AccountProvider,
               private  op: OprationsProvider,
               private toastCtrl: ToastController,
-              private statusBar: StatusBar) {
+              private statusBar: StatusBar,
+              private network: Network) {
     this.config.onGetFabsOption().then((data) => {
       this.fabslist = data;
     });
@@ -58,6 +60,24 @@ export class HomePage {
   }
 
   ionViewDidLoad() {
+  }
+
+  ionViewDidEnter() {
+
+    this.network.onConnect().subscribe((data) => {
+      debugger;
+      console.log('network connected!',data);
+      // We just got a connection but we need to wait briefly
+      // before we determine the connection type. Might need to wait.
+      // prior to doing any api requests as well.
+    });
+
+    this.network.onDisconnect().subscribe((res)=>{
+      debugger;
+      console.log('onDisconnect' , res);
+    })
+
+
 
     this.geolocation.getCurrentPosition(
     ).then(
@@ -85,11 +105,6 @@ export class HomePage {
         .then((result: NativeGeocoderReverseResult) => console.log(JSON.stringify(result)))
         .catch((error: any) => console.log(error));
     });
-
-
-  }
-
-  ionViewDidEnter() {
     debugger;
   }
 

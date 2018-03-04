@@ -620,18 +620,7 @@ export class ProfileEditPage {
           this.navCtrl.popTo(HomePage);
         });
       }
-      /* else{
-         this.statusBar.backgroundColorByHexString('#4f6c84');
-         let toast = this.toastCtrl.create({
-           message: 'هذا الرقم تم تسجيله سابقا',
-           duration: 3000,
-           position: 'top'
-         });
-         toast.present();
-         toast.onDidDismiss(() => {
-           this.statusBar.backgroundColorByHexString('#253746');
-         });
-       }*/
+
     }).catch((err) => {
       let toast = this.toastCtrl.create({
         message: 'حصل خطأ اثناء التسجيل يرجى المحاولة لاحقا ',

@@ -116,6 +116,23 @@ export class ProfilePage {
   }
   ionViewDidEnter(){
     this.myProfile = this.account.userInformation;
+    this.account.onGetEmergencyList()
+      .then((res) => {
+        debugger;
+        if (res) {
+          debugger;
+          this.emergencyNumberList = res;
+        } else {
+          debugger;
+          this.emergencyNumberList = [];
+        }
+
+      })
+      .catch((err) => {
+          debugger;
+          this.emergencyNumberList = []
+        }
+      );
   }
   onGoToEditPage(){
     this.navCtrl.push(ProfileEditPage);
