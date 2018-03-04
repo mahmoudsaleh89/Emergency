@@ -17,4 +17,9 @@ page-where-use-it {
   ion-list{
     margin-bottom: 0;
   }
+
+  ion-list.list.list-md {
+    margin-bottom: 0 !important;
+  }
+
 }

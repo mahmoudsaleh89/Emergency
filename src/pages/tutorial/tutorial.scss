@@ -81,8 +81,12 @@ page-tutorial {
     color: #fff !important;
     text-align: start !important;
   }
+  .welcome_descrption {
+    padding: 5%;
+    text-align: center;
+  }
   .oneClick_descrption {
-    padding: 25% 5px;
+    padding: 67% 5% 0px 5%;
   }
   .silnt_descrption {
     padding: 67% 2px 0px 25%;
@@ -101,6 +105,11 @@ page-tutorial {
     left: 2% !important;
 
   }
+  [dir="ltr"] .fab, [dir="rtl"] .fab{
+    border: solid 3px  #ffffff !important;
+  }
+
+
 }
 
 

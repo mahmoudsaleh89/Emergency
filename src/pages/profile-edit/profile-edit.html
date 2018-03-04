@@ -3,7 +3,7 @@
   <ion-navbar color="dark">
     <ion-buttons end>
       <button [disabled]="!have_account" ion-button icon-only (click)="onAddNewContact()">
-        <ion-icon name="person-add"></ion-icon>
+        <ion-icon class="ar_icons" name="person-add"></ion-icon>
       </button>
     </ion-buttons>
     <ion-title>{{"profileـsetting" | translate}}</ion-title>
@@ -76,7 +76,7 @@
         <ion-select [(ngModel)]="this.myProfile.Language" interface="popover" name="language">
           <ion-option value="arabic">{{"arabic" | translate}}</ion-option>
           <ion-option value="english">{{"english" | translate}}</ion-option>
-          <ion-option value="urdu">{{"urdu" | translate}}</ion-option>
+          <!--<ion-option value="urdu">{{"urdu" | translate}}</ion-option>-->
         </ion-select>
       </ion-item>
     </ion-list>

@@ -120,14 +120,9 @@ export class ProfileEditPage {
     this.emergencyNumberList = [];
     this.myProfile = this.account.userInformation;
     this.imgURL = this.myProfile.ImageUrl;
-    debugger;
     if (this.myProfile.Birthday != "" || this.myProfile.Birthday != null) {
-      debugger;
-      this.currentDate = this.myProfile.Birthday.toString().substr(0, 10);
-      this.myProfile.Birthday = this.currentDate;
-
+      this.currentDate = this.myProfile.Birthday;
     }
-
   }
 
   ionViewWillEnter() {
@@ -573,7 +568,7 @@ export class ProfileEditPage {
       Token = token;
     });
 
-    this.account.onCreateProfile(this.imgURL, form.value.firstName, form.value.lastName, form.value.gender, form.value.phoneNumber, this.currentDate, form.value.language, form.value.password,Token).then((res) => {
+    this.account.onCreateProfile(this.imgURL, form.value.firstName, form.value.lastName, form.value.gender, form.value.phoneNumber, this.currentDate, form.value.language, form.value.password, Token).then((res) => {
       debugger;
 
       if (res == 'no_user') {

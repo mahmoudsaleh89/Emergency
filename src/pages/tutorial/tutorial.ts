@@ -19,7 +19,7 @@ import {ConfigProvider} from "../../providers/config/config";
 })
 export class TutorialPage {
   fabslist: any;
-  step: number = 1;
+  step: number = 0;
   callBtn: boolean = false;
   silentBtn: boolean = false;
   oneClickCallBtn: boolean = false;

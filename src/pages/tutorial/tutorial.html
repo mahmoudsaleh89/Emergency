@@ -16,15 +16,18 @@
 
   </div>
   <div class="descrption_area_tut">
+    <div *ngIf="step==0" class="welcome_descrption">
+      <h2>{{"Welcome"| translate}}</h2>
+      {{"Tutorials_welcom_message" | translate}}
+      <br>
+      {{"click_any_whare" | translate}}
+    </div>
+
     <div *ngIf="step==2" class="silnt_descrption">
       {{"silnt_descrption" | translate}}
     </div>
     <div *ngIf="step==1" class="oneClick_descrption">
-      {{"tutorials"|translate}}
-      <br>
       {{"one_Click_tutorials" | translate}}
-      <br>
-      {{"click_any_whare" | translate}}
     </div>
     <div *ngIf="step ==3" class="call_descrption">
       {{"call_descrption" | translate}}

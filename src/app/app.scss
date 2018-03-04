@@ -22,6 +22,18 @@
   text-align: center !important;
 }
 
+[dir="ltr"] .fab, [dir="rtl"] .fab {
+  border: solid 3px #ffffff !important;
+}
+
+[dir="rtl"] ion-icon.icon.icon-md.ion-md-log-out {
+  -webkit-transform: rotate(180deg) !important;
+  -moz-transform: rotate(180deg) !important;
+  -ms-transform: rotate(180deg) !important;
+  -o-transform: rotate(180deg) !important;
+  transform: rotate(180deg) !important;
+}
+
 [dir="ltr"]  .descrption_area_tut {
   right: auto !important;
   left: 2% !important;
