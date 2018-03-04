@@ -1,6 +1,5 @@
 // http://ionicframework.com/docs/theming/
 
-
 // App Global Sass
 // --------------------------------------------------
 // Put style rules here that you want to apply globally. These
@@ -17,71 +16,98 @@
 
 @charset "UTF-8";
 
+[dir="rtl"]  .descrption_area_tut {
+  left: auto !important;
+  right: 2% !important;
+  text-align: center !important;
+}
+
+[dir="ltr"]  .descrption_area_tut {
+  right: auto !important;
+  left: 2% !important;
+  text-align: center !important;
+
+}
+
 [dir="rtl"] .myMenu ion-thumbnail {
   text-align: -webkit-center !important;
 }
-.myMenu ion-thumbnail{
+
+.myMenu ion-thumbnail {
   margin: 0 !important;
- /* text-align: -webkit-center !important;*/
+  /* text-align: -webkit-center !important;*/
   font-size: 26px !important;
   line-height: 3 !important;
   min-width: 45px;
   min-height: 45px;
 }
-.myMenu ion-item{
+
+.myMenu ion-item {
   padding-right: 0 !important;
   background-color: #2f404f;
   color: #fff;
 }
-.myMenu ion-icon{
+
+.myMenu ion-icon {
   color: #a7b1c2 !important;
 }
+
 [dir="rtl"] .myMenu h2 {
   color: #ffffff;
   font-size: 21px;
 }
+
 .myMenu p {
   color: #a7b1c2 !important;
 }
+
 ion-list.myMenu.list.list-md {
   padding-top: 90px;
 }
-[dir = "ltr"].myheader h2{
+
+[dir = "ltr"].myheader h2 {
   color: #ffffff;
   font-size: 17px;
 }
-#profile_info .item-inner{
+
+#profile_info .item-inner {
   border-bottom: 0px solid transparent !important;
 }
-
 
 ion-item.myheader.item.item-block.item-md {
   position: fixed;
   top: 0;
   z-index: 2;
 }
+
 .myMenu.list-md .item-block .item-inner {
   border-bottom: 1px solid #2f404e !important;
 }
+
 ion-menu .scroll-content {
   background-color: #2f404f !important;
 }
-.myheader{
+
+.myheader {
   background-image: url(../assets/imgs/header-profile.png);
   min-height: 160px;
   min-width: 50px;
 }
+
 .myheader .item-inner {
   padding-right: 25% !important;
 }
-.p-image{
+
+.p-image {
   border-radius: 50%;
   width: 60px !important;
   height: 60px !important;
 }
-.warning_toast .toast-container{
+
+.warning_toast .toast-container {
   background-color: #ed5565 !important;
 }
+
 .toast-container {
   background-color: #4f6c84 !important;
 }
@@ -90,13 +116,15 @@ ion-menu .scroll-content {
 .list-header-md {
   background-color: #F7F7F8 !important;
 }
+
 .item-divider-md {
   border-bottom: 1px solid #dedede;
   font-size: 1.4rem;
   color: black !important;
   background-color: #F7F7F8 !important;
 }
-[dir="rtl"] .alert-md .alert-input{
+
+[dir="rtl"] .alert-md .alert-input {
   text-align: right !important;
 }
 
@@ -104,12 +132,13 @@ ion-menu .scroll-content {
   left: 50%;
   margin-left: -15% !important;
 }
+
 [dir="rtl"] ion-fab[center] {
   left: 50%;
   margin-right: -15% !important;
 }
 
-.guideline_class{
+.guideline_class {
   color: rgba(218, 78, 93, 0.76);
   font-size: 11px;
   margin: 3px;
@@ -119,17 +148,19 @@ ion-menu .scroll-content {
   text-align: right !important;
 }
 
-
-.login_header.myheader .item-inner{
+.login_header.myheader .item-inner {
   padding: 0 !important;
 }
-.login_header.myheader{
+
+.login_header.myheader {
   padding: 0px !important;
 }
+
 [dir="rtl"] .alert-ios .alert-input,
-[dir="rtl"] .alert-md .alert-input{
+[dir="rtl"] .alert-md .alert-input {
   text-align: right !important;
 }
+
 /*!
  * animate.css -http://daneden.me/animate
  * Version - 3.5.2

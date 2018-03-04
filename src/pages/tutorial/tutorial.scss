@@ -1,3 +1,107 @@
 page-tutorial {
 
+  .background-tutorial {
+    width: 100%;
+    position: absolute;
+    height: 100%;
+    background-size: 100%;
+    padding: 0 4%;
+    padding-top: 15%;
+    background: rgba(37, 55, 70, 0.86) !important
+  }
+  .faces {
+    text-align: center !important;
+    background-color: #ffffff;
+    padding: 3% 0%;
+    border-radius: 20px;
+    padding-top: 6%;
+  }
+  .faces img {
+    width: 20%;
+    padding: 1%;
+  }
+  ion-icon.icon.icon-ios.ion-ios-close-circle-outline {
+    font-size: 25px;
+  }
+  @media (max-width: 359px) {
+    .background-tutorial {
+      padding-top: 5%;
+    }
+  }
+  @media (max-width: 767px) {
+    .modal-custom-bg {
+      background-color: rgba(0, 0, 0, 0.0) !important;
+    }
+
+  }
+  @media(min-width: 768px) {
+    .button-clear-md-light {
+      font-size: 25px;
+    }
+    .modal-custom-bg {
+      background-color: rgba(0, 0, 0, 0.45) !important;
+    }
+  }
+  .content-ios:not([no-bounce]) > .scroll-content::before, .content-ios:not([no-bounce]) > .scroll-content::after {
+    width: 0px;
+    height: 0px;
+  }
+
+  div.scroll-content {
+    padding-top: 0px !important;
+  }
+  .close-modal ion-icon {
+    font-size: 30px !important;
+  }
+  .left_fabs_1 {
+    position: absolute;
+    bottom: 6px;
+    height: 70px;
+    width: 70px;
+    background-color: blue;
+    left: 6px;
+    border-radius: 100%;
+  }
+  .right_fabs_3 {
+    position: absolute;
+    bottom: 6px;
+    height: 70px;
+    width: 70px;
+    background-color: red;
+    right: 6px;
+    border-radius: 100%;
+  }
+  button.fab.fab-md.fab-md-danger {
+    width: 100px;
+    height: 100px;
+  }
+  .descrption_area_tut{
+    position: absolute;
+    top: 25%;
+    color: #fff !important;
+    text-align: start !important;
+  }
+  .oneClick_descrption {
+    padding: 25% 5px;
+  }
+  .silnt_descrption {
+    padding: 67% 2px 0px 25%;
+    text-align: center;
+  }
+  .call_descrption {
+    padding: 67% 31% 0% 0%;
+    text-align: center;
+  }
+  [dir="rtl"]  .descrption_area_tut {
+    left: auto !important;
+    right: 2% !important;
+  }
+  [dir="ltr"]  .descrption_area_tut {
+    right: auto !important;
+    left: 2% !important;
+
+  }
 }
+
+
+

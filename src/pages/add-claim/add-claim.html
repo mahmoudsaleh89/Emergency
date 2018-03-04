@@ -15,7 +15,7 @@
         <ion-item>
           <ion-textarea [(ngModel)]="claimTxt"  rows="4" placeholder="{{'describe_your_issue' | translate}}"></ion-textarea>
         </ion-item>
-        <ion-item text-center style="background-color: transparent;">
+        <ion-item class="send_btn" text-center style="background-color: transparent;">
           <button [disabled]="claimTxt == '' " ion-button large [outline]="claimTxt == '' " (click)="onSendClaim()">
             {{'send_claim' | translate}}
           </button>

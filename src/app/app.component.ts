@@ -18,6 +18,7 @@ import {AddClaimPage} from "../pages/add-claim/add-claim";
 import {FCM} from "@ionic-native/fcm";
 import {LoginPage} from "../pages/login/login";
 import {ProfileEditPage} from "../pages/profile-edit/profile-edit";
+import {WhereUseItPage} from "../pages/where-use-it/where-use-it";
 
 
 @Component({
@@ -46,9 +47,9 @@ export class MyApp {
       {title: 'home', component: HomePage, icon: "home", desc: "descMenu"},
       {title: 'profile', component: ProfilePage, icon: "person", desc: "descMenu"},
       /*{ title: 'send_claim', component: AddClaimPage ,icon:"bookmarks", desc:""},*/
-      {title: 'guide', component: GuidePage, icon: "md-help", desc: "descMenu"},
-      {title: 'tutorials', component: TutorialPage, icon: "color-wand", desc: "descMenu"},
-      {title: 'about_us', component: WhereUseItPageModule, icon: "information-circle", desc: "descMenu"},
+     /* {title: 'guide', component: GuidePage, icon: "md-help", desc: "descMenu"},*/
+      /*{title: 'tutorials', component: TutorialPage, icon: "color-wand", desc: "descMenu"},*/
+      {title: 'about_us', component: WhereUseItPage, icon: "information-circle", desc: "descMenu"},
       {title: 'FAQ', component: FaqPage, icon: "md-help", desc: "descMenu"},
     ];
 
@@ -56,7 +57,8 @@ export class MyApp {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      this.splashScreen.hide();
+
+      /*this.splashScreen.hide();*/
       this.statusBar.backgroundColorByHexString('#253746');
       this.storage.get('first_run')
         .then((res) => {
@@ -97,6 +99,7 @@ export class MyApp {
               ]
             };
             this.storage.set('user', this.account.userInformation);
+            this.splashScreen.hide();
             this.nav.setRoot(LoginPage);
           } else {
             //this.nav.setRoot(LoginPage);
@@ -150,6 +153,7 @@ export class MyApp {
                         };
                         this.storage.set('user', this.account.userInformation);
                         this.storage.set('lang', "english");
+                        this.splashScreen.hide();
                         this.nav.setRoot(HomePage);
                       }
                       else if (lanRes == 'arabic') {
@@ -189,6 +193,7 @@ export class MyApp {
                         };
                         this.storage.set('user', this.account.userInformation);
                         this.storage.set('lang', "arabic");
+                        this.splashScreen.hide();
                         this.nav.setRoot(HomePage);
                       } else {
                         this.account.userInformation = {
@@ -219,6 +224,7 @@ export class MyApp {
                           ]
                         };
                         this.storage.set('lang', "english");
+                        this.splashScreen.hide();
                         this.nav.setRoot(HomePage);
                       }
 
@@ -303,6 +309,7 @@ export class MyApp {
                   this.translate.setDefaultLang('en');
                   this.platform.setDir('ltr', true);
                   this.platform.setLang('en', true);
+                  this.splashScreen.hide();
                   this.nav.setRoot(HomePage);
                 }
                 else {
@@ -312,6 +319,7 @@ export class MyApp {
                   this.translate.setDefaultLang('ar');
                   this.platform.setDir('rtl', true);
                   this.platform.setLang('ar', true);
+                  this.splashScreen.hide();
                   this.nav.setRoot(HomePage);
                 }
 
@@ -323,6 +331,7 @@ export class MyApp {
                 this.translate.setDefaultLang('ar');
                 this.platform.setDir('rtl', true);
                 this.platform.setLang('ar', true);
+                this.splashScreen.hide();
                 this.nav.setRoot(HomePage);
               });
           }
@@ -370,6 +379,7 @@ export class MyApp {
                         ]
                       };
                       this.storage.set('user', this.account.userInformation);
+                      this.splashScreen.hide();
                       this.nav.setRoot(HomePage);
                     }
                     else {
@@ -402,6 +412,7 @@ export class MyApp {
                         ]
                       };
                       this.storage.set('user', this.account.userInformation);
+                      this.splashScreen.hide();
                       this.nav.setRoot(HomePage);
                     }
 
@@ -522,6 +533,9 @@ export class MyApp {
           });
         });
       });
+     /* setTimeout(() => {
+        this.splashScreen.hide();
+      }, 100);*/
     });
 
 
@@ -544,6 +558,10 @@ export class MyApp {
 
   onGoToAddCliam() {
     this.modalCtrl.create(AddClaimPage).present();
+    this.menuCtrl.close();
+  }
+  onStartTutorials(){
+    this.modalCtrl.create(TutorialPage).present();
     this.menuCtrl.close();
   }
 

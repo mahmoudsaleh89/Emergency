@@ -38,7 +38,7 @@
           </button>
         </ion-item>
         <ion-item>
-          <button type="button" (click)="onShowRegisterForm()" ion-button round outline block color="dark">
+          <button type="button" (click)="onShowRegisterForm()" ion-button round outline block color="white_color">
             {{'register'| translate}}
           </button>
         </ion-item>
@@ -47,7 +47,7 @@
             <ion-icon name="globe"></ion-icon>
             {{"language" | translate}}
           </ion-label>
-          <ion-select (ionChange)="onSetLanguage()" [(ngModel)]="language_is" name="language" interface="popover">
+          <ion-select  (ionChange)="onSetLanguage()" [(ngModel)]="language_is" name="language" interface="popover">
             <ion-option value="arabic">{{"arabic" | translate}}</ion-option>
             <ion-option value="english">{{"english" | translate}}</ion-option>
           </ion-select>
@@ -115,7 +115,7 @@
           </button>
         </ion-item>
         <ion-item>
-          <button type="button" (click)="onShowRegisterForm()" ion-button  clear block color="dark">
+          <button style="font-size: 18px" type="button" (click)="onShowRegisterForm()" ion-button  clear block color="light">
             {{'back'| translate}}
           </button>
         </ion-item>

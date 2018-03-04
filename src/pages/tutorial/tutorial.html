@@ -1,18 +1,57 @@
-<!--
-  Generated template for the TutorialPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
-<ion-header>
+<!--<ion-header>
 
   <ion-navbar>
     <ion-title>tutorial</ion-title>
   </ion-navbar>
 
-</ion-header>
+</ion-header>-->
 
+<ion-content class="modal-custom-bg" has-bouncing="false" (click)="startTutorials()">
+  <div class="background-tutorial">
+    <div class="close-modal">
+      <button color="light" ion-button clear block text-center (click)="onCloseModal()">
+        <ion-icon name="ios-close-circle-outline"></ion-icon>
+      </button>
+    </div>
 
-<ion-content padding>
+  </div>
+  <div class="descrption_area_tut">
+    <div *ngIf="step==2" class="silnt_descrption">
+      {{"silnt_descrption" | translate}}
+    </div>
+    <div *ngIf="step==1" class="oneClick_descrption">
+      {{"tutorials"|translate}}
+      <br>
+      {{"one_Click_tutorials" | translate}}
+      <br>
+      {{"click_any_whare" | translate}}
+    </div>
+    <div *ngIf="step ==3" class="call_descrption">
+      {{"call_descrption" | translate}}
+    </div>
+  </div>
+  <ion-fab bottom right >
+    <button ion-fab [disabled]="step !=2">
+      <img src="assets/imgs/Icon-notalk.png">
+    </button>
+    <ion-fab-list side="top">
+      <button disabled *ngFor="let op of fabslist" ion-fab color="primary">
+      <img src="{{op.imgSrc}}" width="80">
+    </button>
+    </ion-fab-list>
+  </ion-fab>
 
+  <ion-fab bottom left>
+    <button ion-fab [disabled]="step !=3">
+      <img src="assets/imgs/Icon-talk.png">
+    </button>
+    <ion-fab-list side="top">
+      <button disabled *ngFor="let op of fabslist" ion-fab color="primary">
+        <img src="{{op.imgSrc}}" width="80"></button>
+    </ion-fab-list>
+  </ion-fab>
+
+  <ion-fab bottom center >
+    <button [disabled]="step !=1" ion-fab color="danger"><img src="assets/imgs/Icon-112.png" width="80"></button>
+  </ion-fab>
 </ion-content>

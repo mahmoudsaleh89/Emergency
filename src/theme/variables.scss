@@ -43,11 +43,12 @@ $app-direction: "multi";
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:    #1ab394,
+  primary:    #336666,
   secondary:  #f8ac59,
-  danger:     #ed5565,
+  danger:     #ED5565,
   light:      #f4f4f4,
   dark:       #253746,
+  white_color : #ffffff,
 );
 
 
@@ -61,7 +62,8 @@ $colors: (
 // App Material Design Variables
 // --------------------------------------------------
 // Material Design only Sass variables can go here
-
+$text-input-highlight-color-valid : #336666;
+$text-input-highlight-color-invalid : #ED5565 ;
 $fab-mini-size:50px;
 $fab-size:60px;
 

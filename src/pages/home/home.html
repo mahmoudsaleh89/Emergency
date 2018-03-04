@@ -28,7 +28,7 @@
 
   <ion-fab bottom right >
     <button ion-fab>
-      <img src="assets/imgs/noTalk.png">
+      <img src="assets/imgs/Icon-notalk.png">
     </button>
     <ion-fab-list side="top">
       <button *ngFor="let op of fabslist" ion-fab color="primary" (click)="onSilentCall(op.DepartmentId)"><img src="{{op.imgSrc}}" width="80"></button>
@@ -36,13 +36,13 @@
   </ion-fab>
 
   <ion-fab bottom left>
-    <button ion-fab><img src="assets/imgs/Talk.png"></button>
+    <button ion-fab><img src="assets/imgs/Icon-talk.png"></button>
     <ion-fab-list side="top">
       <button *ngFor="let op of fabslist" ion-fab color="primary" (click)="onVoiceCall(op.DepartmentId)"><img src="{{op.imgSrc}}" width="80"></button>
     </ion-fab-list>
   </ion-fab>
 
   <ion-fab bottom center >
-    <button ion-fab color="danger" (click)="onDirectCall()"><img src="assets/imgs/112.png" width="80"></button>
+    <button ion-fab color="danger" (click)="onDirectCall()"><img src="assets/imgs/Icon-112.png" width="80"></button>
   </ion-fab>
 </ion-content>

@@ -213,6 +213,18 @@ export class LoginPage {
       })
       .catch((err) => {
         debugger;
+        this.statusBar.backgroundColorByHexString('#ed5565');
+        let toast = this.toastCtrl.create({
+          message: this.errServer,
+          duration: 2000,
+          position: 'top',
+          cssClass: "warning_toast"
+        });
+
+        toast.present();
+        toast.onDidDismiss(() => {
+          this.statusBar.backgroundColorByHexString('#253746');
+        });
       })
     console.log(form);
 

@@ -1,18 +1,48 @@
-<!--
-  Generated template for the WhereUseItPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>where-use-it</ion-title>
+  <ion-navbar color="dark">
+    <ion-buttons float-end>
+      <button ion-button  icon-only>
+        <img src="assets/imgs/MOILogo.png" width="40">
+      </button>
+    </ion-buttons>
+    <ion-title text-left>
+      <span class="name-of-header">{{'about_us' | translate}}</span>
+    </ion-title>
   </ion-navbar>
-
 </ion-header>
 
 
-<ion-content padding>
-
+<ion-content>
+  <!--<div class="image_header">
+    <img src="assets/imgs/map_of_Kuwait.png" width="80">
+  </div>-->
+  <ion-list no-lines>
+    <ion-item>
+      {{ "about_us_desc1" | translate }}
+    </ion-item>
+    <ion-item>
+      {{ "about_us_desc2" | translate }}
+    </ion-item>
+    <ion-item>
+      {{ "about_us_desc3" | translate }}
+    </ion-item>
+    <ion-item>
+      {{ "about_us_desc4" | translate }}
+    </ion-item>
+    <ion-item>
+      {{ "about_us_desc5" | translate }}
+    </ion-item>
+    <ion-item>
+      {{ "about_us_desc6" | translate }}
+    </ion-item>
+    <ion-item>
+      {{ "about_us_desc7" | translate }}
+    </ion-item>
+    <ion-item>
+      {{ "about_us_desc8" | translate }}
+    </ion-item>
+    <ion-item>
+      {{ "about_us_desc9" | translate }}
+    </ion-item>
+  </ion-list>
 </ion-content>

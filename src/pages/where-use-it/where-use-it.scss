@@ -1,3 +1,20 @@
 page-where-use-it {
+  ion-label {
+    display: block;
+    overflow: initial;
+     text-overflow: clip;
+    white-space: initial;
+  }
+  ion-content{
+    background: url('../assets/imgs/login_background.png') center no-repeat;
+    background-size: cover;
+  }
+  .item-block {
 
+    background-color: rgba(37, 55, 70, 0.86);
+  color: #ffffff;
+  }
+  ion-list{
+    margin-bottom: 0;
+  }
 }
