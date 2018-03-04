@@ -4,7 +4,7 @@
     <ion-content>
       <ion-item text-center *ngIf="account.userInformation.Id != '' " class="myheader login_header" id="profile_info" (click)="openProfilePage()"
                 menuClose>
-        <img class="p-image" src="{{account.userInformation.profileImage}}" width="60"
+        <img class="p-image" src="{{account.userInformation.ImageUrl}}" width="60"
              onerror="this.src='assets/imgs/user.png'">
         <h2 style="color: #a7b1c3 !important;">{{account.userInformation.FirstName}} {{account.userInformation.Lastname }}</h2>
         <p dir="ltr" style="color: #a7b1c3 !important;">{{account.userInformation.PhoneNumber}}</p>
@@ -52,7 +52,7 @@
     <ion-content>
       <ion-item text-center *ngIf="account.userInformation.Id != '' " class="myheader login_header" id="profile_info" (click)="openProfilePage()"
                 menuClose>
-        <img class="p-image" src="{{account.userInformation.profileImage}}" width="60"
+        <img class="p-image" src="{{account.userInformation.ImageUrl}}" width="60"
              onerror="this.src='assets/imgs/user.png'">
         <h2 style="color: #a7b1c3 !important;">{{account.userInformation.FirstName}} {{account.userInformation.Lastname }}</h2>
         <p dir="ltr" style="color: #a7b1c3 !important;">{{account.userInformation.PhoneNumber}}</p>

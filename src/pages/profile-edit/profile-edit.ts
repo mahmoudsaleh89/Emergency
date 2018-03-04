@@ -384,6 +384,7 @@ export class ProfileEditPage {
       debugger;
       this.imgURL = results[0];
       this.myProfile.ImageUrl = this.imgURL;
+      this.account.userInformation.ImageUrl = this.imgURL;
 
 
       this.storage.get('lang').then((result) => {
