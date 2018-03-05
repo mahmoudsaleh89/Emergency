@@ -19,6 +19,7 @@ import {FCM} from "@ionic-native/fcm";
 import {LoginPage} from "../pages/login/login";
 import {ProfileEditPage} from "../pages/profile-edit/profile-edit";
 import {WhereUseItPage} from "../pages/where-use-it/where-use-it";
+import {Network} from "@ionic-native/network";
 
 
 @Component({
@@ -39,7 +40,8 @@ export class MyApp {
               public translate: TranslateService,
               public modalCtrl: ModalController,
               public menuCtrl: MenuController,
-              public fcm: FCM) {
+              public fcm: FCM,
+              private network: Network) {
     this.initializeApp();
     this.userNavInfo = this.account.userInformation;
     // used for an example of ngFor and navigation
@@ -57,7 +59,23 @@ export class MyApp {
 
   initializeApp() {
     this.platform.ready().then(() => {
+      this.network.onConnect().subscribe((data) => {
+        debugger;
+        console.log('network connected!',data);
+        // We just got a connection but we need to wait briefly
+        // before we determine the connection type. Might need to wait.
+        // prior to doing any api requests as well.
+      },(err)=>{
+        debugger;
+        console.log('network Error!',err);
+      });
 
+      this.network.onDisconnect().subscribe((res)=>{
+        debugger;
+        console.log('onDisconnect' , res);
+      }, (statusErr)=>{
+        console.log('onDisconnect Error',statusErr);
+      });
       /*this.splashScreen.hide();*/
       this.statusBar.backgroundColorByHexString('#253746');
       this.storage.get('first_run')

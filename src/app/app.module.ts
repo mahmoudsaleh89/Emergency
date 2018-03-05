@@ -112,7 +112,6 @@ export function createTranslateLoader(http: HttpClient) {
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ConfigProvider,
     AccountProvider,
-    RatingPage,
     OprationsProvider,
     Network
   ]

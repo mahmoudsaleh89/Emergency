@@ -7,7 +7,6 @@ import {TranslateService} from "@ngx-translate/core";
 import {Storage} from '@ionic/storage';
 import {ConfigProvider} from "../../providers/config/config";
 import {NotificationsPage} from "../notifications/notifications";
-import {RatingPage} from "../rating/rating";
 import {AccountProvider} from "../../providers/account/account";
 import {OprationsProvider} from "../../providers/oprations/oprations";
 import {StatusBar} from "@ionic-native/status-bar";
@@ -63,25 +62,29 @@ export class HomePage {
   }
 
   ionViewDidEnter() {
-
+console.log('hello ion vewi');
     this.network.onConnect().subscribe((data) => {
       debugger;
       console.log('network connected!',data);
       // We just got a connection but we need to wait briefly
       // before we determine the connection type. Might need to wait.
       // prior to doing any api requests as well.
+    },(err)=>{
+      debugger;
+      console.log('network Error!',err);
     });
 
     this.network.onDisconnect().subscribe((res)=>{
       debugger;
       console.log('onDisconnect' , res);
-    })
+    }, (statusErr)=>{
+      console.log('onDisconnect Error',statusErr);
+    });
 
 
 
-    this.geolocation.getCurrentPosition(
-    ).then(
-      (position) => {
+    this.geolocation.getCurrentPosition()
+      .then((position) => {
         debugger;
         if (position) {
           this.addMap(position.coords.latitude, position.coords.longitude);
@@ -98,14 +101,14 @@ export class HomePage {
           });
         }
 
-      }).catch(error => {
+      })
+      .catch(error => {
 
       this.addMap(29.266666, 47.933334);
       this.nativeGeocoder.reverseGeocode(29.266666, 47.933334)
         .then((result: NativeGeocoderReverseResult) => console.log(JSON.stringify(result)))
         .catch((error: any) => console.log(error));
     });
-    debugger;
   }
 
   addMap(lat, long) {

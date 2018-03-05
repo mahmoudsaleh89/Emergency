@@ -86,8 +86,8 @@
         "PHOTO_LIBRARY_USAGE_DESCRIPTION": "to add profile image"
       },
       "cordova-plugin-camera": {},
-      "cordova-plugin-fcm": {},
-      "cordova-plugin-network-information": {}
+      "cordova-plugin-network-information": {},
+      "cordova-plugin-fcm": {}
     },
     "platforms": [
       "ios",
