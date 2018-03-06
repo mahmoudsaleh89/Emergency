@@ -1,14 +1,12 @@
-import {Component, EventEmitter, Injectable, Output, ViewChild} from '@angular/core';
-import {MenuController, Modal, ModalController, Nav, Platform} from 'ionic-angular';
+import {Component, ViewChild} from '@angular/core';
+import {MenuController, ModalController, Nav, Platform} from 'ionic-angular';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {Storage} from '@ionic/storage';
 
 
 import {HomePage} from '../pages/home/home';
-import {GuidePage} from "../pages/guide/guide";
 import {TutorialPage} from "../pages/tutorial/tutorial";
-import {WhereUseItPageModule} from "../pages/where-use-it/where-use-it.module";
 import {FaqPage} from "../pages/faq/faq";
 import {ConfigProvider} from "../providers/config/config";
 import {TranslateService} from "@ngx-translate/core";
@@ -17,9 +15,7 @@ import {AccountProvider} from "../providers/account/account";
 import {AddClaimPage} from "../pages/add-claim/add-claim";
 import {FCM} from "@ionic-native/fcm";
 import {LoginPage} from "../pages/login/login";
-import {ProfileEditPage} from "../pages/profile-edit/profile-edit";
 import {WhereUseItPage} from "../pages/where-use-it/where-use-it";
-import {Network} from "@ionic-native/network";
 
 
 @Component({
@@ -40,17 +36,13 @@ export class MyApp {
               public translate: TranslateService,
               public modalCtrl: ModalController,
               public menuCtrl: MenuController,
-              public fcm: FCM,
-              private network: Network) {
+              public fcm: FCM) {
     this.initializeApp();
     this.userNavInfo = this.account.userInformation;
     // used for an example of ngFor and navigation
     this.pages = [
       {title: 'home', component: HomePage, icon: "home", desc: "descMenu"},
       {title: 'profile', component: ProfilePage, icon: "person", desc: "descMenu"},
-      /*{ title: 'send_claim', component: AddClaimPage ,icon:"bookmarks", desc:""},*/
-     /* {title: 'guide', component: GuidePage, icon: "md-help", desc: "descMenu"},*/
-      /*{title: 'tutorials', component: TutorialPage, icon: "color-wand", desc: "descMenu"},*/
       {title: 'about_us', component: WhereUseItPage, icon: "information-circle", desc: "descMenu"},
       {title: 'FAQ', component: FaqPage, icon: "md-help", desc: "descMenu"},
     ];
@@ -59,23 +51,7 @@ export class MyApp {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      this.network.onConnect().subscribe((data) => {
-        debugger;
-        console.log('network connected!',data);
-        // We just got a connection but we need to wait briefly
-        // before we determine the connection type. Might need to wait.
-        // prior to doing any api requests as well.
-      },(err)=>{
-        debugger;
-        console.log('network Error!',err);
-      });
 
-      this.network.onDisconnect().subscribe((res)=>{
-        debugger;
-        console.log('onDisconnect' , res);
-      }, (statusErr)=>{
-        console.log('onDisconnect Error',statusErr);
-      });
       /*this.splashScreen.hide();*/
       this.statusBar.backgroundColorByHexString('#253746');
       this.storage.get('first_run')

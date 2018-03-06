@@ -1,7 +1,7 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
 import {AlertController, NavController, Platform, ToastController} from 'ionic-angular';
 import {Geolocation} from '@ionic-native/geolocation';
-import {NativeGeocoder, NativeGeocoderForwardResult, NativeGeocoderReverseResult} from "@ionic-native/native-geocoder";
+import {NativeGeocoder, NativeGeocoderReverseResult} from "@ionic-native/native-geocoder";
 import {CallNumber} from "@ionic-native/call-number";
 import {TranslateService} from "@ngx-translate/core";
 import {Storage} from '@ionic/storage';
@@ -62,29 +62,25 @@ export class HomePage {
   }
 
   ionViewDidEnter() {
-console.log('hello ion vewi');
+
     this.network.onConnect().subscribe((data) => {
       debugger;
       console.log('network connected!',data);
       // We just got a connection but we need to wait briefly
       // before we determine the connection type. Might need to wait.
       // prior to doing any api requests as well.
-    },(err)=>{
-      debugger;
-      console.log('network Error!',err);
     });
 
     this.network.onDisconnect().subscribe((res)=>{
       debugger;
       console.log('onDisconnect' , res);
-    }, (statusErr)=>{
-      console.log('onDisconnect Error',statusErr);
-    });
+    })
 
 
 
-    this.geolocation.getCurrentPosition()
-      .then((position) => {
+    this.geolocation.getCurrentPosition(
+    ).then(
+      (position) => {
         debugger;
         if (position) {
           this.addMap(position.coords.latitude, position.coords.longitude);
@@ -101,14 +97,14 @@ console.log('hello ion vewi');
           });
         }
 
-      })
-      .catch(error => {
+      }).catch(error => {
 
       this.addMap(29.266666, 47.933334);
       this.nativeGeocoder.reverseGeocode(29.266666, 47.933334)
         .then((result: NativeGeocoderReverseResult) => console.log(JSON.stringify(result)))
         .catch((error: any) => console.log(error));
     });
+    debugger;
   }
 
   addMap(lat, long) {

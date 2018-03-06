@@ -1,15 +1,8 @@
-import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Storage} from '@ionic/storage';
-import {timeout} from "rxjs/operator/timeout";
 
 
-/*
-  Generated class for the AccountProvider provider.
-
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
 @Injectable()
 export class AccountProvider {
   linkAPI = "http://192.168.0.230:4201/api/MobileApp/";
