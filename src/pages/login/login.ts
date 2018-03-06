@@ -1,5 +1,5 @@
-import {Component, Inject, forwardRef, ViewChild} from '@angular/core';
-import {IonicPage, LoadingController, NavController, NavParams, Platform, Slides, ToastController} from 'ionic-angular';
+import {Component, Inject, forwardRef} from '@angular/core';
+import {IonicPage, LoadingController, NavController, NavParams, Platform, ToastController} from 'ionic-angular';
 import {TranslateService} from "@ngx-translate/core";
 import {Storage} from '@ionic/storage';
 import {ConfigProvider} from "../../providers/config/config";
@@ -53,7 +53,7 @@ export class LoginPage {
   }
 
   onSetLanguage() {
-    debugger;
+
     if (this.language_is == 'arabic') {
       this.translate.setDefaultLang('ar');
       this.platform.setDir('rtl', true);
@@ -77,7 +77,7 @@ export class LoginPage {
   }
 
   onRegister(regForm: NgForm) {
-    debugger;
+
     this.isValidFormSubmitted = true;
     if (regForm.value.password !== regForm.value.passwordConfirm) {
       this.isValidFormSubmitted = false;
@@ -97,7 +97,7 @@ export class LoginPage {
       .then((res) => {
         loader.dismiss();
         if (res == 'no_user') {
-          debugger;
+
           this.statusBar.backgroundColorByHexString('#ed5565');
           let toast = this.toastCtrl.create({
             message: this.PhoneRegsterd,
@@ -114,7 +114,7 @@ export class LoginPage {
 
         }
         else if (res == 'no_user_err') {
-          debugger;
+
           this.statusBar.backgroundColorByHexString('#ed5565');
           let toast = this.toastCtrl.create({
             message: this.errServer,
@@ -130,7 +130,7 @@ export class LoginPage {
 
         }
         else {
-          debugger;
+
           let tempRes: any = res;
           this.account.userInformation = tempRes;
           this.storage.set('lang', this.account.userInformation.Language);
@@ -152,7 +152,7 @@ export class LoginPage {
   }
 
   onLogin(form: NgForm) {
-    debugger;
+
     this.isValidFormSubmitted = true;
     if (form.invalid) {
       this.isValidFormSubmitted = false;
@@ -165,10 +165,10 @@ export class LoginPage {
     loader.present();
     this.account.onGetProfile(form.value.phone, form.value.pass)
       .then((res) => {
-        debugger;
+
         loader.dismiss();
         if (res == 'no_user') {
-          debugger;
+
           this.statusBar.backgroundColorByHexString('#ed5565');
           let toast = this.toastCtrl.create({
             message: this.userErr,
@@ -185,7 +185,7 @@ export class LoginPage {
 
         }
         else if (res == 'no_user_err') {
-          debugger;
+
           this.statusBar.backgroundColorByHexString('#ed5565');
           let toast = this.toastCtrl.create({
             message: this.errServer,
@@ -201,7 +201,7 @@ export class LoginPage {
 
         }
         else {
-          debugger;
+
           let tempRes: any = res;
           this.account.userInformation = tempRes;
           this.storage.set('lang', this.account.userInformation.Language);
@@ -212,7 +212,7 @@ export class LoginPage {
         }
       })
       .catch((err) => {
-        debugger;
+
         this.statusBar.backgroundColorByHexString('#ed5565');
         let toast = this.toastCtrl.create({
           message: this.errServer,

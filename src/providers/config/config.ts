@@ -20,7 +20,7 @@ export class ConfigProvider {
   }
 
   onGetEmergencyList() {
-    debugger;
+
     return new Promise(resolve => {
       this.storage.get('emList')
         .then((res) => {
@@ -43,19 +43,19 @@ export class ConfigProvider {
   }
 
   onUpdateEmergencyList() {
-    debugger;
+
     this.storage.set('emList', this.emergencyNumberList);
   }
 
 
   onViewEmergencyNumber(index) {
-    debugger;
+
     console.log(index);
     return new Promise(resolve => {
       this.storage.get('emList')
         .then((res) => {
           if (res) {
-            debugger;
+
             this.emergencyNumberList = res;
             this.emergencyNumberList.map((response) => {
               this.numberObject = response
@@ -75,7 +75,7 @@ export class ConfigProvider {
       this.http.post(this.linkAPI + '/GetQuestionRating', {})
         .subscribe(
           res => {
-            debugger;
+
             let qustion: any = res;
             this.ratingQuestions = [];
             for (let i = 0; i < qustion.length; i++) {
@@ -92,7 +92,7 @@ export class ConfigProvider {
             console.log(res);
           },
           err => {
-            debugger;
+
             console.log('Error occured', err);
           }
         );
@@ -100,7 +100,7 @@ export class ConfigProvider {
   }
 
   onSubmitRating(userId, note, phoneNumber, qustions) {
-    debugger;
+
     let body = {
       "MobileUserProfileId": userId,
       "Note": note,
@@ -112,11 +112,11 @@ export class ConfigProvider {
       this.http.post(this.linkAPI + '/CreateEvaluation', body)
         .subscribe(
           res => {
-            debugger;
+
             resolve(res);
           },
           err => {
-            debugger;
+
             resolve('no_user_err');
             console.log('Error occured', err);
           }

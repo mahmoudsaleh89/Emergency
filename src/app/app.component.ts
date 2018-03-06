@@ -56,7 +56,7 @@ export class MyApp {
       this.statusBar.backgroundColorByHexString('#253746');
       this.storage.get('first_run')
         .then((res) => {
-          debugger;
+
           console.log('homeComp', res);
           if (res == true || res == null || res == 'undefind') {
             this.storage.set('first_run', false);
@@ -101,7 +101,7 @@ export class MyApp {
             this.storage.get('user')
               .then((userInfo) => {
                 console.log(userInfo.length);
-                debugger;
+
                 if (userInfo.Id != "") {
                   this.account.userInformation = userInfo;
                   this.storage.set('user', this.account.userInformation);
@@ -110,7 +110,7 @@ export class MyApp {
                   debugger
                   this.storage.get('lang')
                     .then((lanRes) => {
-                      debugger;
+
                       if (lanRes == 'english') {
                         this.storage.set('first_run', false);
                         this.config.language = 'en';
@@ -151,7 +151,7 @@ export class MyApp {
                         this.nav.setRoot(HomePage);
                       }
                       else if (lanRes == 'arabic') {
-                        debugger;
+
                         this.storage.set('first_run', false);
                         this.config.language = 'ar';
                         this.config.side = "left";
@@ -335,7 +335,7 @@ export class MyApp {
           this.storage.get('user')
             .then((userInfo) => {
               console.log(userInfo.length);
-              debugger;
+
               if (userInfo.Id != "") {
                 this.account.userInformation = userInfo;
                 this.storage.set('user', this.account.userInformation);

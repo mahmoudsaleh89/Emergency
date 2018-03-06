@@ -64,7 +64,7 @@ export class HomePage {
   ionViewDidEnter() {
 
     this.network.onConnect().subscribe((data) => {
-      debugger;
+
       console.log('network connected!',data);
       // We just got a connection but we need to wait briefly
       // before we determine the connection type. Might need to wait.
@@ -72,7 +72,7 @@ export class HomePage {
     });
 
     this.network.onDisconnect().subscribe((res)=>{
-      debugger;
+
       console.log('onDisconnect' , res);
     })
 
@@ -81,14 +81,14 @@ export class HomePage {
     this.geolocation.getCurrentPosition(
     ).then(
       (position) => {
-        debugger;
+
         if (position) {
           this.addMap(position.coords.latitude, position.coords.longitude);
           this.lng = position.coords.longitude;
           this.lat = position.coords.latitude;
           this.nativeGeocoder.reverseGeocode(position.coords.latitude, position.coords.longitude)
             .then((result: NativeGeocoderReverseResult) => {
-                debugger;
+
                 this.location_name = result.administrativeArea + '-' + result.locality + '-' + result.subLocality + '-' + result.thoroughfare + '-' + result.subThoroughfare;
                 console.log(this.location_name);
               }
@@ -104,7 +104,7 @@ export class HomePage {
         .then((result: NativeGeocoderReverseResult) => console.log(JSON.stringify(result)))
         .catch((error: any) => console.log(error));
     });
-    debugger;
+
   }
 
   addMap(lat, long) {
@@ -141,10 +141,10 @@ export class HomePage {
   }
 
   onDirectCall() {
-    debugger;
+
     this.storage.get('have_account')
       .then((res) => {
-        debugger;
+
         if (res == true) {
           this.callNumber.callNumber("112", true)
             .then(() => console.log('Launched dialer!'))
@@ -156,14 +156,14 @@ export class HomePage {
         }
         else {
           this.storage.get('emergency_phone_box').then((em_phone) => {
-            debugger;
+
             if (em_phone) {
               this.callNumber.callNumber("112", true)
                 .then(() => console.log('Launched dialer!'))
                 .catch(() => console.log('Error launching dialer'));
               this.op.onCreateRequest(em_phone, "", "", this.lat, this.lng, true, this.location_name)
                 .then((res) => {
-                  debugger;
+
                   if (res == 'not_send') {
                     this.statusBar.backgroundColorByHexString('#ed5565');
                     let toast = this.toastCtrl.create({
@@ -192,7 +192,7 @@ export class HomePage {
                   }
                 })
             } else {
-              debugger;
+
               let alert = this.alertCtrl.create({
                 title: this.help_title,
                 inputs: [
@@ -344,7 +344,7 @@ export class HomePage {
   onSilentCall(depId) {
     this.storage.get('have_account')
       .then((res) => {
-        debugger;
+
         if (res == true) {
           this.op.onCreateRequest(this.account.userInformation.PhoneNumber, this.account.userInformation.Id, depId, this.lat, this.lng, false, this.location_name)
             .then((res) => {
@@ -386,14 +386,14 @@ export class HomePage {
         }
         else {
           this.storage.get('emergency_phone_box').then((em_phone) => {
-            debugger;
+
             if (em_phone) {
               this.callNumber.callNumber("112", true)
                 .then(() => console.log('Launched dialer!'))
                 .catch(() => console.log('Error launching dialer'));
               this.op.onCreateRequest(em_phone, "", depId, this.lat, this.lng, false, this.location_name)
                 .then((res) => {
-                  debugger;
+
                   if (res == 'not_send') {
                     this.statusBar.backgroundColorByHexString('#ed5565');
                     let toast = this.toastCtrl.create({
@@ -430,7 +430,7 @@ export class HomePage {
                   }
                 })
             } else {
-              debugger;
+
               let alert = this.alertCtrl.create({
                 title: this.help_title,
                 inputs: [
@@ -587,7 +587,7 @@ export class HomePage {
   onVoiceCall(depId) {
     this.storage.get('have_account')
       .then((res) => {
-        debugger;
+
         if (res == true) {
           this.callNumber.callNumber("112", true)
             .then(() => console.log('Launched dialer!'))
@@ -599,14 +599,14 @@ export class HomePage {
         }
         else {
           this.storage.get('emergency_phone_box').then((em_phone) => {
-            debugger;
+
             if (em_phone) {
               this.callNumber.callNumber("112", true)
                 .then(() => console.log('Launched dialer!'))
                 .catch(() => console.log('Error launching dialer'));
               this.op.onCreateRequest(em_phone, "", depId, this.lat, this.lng, true, this.location_name)
                 .then((res) => {
-                  debugger;
+
                   if (res == 'not_send') {
                     this.statusBar.backgroundColorByHexString('#ed5565');
                     let toast = this.toastCtrl.create({
@@ -635,7 +635,7 @@ export class HomePage {
                   }
                 })
             } else {
-              debugger;
+
               let alert = this.alertCtrl.create({
                 title: this.help_title,
                 inputs: [

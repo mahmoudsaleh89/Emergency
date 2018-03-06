@@ -29,7 +29,6 @@ export class NotificationsPage {
   onShowNotificationDET(notify) {
     if (notify.notifyType == 1) {
       this.config.getRatingQuestion().then((res) => {
-        debugger;
         this.ratingQuestions = res;
         this.navCtrl.setRoot(RatingPage,{qus:this.ratingQuestions});
       });

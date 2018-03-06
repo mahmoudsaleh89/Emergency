@@ -36,11 +36,11 @@ export class AddClaimPage {
 
 
   onSendClaim() {
-    debugger;
+
     console.log(this.claimTxt);
     this.opration.onSendCliam(this.account.userInformation.Id, this.account.userInformation.PhoneNumber, this.claimTxt)
       .then((res) => {
-        debugger;
+
         if (res) {
          /* this.toastCtrl.create({
             message: this.sendCliamSucsess,

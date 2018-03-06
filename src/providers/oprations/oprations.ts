@@ -29,7 +29,7 @@ export class OprationsProvider {
       this.http.post(this.linkAPI + 'CreateRequest', body)
         .subscribe(
           res => {
-            debugger;
+
             let response: any = res;
             if(response.IsSuccessfull){
               resolve(response.Result);
@@ -39,7 +39,7 @@ export class OprationsProvider {
 
           },
           err => {
-            debugger;
+
             resolve('server_err');
             console.log('Error occured', err);
           }
@@ -57,7 +57,7 @@ export class OprationsProvider {
       this.http.post(this.linkAPI + 'CreateClaim', body)
         .subscribe(
           res => {
-            debugger;
+
             let response: any = res;
             if(response){
               resolve(true);
@@ -67,7 +67,7 @@ export class OprationsProvider {
 
           },
           err => {
-            debugger;
+
             resolve(false);
             console.log('Error occured', err);
           }

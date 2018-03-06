@@ -1,4 +1,4 @@
-import {Component, forwardRef, Inject, Injectable} from '@angular/core';
+import {Component, forwardRef, Inject,} from '@angular/core';
 import {
   ActionSheetController, AlertController, IonicPage, LoadingController, NavController, NavParams, Platform,
   ToastController
@@ -128,27 +128,27 @@ export class ProfileEditPage {
   ionViewWillEnter() {
     this.account.onGetEmergencyList()
       .then((res) => {
-        debugger;
+
         if (res) {
-          debugger;
+
           this.emergencyNumberList = res;
         } else {
-          debugger;
+
           this.emergencyNumberList = [];
         }
 
       })
       .catch((err) => {
-          debugger;
+
           this.emergencyNumberList = []
         }
       );
     this.storage.get('have_account')
       .then((res) => {
-        debugger;
+
         console.log('hello Comp', res);
         if (res == false || res == null || res == 'undefind') {
-          debugger;
+
           this.have_account = false;
           this.alertCtrl.create({
             title: 'استعادة الحساب',
@@ -184,7 +184,7 @@ export class ProfileEditPage {
         }
       })
       .catch((err) => {
-        debugger;
+
         this.alertCtrl.create({
           title: 'استعادة الحساب',
           message: "هل لديك حياب مسبقا ، يرجي كتابة رقم الهاتف والرقم السري لاستعاده حسابك",
@@ -255,7 +255,7 @@ export class ProfileEditPage {
       allowFutureDates: false,
     }).then(
       date => {
-        debugger;
+
         console.log(date);
         console.log(typeof (date));
         this.selectedDate = date;
@@ -315,7 +315,7 @@ export class ProfileEditPage {
   }
 
   onTakeImage() {
-    debugger;
+
     let options: CameraOptions;
     if (this.platform.is('ios')) {
       options = {
@@ -335,7 +335,7 @@ export class ProfileEditPage {
     }
 
     this.camera.getPicture(options).then((imageData) => {
-      debugger;
+
       this.storage.get('lang').then((result) => {
         if (result == 'arabic') {
           this.add_profile_img = " تحديث الصورة الشخصية";
@@ -376,12 +376,12 @@ export class ProfileEditPage {
   }
 
   onSelectFromGallery() {
-    debugger;
+
     let options = {
       maximumImagesCount: 1
     }
     this.imagePicker.getPictures(options).then((results) => {
-      debugger;
+
       this.imgURL = results[0];
       this.myProfile.ImageUrl = this.imgURL;
       this.account.userInformation.ImageUrl = this.imgURL;
@@ -404,7 +404,7 @@ export class ProfileEditPage {
       /*console.log('Image URI: ' + results[i]);*/
 
     }, (err) => {
-      debugger;
+
       this.statusBar.backgroundColorByHexString('#4f6c84');
       this.imgURL = "";
       let toast = this.toastCtrl.create({
@@ -424,7 +424,7 @@ export class ProfileEditPage {
 
   onChangePassword() {
     console.log('change pass clicked');
-    debugger;
+
     this.alertCtrl.create({
       title: this.changePassword_tittle,
       message: this.changePasswordDesc,
@@ -450,11 +450,11 @@ export class ProfileEditPage {
         {
           text: this.change,
           handler: data => {
-            debugger;
+
             console.log(data, 'data');
             console.log(this.myProfile, 'this.myProfile');
             console.log(this.account.userInformation, 'this.account.userInformation');
-            debugger;
+
             if (data.old_pass == "" || data.new_password == "") {
               this.statusBar.backgroundColorByHexString('#ed5565');
               let toast = this.toastCtrl.create({
@@ -476,7 +476,7 @@ export class ProfileEditPage {
               loader.present();
               this.account.onEditProfile(this.account.userInformation.Id, this.account.userInformation.ImageUrl, this.account.userInformation.FirstName, this.account.userInformation.Lastname, this.account.userInformation.Gender, this.account.userInformation.PhoneNumber, this.account.userInformation.Birthday, this.account.userInformation.Language, data.new_password)
                 .then((res) => {
-                  debugger;
+
                   if (res == 'no_user') {
                     this.statusBar.backgroundColorByHexString('#ed5565');
                     let toast = this.toastCtrl.create({
@@ -553,7 +553,7 @@ export class ProfileEditPage {
   }
 
   onSaveProfile(form: NgForm) {
-    debugger;
+
     this.isValidFormSubmitted = true;
     if (form.invalid) {
       this.isValidFormSubmitted = false;
@@ -570,7 +570,7 @@ export class ProfileEditPage {
     });
 
     this.account.onCreateProfile(this.imgURL, form.value.firstName, form.value.lastName, form.value.gender, form.value.phoneNumber, this.currentDate, form.value.language, form.value.password, Token).then((res) => {
-      debugger;
+
 
       if (res == 'no_user') {
         this.statusBar.backgroundColorByHexString('#ed5565');
@@ -638,7 +638,7 @@ export class ProfileEditPage {
 
   updateUser(form: NgForm) {
 
-    debugger;
+
     this.isValidFormSubmitted = true;
     if (form.invalid) {
       this.isValidFormSubmitted = false;
@@ -653,7 +653,7 @@ export class ProfileEditPage {
 
     this.account.onEditProfile(this.account.userInformation.Id, this.imgURL, form.value.firstName, form.value.lastName, form.value.gender, form.value.phoneNumber, this.currentDate, form.value.language, this.account.userInformation.Password)
       .then((res) => {
-        debugger;
+
 
         if (res == 'no_user') {
           this.statusBar.backgroundColorByHexString('#ed5565');
@@ -685,7 +685,7 @@ export class ProfileEditPage {
 
         }
         else if (res) {
-          debugger;
+
           let Profile: any = res;
           this.myProfile = Profile;
           this.account.userInformation = this.myProfile;
@@ -722,7 +722,7 @@ export class ProfileEditPage {
 
 
   onDeleteNumber(contact) {
-    debugger;
+
     let confirm = this.alertCtrl.create({
       title: this.deleteTittle,
       message: this.deleteMsg,
@@ -741,13 +741,13 @@ export class ProfileEditPage {
             });
             this.account.onCreateProfileRelatives(contact.Id, contact.FirstName, contact.LastName, contact.PhoneNumber, contact.RelativeDescription, this.account.userInformation.Id, false)
               .then((newList) => {
-                debugger;
+
                 let List: any;
                 List = newList;
-                debugger;
+
                 console.log(List, 'this is fuking llist');
                 if (newList == "add_Connection_error") {
-                  debugger;
+
                   console.log('add_Connection_error');
                   this.statusBar.backgroundColorByHexString('#ed5565');
                   loader.dismiss();
@@ -763,7 +763,7 @@ export class ProfileEditPage {
                   });
 
                 } else if (newList == "not_added") {
-                  debugger;
+
 
                   console.log('not_added');
                   this.statusBar.backgroundColorByHexString('#ed5565');
@@ -779,7 +779,7 @@ export class ProfileEditPage {
                     this.statusBar.backgroundColorByHexString('#253746');
                   });
                 } else if (List.length >= 0) {
-                  debugger;
+
                   console.log(List.length);
                   this.emergencyNumberList = List;
                   this.statusBar.backgroundColorByHexString('#4f6c84');
@@ -810,11 +810,11 @@ export class ProfileEditPage {
               })
             /* this.config.onDeleteEmergencyNumber(indexNumber).then((res) => {
                if (res) {
-                 debugger;
+
                  this.emergencyNumberList = res;
                }
              }).catch((err) => {
-               debugger;
+
                this.statusBar.backgroundColorByHexString('#4f6c84');
                let toast = this.toastCtrl.create({
                  message: this.deleteErr,
@@ -836,7 +836,7 @@ export class ProfileEditPage {
   }
 
   onViewNumber(contactInfo) {
-    debugger;
+
     this.navCtrl.push(AddSosNumberPage, contactInfo);
   }
 

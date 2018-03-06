@@ -32,7 +32,7 @@ export class RatingPage {
               public account: AccountProvider) {
     this.setLangAndDirction();
     this.ratingQuestions = [];
-    debugger;
+
     console.log(this.navParams);
     this.ratingQuestions = this.navParams.get('qus');
 
@@ -51,7 +51,7 @@ export class RatingPage {
   }
 
   onsetRate() {
-    debugger;
+
     this.answers=[];
     for (var i = 0; i < this.ratingQuestions.length; i++) {
       debugger
@@ -66,10 +66,10 @@ export class RatingPage {
     });
 
     loading.present();
-    debugger;
+
     this.config.onSubmitRating(this.account.userInformation.Id, this.suggest, this.account.userInformation.PhoneNumber, this.answers)
       .then((qusRes) => {
-        debugger;
+
       loading.dismiss();
         if (qusRes) {
 

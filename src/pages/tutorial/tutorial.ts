@@ -41,7 +41,7 @@ export class TutorialPage {
   }
 
   onCloseModal() {
-    debugger;
+
     this.navCtrl.pop();
   }
 

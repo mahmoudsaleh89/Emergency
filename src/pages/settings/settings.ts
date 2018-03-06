@@ -129,7 +129,7 @@ export class SettingsPage {
       todayText: 'today'
     }).then(
       date => {
-        debugger;
+
         this.selectedDate = date;
         let tempSelectedDate = this.selectedDate;
         this.currentDate = tempSelectedDate.toString().substr(4, 12);

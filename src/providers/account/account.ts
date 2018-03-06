@@ -40,7 +40,7 @@ export class AccountProvider {
   }
 
   onGetProfile(phoneNumber, password) {
-    debugger;
+
     let body = {
       "PhoneNumber": phoneNumber,
       "Password": password
@@ -52,13 +52,13 @@ export class AccountProvider {
         .subscribe(
           res => {
             if (res != null) {
-              debugger;
+
               console.log(res);
               let response: any = res;
               this.userInformation = response;
               resolve(this.userInformation);
             } else {
-              debugger;
+
               console.log(res);
               this.userInformation = {
                 Id: "",
@@ -92,7 +92,7 @@ export class AccountProvider {
 
           },
           err => {
-            debugger;
+
             resolve('no_user_err');
             console.log('Error occured', err);
           }
@@ -101,7 +101,7 @@ export class AccountProvider {
   }
 
   onCreateProfile(imageUrl, firstName, lastName, gender, phoneNumber, birthday, lang, password,deviceToken) {
-    debugger;
+
     let body = {
       FirstName: firstName,
       Lastname: lastName,
@@ -118,17 +118,17 @@ export class AccountProvider {
       this.http.post(this.linkAPI + 'CreateProfile', body)
         .subscribe(
           res => {
-            debugger;
+
             if (res != null) {
               let data: any = res;
               if (data.Id != "" || data.Id != null || data.Id != "undefined") {
-                debugger;
+
                 console.log(data);
                 let response: any = data;
                 this.userInformation = response;
                 resolve(this.userInformation);
               } else {
-                debugger;
+
                 console.log(data);
                 this.userInformation = {
                   Id: "",
@@ -164,7 +164,7 @@ export class AccountProvider {
             }
           },
           err => {
-            debugger;
+
             resolve('no_user_err');
             console.log('Error occured', err);
           }
@@ -174,7 +174,7 @@ export class AccountProvider {
   }
 
   onCreateProfileRelatives(id, firstName, lastName, phonenumber, relativeDescription, mobileUserProfileId, active) {
-    debugger;
+
     let body = {
       Id: id,
       FirstName: firstName,
@@ -189,9 +189,9 @@ export class AccountProvider {
       this.http.post(this.linkAPI + '/SaveProfileRelatives', body)
         .subscribe(
           res => {
-            debugger;
+
             if (res) {
-              debugger;
+
               console.log(this.emergencyNumberList, 'this is update Em list');
               let response: any = res;
               let added = false;
@@ -199,7 +199,7 @@ export class AccountProvider {
               if (response.Active == true && (response.Id != null || response.Id != "")) {
                 for (var i = 0; i < this.emergencyNumberList.length; i++) {
                   if (this.emergencyNumberList[i].Id == response.Id) {
-                    debugger;
+
                     added = true;
                     this.emergencyNumberList.splice(i, 1);
                     this.emergencyNumberList.push(response);
@@ -209,7 +209,7 @@ export class AccountProvider {
                   }
                 }
                 if (!added) {
-                  debugger;
+
                   this.emergencyNumberList.push(response);
                   this.storage.set('emList', this.emergencyNumberList);
                   console.log(this.emergencyNumberList, 'this is new relative from list');
@@ -220,7 +220,7 @@ export class AccountProvider {
               else if (response.Active == false) {
                 this.storage.get('emList')
                   .then((res) => {
-                    debugger;
+
                     if (res) {
                       this.emergencyNumberList = res;
                       for (var i = 0; i < this.emergencyNumberList.length; i++) {
@@ -231,13 +231,13 @@ export class AccountProvider {
                       this.storage.set('emList', this.emergencyNumberList);
                       console.log(this.emergencyNumberList, 'this is delete relative from list');
                       console.log('ana Hona');
-                      debugger;
+
                       resolve(this.emergencyNumberList);
                     }
                   })
               }
             } else {
-              debugger;
+
               console.log(res);
               resolve('not_added');
             }
@@ -252,7 +252,7 @@ export class AccountProvider {
   }
 
   onEditProfile(id, imageUrl, firstName, lastName, gender, phoneNumber, birthday, lang, password) {
-    debugger;
+
     let body = {
       Id: id,
       FirstName: firstName,
@@ -268,16 +268,16 @@ export class AccountProvider {
       this.http.post(this.linkAPI + 'EditProfile', body)
         .subscribe(
           res => {
-            debugger;
+
             if (res != null) {
               let data: any = res;
               if (data.IsSuccessfull) {
-                debugger;
+
                 console.log(data);
                 let response: any = data.Result;
                 resolve(response);
               } else {
-                debugger;
+
                 console.log(data);
                 this.userInformation = {
                   Id: "",
@@ -313,7 +313,7 @@ export class AccountProvider {
             }
           },
           err => {
-            debugger;
+
             resolve('no_user_err');
             console.log('Error occured', err);
           }
@@ -327,7 +327,7 @@ export class AccountProvider {
 
 
   onGetEmergencyList() {
-    debugger;
+
     return new Promise(resolve => {
       this.storage.get('emList')
         .then((res) => {

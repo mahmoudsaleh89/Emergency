@@ -47,7 +47,7 @@ export class AddSosNumberPage {
               public account: AccountProvider,
               public loadingCtrl: LoadingController) {
                     this.setLangAndDirction();
-                    debugger;
+
                     this.contactInfo = this.navParams.data;
   }
 
@@ -58,7 +58,7 @@ export class AddSosNumberPage {
   saveContact(form: NgForm) {
     console.log(form);
     console.log(form.value);
-    debugger;
+
     let loader = this.loadingCtrl.create({
       content: this.pleaseWait,
     });
@@ -72,7 +72,7 @@ export class AddSosNumberPage {
     this.account.onCreateProfileRelatives(ContactId, form.value.contactFirstName, form.value.contactLastName, form.value.contactPhoneNumber, form.value.relativeDescription, this.account.userInformation.Id, true)
       .then((res) => {
       if (res == 'not_added') {
-        debugger;
+
         this.statusBar.backgroundColorByHexString('#ed5565');
         let toast = this.toastCtrl.create({
           message: this.not_added,
@@ -88,7 +88,7 @@ export class AddSosNumberPage {
         });
       }
       else if (res == 'add_Connection_error') {
-        debugger;
+
         console.log('omak mama')
         this.statusBar.backgroundColorByHexString('#ed5565');
         let toast = this.toastCtrl.create({
@@ -104,7 +104,7 @@ export class AddSosNumberPage {
         });
       }
       else if (res) {
-        debugger;
+
         let user: any;
         this.storage.get('user').then((userRes) => {
           user = userRes;
@@ -136,10 +136,10 @@ export class AddSosNumberPage {
     this.contacts.pickContact()
       .then((con) => {
         console.log(con.phoneNumbers[0].value);
-        debugger;
+
         let ContactNumber =con.phoneNumbers[0].value.replace(/\s/g, '');
         console.log(ContactNumber);
-        debugger;
+
         this.contactInfo = {
           PhoneNumber: ContactNumber,
           FirstName: con.name.givenName,
