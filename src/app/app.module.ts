@@ -35,7 +35,7 @@ import {LoginPage} from "../pages/login/login";
 import {Sim} from "@ionic-native/sim";
 import { OprationsProvider } from '../providers/oprations/oprations';
 import {ProfileEditPage} from "../pages/profile-edit/profile-edit";
-import {Network} from "@ionic-native/network";
+import {GoogleMaps} from "@ionic-native/google-maps";
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -110,7 +110,7 @@ export function createTranslateLoader(http: HttpClient) {
     AccountProvider,
     RatingPage,
     OprationsProvider,
-    Network
+    GoogleMaps
   ]
 })
 export class AppModule {}
