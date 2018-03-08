@@ -25,7 +25,7 @@
 [dir="ltr"] .fab, [dir="rtl"] .fab {
   border: solid 3px #ffffff !important;
 }
-
+[dir="rtl"] ion-icon.icon.icon-ios.ion-ios-log-out,
 [dir="rtl"] ion-icon.icon.icon-md.ion-md-log-out {
   -webkit-transform: rotate(180deg) !important;
   -moz-transform: rotate(180deg) !important;
@@ -35,6 +35,12 @@
 }
 .action-sheet-ios .action-sheet-button{
   color: #336666 !important;
+}
+.bar-button-ios{
+  font-size: 1.3rem !important;
+}
+.bar-button-default-ios img {
+  width: 33px !important;
 }
 /*[dir="ltr"]  .descrption_area_tut {
   right: auto !important;
@@ -180,6 +186,19 @@ ion-menu .scroll-content {
 
 .login_header.myheader .item-inner {
   padding: 0 !important;
+}
+[dir="ltr"] .range-md [range-left] {
+  margin: 0 12px 0 0 !important;
+}
+[dir="ltr"] .range-md [range-right] {
+  margin: 0 0 0 12px !important;
+}
+
+[dir="ltr"] .range-ios [range-left] {
+  margin: 0 20px 0 0 !important;
+}
+[dir="ltr"] .range-ios [range-right] {
+  margin: 0 0 0 20px !important;
 }
 
 .login_header.myheader {

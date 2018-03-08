@@ -1,5 +1,5 @@
 page-profile {
-
+  .card-header-ios,
   .card-header-md {
     background-color: #f8f8f8;
     padding: 8px 16px !important;
@@ -32,6 +32,10 @@ page-profile {
   }
   .toolbar-md {
     min-height: 60px;
+  }
+  .list-ios > .item-block:last-child,
+  .list-ios > .item-block:first-child{
+    border: none !important;
   }
 
 }

@@ -37,7 +37,7 @@
       <ion-input required name="contactLastName" type="text" [ngModel]="contactInfo.LastName"></ion-input>
     </ion-item>
       <ion-item>
-      <ion-label>{{"relative" | translate}} <span class="validate_note">* {{"field_required"| translate}}</span></ion-label>
+      <ion-label>{{"relative" | translate}} <span class="validate_note">* </span></ion-label>
       <ion-select required [ngModel]="contactInfo.RelativeDescription" name="relativeDescription" okText="{{okay}}" cancelText="{{dismiss}}">
         <ion-option value="friend">{{"friend" | translate}}</ion-option>
         <ion-option value="colleague">{{"colleague" | translate}}</ion-option>

@@ -12,5 +12,8 @@ page-add-sos-number {
     color: #ed5565 !important;
     font-size: 10px !important;
   }
+  .list-ios > .item-block:last-child, .list-ios > .item-wrapper:last-child .item-block {
+    border-bottom: none !important;
+  }
 
 }
