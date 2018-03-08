@@ -71,6 +71,7 @@ page-tutorial {
     right: 6px;
     border-radius: 100%;
   }
+  button.fab.fab-ios.fab-ios-danger ,
   button.fab.fab-md.fab-md-danger {
     width: 100px;
     height: 100px;
@@ -94,6 +95,7 @@ page-tutorial {
     top: 27%;
     color: #fff !important;
     position: absolute;
+    text-align: center;
   }
   .silnt_descrption {
     padding: 67% 2px 0px 25%;

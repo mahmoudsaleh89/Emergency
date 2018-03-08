@@ -32,9 +32,16 @@ page-login {
     padding: 0 10px;
     color: #fff;
   }
-  .register_form ion-list .item-md,
-  .login_form ion-list .item-md {
+  .register_form {
+    padding-top: 11%;
+  }
+
+  .register_form .list-ios .item-block .item-inner,
+  .register_form ion-list .item,
+  .login_form ion-list .item {
     background-color: transparent !important;
+    border-bottom: none !important;
+    border-top: none !important;
   }
   .register_form input,
   .register_form select,
@@ -70,8 +77,8 @@ page-login {
     box-shadow: none !important;
   }
 
-  .register_form .item-md .item-button ,
-  .login_form .item-md .item-button {
+  .register_form .item .item-button ,
+  .login_form .item .item-button {
     height: 37px !important;
   }
   .register_form ion-list ,
@@ -113,5 +120,8 @@ page-login {
   .error{
     color: #ED5565;
     padding: 0 10%;
+  }
+  .select-ios .select-icon .select-icon-inner{
+    color: #f8f8f8 !important;
   }
 }

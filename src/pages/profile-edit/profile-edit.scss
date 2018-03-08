@@ -29,7 +29,11 @@ page-profile-edit {
     color: #ed5565 !important;
     font-size: 10px !important;
   }
-  .list-md .profile_image.item-block .item-inner {
+  .list-ios > .item-block:last-child,
+  .list-ios > .item-block:first-child{
+    border: none !important;
+  }
+  .list .profile_image.item-block .item-inner {
     border-bottom: 1px solid #ffffff !important;
   }
   .changePassword_note {

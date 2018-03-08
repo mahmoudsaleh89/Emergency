@@ -28,6 +28,44 @@
   </script>-->
 
   <link href="build/main.css" rel="stylesheet">
+  <style>
+    /*Iphone 5 style */
+    @media only screen and (min-width: 319px) and (max-width: 374px) {
+      [dir="ltr"] .content-ios ion-fab[center] {
+        margin-left: -15% !important;
+      }
+      [dir="rtl"] .content-ios ion-fab[center] {
+        margin-right: -15% !important;
+      }
+    }
+    /*iphone 6 style */
+    @media only screen and (min-width: 375px) and (max-width: 413px) {
+      [dir="ltr"] .content-ios ion-fab[center] {
+        margin-left: -13% !important;
+      }
+      [dir="rtl"] .content-ios ion-fab[center] {
+        margin-right: -13% !important;
+      }
+    }
+    /*iphone 6 plus style*/
+    @media only screen and (min-width: 414px) and (max-width: 767px) {
+      [dir="ltr"] .content-ios ion-fab[center] {
+        margin-left: -11% !important;
+      }
+      [dir="rtl"] .content-ios ion-fab[center] {
+        margin-right: -11% !important;
+      }
+    }
+    /*I pad */
+    @media only screen and (min-width: 768px)  {
+      [dir="ltr"] .content-ios ion-fab[center] {
+        margin-left: -5% !important;
+      }
+      [dir="rtl"] .content-ios ion-fab[center] {
+        margin-right: -5% !important;
+      }
+    }
+  </style>
 
 </head>
 <body>

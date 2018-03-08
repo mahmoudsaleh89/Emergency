@@ -33,7 +33,9 @@
   -o-transform: rotate(180deg) !important;
   transform: rotate(180deg) !important;
 }
-
+.action-sheet-ios .action-sheet-button{
+  color: #336666 !important;
+}
 /*[dir="ltr"]  .descrption_area_tut {
   right: auto !important;
   left: 2% !important;
@@ -143,6 +145,22 @@ ion-menu .scroll-content {
 [dir="ltr"] ion-fab[center] {
   left: 50%;
   margin-left: -15% !important;
+}
+.myMenu.list-ios .item-block .item-inner {
+  border-bottom: 0 !important;
+}
+.myMenu.list-ios > .item-block{
+  border-top: 0.55px solid transparent !important;
+  border-bottom: 0.55px solid transparent !important;
+}
+
+[dir="rtl"] .content-ios ion-fab[center] {
+  margin-right: -20% !important;
+}
+
+[dir="ltr"] .content-ios ion-fab[center] {
+
+  margin-left: -20% !important;
 }
 
 [dir="rtl"] ion-fab[center] {
