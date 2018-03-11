@@ -21,9 +21,16 @@
   right: 2% !important;
   text-align: center !important;
 }
+.scroll-content._gmaps_cdv_{
+  z-index: 1 !important;
+}
+ion-fab[bottom] {
+  bottom: 19px !important;
+}
 
 [dir="ltr"] .fab, [dir="rtl"] .fab {
   border: solid 3px #ffffff !important;
+  box-shadow: none;
 }
 [dir="rtl"] ion-icon.icon.icon-ios.ion-ios-log-out,
 [dir="rtl"] ion-icon.icon.icon-md.ion-md-log-out {
@@ -151,6 +158,7 @@ ion-menu .scroll-content {
 [dir="ltr"] ion-fab[center] {
   left: 50%;
   margin-left: -15% !important;
+  bottom: 2px !important;
 }
 .myMenu.list-ios .item-block .item-inner {
   border-bottom: 0 !important;
@@ -172,6 +180,7 @@ ion-menu .scroll-content {
 [dir="rtl"] ion-fab[center] {
   left: 50%;
   margin-right: -15% !important;
+  bottom: 5px !important;
 }
 
 .guideline_class {

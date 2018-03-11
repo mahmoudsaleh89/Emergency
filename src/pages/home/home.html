@@ -20,12 +20,13 @@
     </ion-title>
   </ion-navbar>
 </ion-header>
-
 <ion-content>
- <div #map_canvas  id="map_canvas">
+ <div #map_canvas  id="map_canvas" style="z-index: 1">
  </div>
 
 
+</ion-content>
+<div class="myFabs" style="z-index: 100 !important;">
   <ion-fab bottom right >
     <button ion-fab>
       <img src="assets/imgs/Icon-notalk.png">
@@ -45,4 +46,4 @@
   <ion-fab bottom center >
     <button ion-fab color="danger" (click)="onDirectCall()"><img src="assets/imgs/Icon-112.png" width="80"></button>
   </ion-fab>
-</ion-content>
+</div>

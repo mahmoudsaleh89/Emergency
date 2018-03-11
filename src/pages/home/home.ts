@@ -75,33 +75,6 @@ export class HomePage {
   ionViewDidEnter() {
     this.loadmap()
 
-/*
-    this.geolocation.getCurrentPosition(
-    ).then(
-      (position) => {
-
-        if (position) {
-          this.addMap(position.coords.latitude, position.coords.longitude);
-          this.lng = position.coords.longitude;
-          this.lat = position.coords.latitude;
-          this.nativeGeocoder.reverseGeocode(position.coords.latitude, position.coords.longitude)
-            .then((result: NativeGeocoderReverseResult) => {
-
-                this.location_name = result.administrativeArea + '-' + result.locality + '-' + result.subLocality + '-' + result.thoroughfare + '-' + result.subThoroughfare;
-                console.log(this.location_name);
-              }
-            ).catch((error: any) => {
-            console.log(error)
-          });
-        }
-
-      }).catch(error => {
-
-      this.addMap(29.266666, 47.933334);
-      this.nativeGeocoder.reverseGeocode(29.266666, 47.933334)
-        .then((result: NativeGeocoderReverseResult) => console.log(JSON.stringify(result)))
-        .catch((error: any) => console.log(error));
-    });*/
 
   }
   loadmap() {
@@ -441,38 +414,7 @@ export class HomePage {
       });
 
   }
-/*  addMap(lat, long) {
 
-    let latLng = new google.maps.LatLng(lat, long);
-
-    let mapOptions = {
-      center: latLng,
-      zoom: 18,
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
-      disableDefaultUI: true,
-
-      zoomControl: false
-    }
-    this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
-    this.addMarker(lat, long);
-  }
-
-  addMarker(lat, long) {
-    let marker = new google.maps.Marker({
-      map: this.map,
-      icon: 'assets/imgs/pin.png',
-      animation: google.maps.Animation.DROP,
-      draggable: false,
-      position: this.map.getCenter()
-    });
-    let content = "<p>This is your current position !</p>";
-    let infoWindow = new google.maps.InfoWindow({
-      content: content
-    });
-    google.maps.event.addListener(marker, 'click', (pos) => {
-      infoWindow.open(this.map, marker);
-    });
-  }*/
 
   onDirectCall() {
 
@@ -722,9 +664,7 @@ export class HomePage {
           this.storage.get('emergency_phone_box').then((em_phone) => {
 
             if (em_phone) {
-              this.callNumber.callNumber("112", true)
-                .then(() => console.log('Launched dialer!'))
-                .catch(() => console.log('Error launching dialer'));
+
               this.op.onCreateRequest(em_phone, "", depId, this.lat, this.lng, false, this.location_name)
                 .then((res) => {
 
@@ -786,9 +726,6 @@ export class HomePage {
                     text: this.send_help_requset,
                     handler: data => {
                       if (data.phone_number) {
-                        this.callNumber.callNumber("112", true)
-                          .then(() => console.log('Launched dialer!'))
-                          .catch(() => console.log('Error launching dialer'));
                         this.storage.set('emergency_phone_box', data.phone_number);
                         //call api
                         this.op.onCreateRequest(data.phone_number, "", depId, this.lat, this.lng, false, this.location_name)

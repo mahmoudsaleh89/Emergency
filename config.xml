@@ -100,4 +100,5 @@
         <variable name="API_KEY_FOR_IOS" value="AIzaSyA8MDeA5crs5k3a1WD-KmZMEDMIe1vu5ts" />
     </plugin>
     <engine name="android" spec="~6.4.0" />
+    <engine name="ios" spec="~4.5.4" />
 </widget>
