@@ -1,9 +1,9 @@
 page-question-details {
-  ion-card.card.card-md {
+  /*ion-card.card.card-md {
     background-color: #f8f8f8;
-  }
+  }*/
   .card-title {
-    color: #44739a;
+    color: #336666;
     font-size: 20px;
     /* background-color: #FFF; */
   }
@@ -11,4 +11,18 @@ page-question-details {
     color: #253746;
     font-size: 18px;
   }
+  .content-md,
+  .content-ios {
+    background-color: rgba(0, 0, 0, 0.81);
+  }
+  ion-card {
+    min-height: 70%;
+    border-radius: 12px !important;
+    margin-top: 15% !important;
+  }
+  ion-icon.icon.icon-md.ion-ios-close-circle-outline,
+  ion-icon.icon.icon-ios.ion-ios-close-circle-outline {
+    font-size: 30px !important;
+  }
+
 }

@@ -38,7 +38,6 @@
     "@ngx-translate/http-loader": "^2.0.1",
     "call-number": "^1.0.1",
     "com.synconset.imagepicker": "^2.1.10",
-    "cordova-android": "~6.4.0",
     "cordova-plugin-add-swift-support": "^1.7.1",
     "cordova-plugin-camera": "^4.0.2",
     "cordova-plugin-contacts": "^3.0.1",
@@ -70,7 +69,7 @@
   "cordova": {
     "plugins": {
       "cordova-plugin-geolocation": {
-        "GEOLOCATION_USAGE_DESCRIPTION": "To locate you"
+        "GEOLOCATION_USAGE_DESCRIPTION": "Your current location will be displayed on the map and used for directions to serve you"
       },
       "cordova-plugin-nativegeocoder": {},
       "ionic-plugin-keyboard": {},
@@ -83,18 +82,18 @@
       "cordova-plugin-datepicker": {},
       "cordova-plugin-contacts": {},
       "com.synconset.imagepicker": {
-        "PHOTO_LIBRARY_USAGE_DESCRIPTION": "to add profile image"
+        "PHOTO_LIBRARY_USAGE_DESCRIPTION": "to add your image to  profile"
       },
       "cordova-plugin-camera": {},
       "cordova-plugin-fcm": {},
       "call-number": {},
       "cordova-plugin-googlemaps": {
         "API_KEY_FOR_ANDROID": "AIzaSyCwVopH7puuYFsWB_4_BykO4atTsApeXkE",
-        "API_KEY_FOR_IOS": "AIzaSyA8MDeA5crs5k3a1WD-KmZMEDMIe1vu5ts"
+        "API_KEY_FOR_IOS": "AIzaSyA8MDeA5crs5k3a1WD-KmZMEDMIe1vu5ts",
+        "LOCATION_WHEN_IN_USE_DESCRIPTION": "This app wants to get your location while this app runs only.",
+        "LOCATION_ALWAYS_USAGE_DESCRIPTION": "This app wants to get your location always, even this app runs in background."
       }
     },
-    "platforms": [
-      "android"
-    ]
+    "platforms": []
   }
 }
