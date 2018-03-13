@@ -6,6 +6,7 @@ import {Storage} from '@ionic/storage';
 @Injectable()
 export class AccountProvider {
   linkAPI = "http://192.168.0.230:4201/api/MobileApp/";
+  /*linkAPI = "168.187.183.113/publishOutput/api/MobileApp/";*/
   userInformation = {
     Id: "",
     FirstName: "Guest",
@@ -100,7 +101,7 @@ export class AccountProvider {
     });
   }
 
-  onCreateProfile(imageUrl, firstName, lastName, gender, phoneNumber, birthday, lang, password,deviceToken) {
+  onCreateProfile(imageUrl, firstName, lastName, gender, phoneNumber, birthday, lang, password, deviceToken) {
 
     let body = {
       FirstName: firstName,
@@ -111,7 +112,7 @@ export class AccountProvider {
       Language: lang,
       Password: password,
       ImageUrl: imageUrl,
-      DeviceToken : deviceToken
+      DeviceToken: deviceToken
     };
     console.log(this.linkAPI + '/CreateProfile');
     return new Promise(resolve => {
@@ -174,7 +175,7 @@ export class AccountProvider {
   }
 
   onCreateProfileRelatives(id, firstName, lastName, phonenumber, relativeDescription, mobileUserProfileId, active) {
-
+    debugger;
     let body = {
       Id: id,
       FirstName: firstName,
@@ -184,12 +185,13 @@ export class AccountProvider {
       MobileUserProfileId: mobileUserProfileId,
       Active: active
     };
-
+console.log(JSON.stringify(body), 'body req');
     return new Promise(resolve => {
       this.http.post(this.linkAPI + '/SaveProfileRelatives', body)
         .subscribe(
           res => {
-
+            debugger;
+            console.log(res,'SaveProfileRelatives');
             if (res) {
 
               console.log(this.emergencyNumberList, 'this is update Em list');
@@ -319,8 +321,6 @@ export class AccountProvider {
           }
         );
     });
-
-
 
 
   }

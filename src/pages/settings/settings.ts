@@ -24,7 +24,7 @@ export class SettingsPage {
   currentDate="";
   selectedDate:any;
   countICENumbers : number = 0;
-
+  IOS_BACK= "";
 
 
   constructor(public navCtrl: NavController,

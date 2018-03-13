@@ -10,6 +10,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class OprationsProvider {
   linkAPI = "http://192.168.0.230:4201/api/MobileApp/";
+/*  linkAPI = "68.187.183.113/publishOutput/api/MobileApp/";*/
   constructor(public http: HttpClient) {
     console.log('Hello OprationsProvider Provider');
   }

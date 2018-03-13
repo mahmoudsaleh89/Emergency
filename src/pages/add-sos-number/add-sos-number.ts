@@ -1,6 +1,6 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {
-  ActionSheetController, IonicPage, LoadingController, NavController, NavParams, Platform,
+  ActionSheetController, IonicPage, LoadingController, Navbar, NavController, NavParams, Platform,
   ToastController
 } from 'ionic-angular';
 import {Storage} from '@ionic/storage';
@@ -34,7 +34,8 @@ export class AddSosNumberPage {
   not_added = "";
   add_Connection_error = "";
   pleaseWait = "";
-
+  IOS_BACK= "";
+  @ViewChild(Navbar) navbar: Navbar;
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private statusBar: StatusBar,
@@ -46,9 +47,9 @@ export class AddSosNumberPage {
               public toastCtrl: ToastController,
               public account: AccountProvider,
               public loadingCtrl: LoadingController) {
-                    this.setLangAndDirction();
+    this.setLangAndDirction();
 
-                    this.contactInfo = this.navParams.data;
+    this.contactInfo = this.navParams.data;
   }
 
   ionViewDidLoad() {
@@ -57,39 +58,70 @@ export class AddSosNumberPage {
 
   saveContact(form: NgForm) {
     console.log(form);
-    console.log(form.value);
-
+    console.log(form.value, 'form.value');
+    debugger;
     let loader = this.loadingCtrl.create({
       content: this.pleaseWait,
     });
     loader.present();
-
-    let ContactId : any ;
+    debugger;
+    let ContactId: any;
     ContactId = this.contactInfo.Id;
-    if (!ContactId){
+    if (!ContactId) {
       ContactId = "";
     }
     this.account.onCreateProfileRelatives(ContactId, form.value.contactFirstName, form.value.contactLastName, form.value.contactPhoneNumber, form.value.relativeDescription, this.account.userInformation.Id, true)
       .then((res) => {
-      if (res == 'not_added') {
+        if (res == 'not_added') {
+          debugger;
+          console.log('not_added');
+          this.statusBar.backgroundColorByHexString('#ed5565');
+          let toast = this.toastCtrl.create({
+            message: this.not_added,
+            duration: 3000,
+            position: 'top',
+            cssClass: 'warning_toast'
 
-        this.statusBar.backgroundColorByHexString('#ed5565');
-        let toast = this.toastCtrl.create({
-          message: this.not_added,
-          duration: 3000,
-          position: 'top',
-          cssClass: 'warning_toast'
+          });
+          loader.dismiss();
+          toast.present();
+          toast.onDidDismiss(() => {
+            this.statusBar.backgroundColorByHexString('#253746');
+          });
+        }
+        else if (res == 'add_Connection_error') {
+          debugger;
+          console.log('add_Connection_error');
+          this.statusBar.backgroundColorByHexString('#ed5565');
+          let toast = this.toastCtrl.create({
+            message: this.add_Connection_error,
+            duration: 3000,
+            position: 'top',
+            cssClass: 'warning_toast'
+          });
+          loader.dismiss();
+          toast.present();
+          toast.onDidDismiss(() => {
+            this.statusBar.backgroundColorByHexString('#253746');
+          });
+        }
+        else if (res) {
+          debugger;
+          console.log('res');
+          let user: any;
+          this.storage.get('user').then((userRes) => {
+            user = userRes;
+            user.Relatives = res;
+            this.storage.set('user', user);
+          });
+          loader.dismiss();
+          this.navCtrl.popTo(ProfilePage);
+        }
+      })
+      .catch((err) => {
+        debugger;
 
-        });
-        loader.dismiss();
-        toast.present();
-        toast.onDidDismiss(() => {
-          this.statusBar.backgroundColorByHexString('#253746');
-        });
-      }
-      else if (res == 'add_Connection_error') {
-
-        console.log('omak mama')
+        console.log(err,'res err SaveProfileRelatives');
         this.statusBar.backgroundColorByHexString('#ed5565');
         let toast = this.toastCtrl.create({
           message: this.add_Connection_error,
@@ -102,33 +134,7 @@ export class AddSosNumberPage {
         toast.onDidDismiss(() => {
           this.statusBar.backgroundColorByHexString('#253746');
         });
-      }
-      else if (res) {
-
-        let user: any;
-        this.storage.get('user').then((userRes) => {
-          user = userRes;
-          user.Relatives = res;
-          this.storage.set('user', user);
-        });
-        loader.dismiss();
-        this.navCtrl.popTo(ProfilePage);
-      }
-    })
-      .catch((err) => {
-      this.statusBar.backgroundColorByHexString('#ed5565');
-      let toast = this.toastCtrl.create({
-        message: this.add_Connection_error,
-        duration: 3000,
-        position: 'top',
-        cssClass: 'warning_toast'
-      });
-      loader.dismiss();
-      toast.present();
-      toast.onDidDismiss(() => {
-        this.statusBar.backgroundColorByHexString('#253746');
-      });
-    })
+      })
   }
 
   importFromContact() {
@@ -136,10 +142,8 @@ export class AddSosNumberPage {
     this.contacts.pickContact()
       .then((con) => {
         console.log(con.phoneNumbers[0].value);
-
-        let ContactNumber =con.phoneNumbers[0].value.replace(/\s/g, '');
+        let ContactNumber = con.phoneNumbers[0].value.replace(/\s/g, '').toString();
         console.log(ContactNumber);
-
         this.contactInfo = {
           PhoneNumber: ContactNumber,
           FirstName: con.name.givenName,
@@ -148,7 +152,7 @@ export class AddSosNumberPage {
           MobileUserProfileId: "",
           Active: true
         }
-        console.log( this.contactInfo);
+        console.log(this.contactInfo, 'this.contactInfo');
       }).catch((err) => {
       this.statusBar.backgroundColorByHexString('#ed5565');
       let toast = this.toastCtrl.create({
@@ -177,6 +181,10 @@ export class AddSosNumberPage {
         this.add_Connection_error = "حصل خطأ في الاتصال ، لا يوجد اتصال في الانترنت ";
         this.not_added = "عذرا ، حصل خطآ اثناء الاضافة ، يرجى المحاولة مرة اخرى";
         this.pleaseWait = "جاري حفظ البيانات ...";
+        this.IOS_BACK = "عودة";
+        if (this.platform.is('ios')) {
+          this.navbar.setBackButtonText(this.IOS_BACK);
+        }
         this.storage.set('lang', 'arabic');
         this.translate.setDefaultLang('ar');
         this.platform.setDir('rtl', true);
@@ -191,6 +199,10 @@ export class AddSosNumberPage {
         this.maxNumberOfContact = " you have maximum number of contact ";
         this.pleaseAddProfile = "Please add profile information after";
         this.pleaseWait = "please Wait ...";
+        this.IOS_BACK = "Back";
+        if (this.platform.is('ios')) {
+          this.navbar.setBackButtonText(this.IOS_BACK);
+        }
         this.storage.set('lang', 'english');
         this.translate.setDefaultLang('en');
         this.platform.setDir('ltr', true);
@@ -205,6 +217,10 @@ export class AddSosNumberPage {
         this.maxNumberOfContact = " you have maximum number of contact ";
         this.pleaseAddProfile = "Please add profile information after";
         this.pleaseWait = "please Wait ...";
+        this.IOS_BACK = "Back";
+        if (this.platform.is('ios')) {
+          this.navbar.setBackButtonText(this.IOS_BACK);
+        }
         this.storage.set('lang', 'english');
         this.translate.setDefaultLang('en');
         this.platform.setDir('ltr', true);

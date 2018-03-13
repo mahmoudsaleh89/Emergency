@@ -11,7 +11,8 @@ import {RatingPage} from "../rating/rating";
 
 export class NotificationsPage {
   notifications: any;
-  ratingQuestions
+  ratingQuestions;
+  IOS_BACK= "";
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,

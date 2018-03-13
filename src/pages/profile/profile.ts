@@ -1,6 +1,6 @@
-import {Component, forwardRef, Inject, Injectable} from '@angular/core';
+import {Component, forwardRef, Inject, Injectable, ViewChild} from '@angular/core';
 import {
-  ActionSheetController, AlertController, IonicPage, LoadingController, NavController, NavParams, Platform,
+  ActionSheetController, AlertController, IonicPage, LoadingController, Navbar, NavController, NavParams, Platform,
   ToastController
 } from 'ionic-angular';
 import {ConfigProvider} from "../../providers/config/config";
@@ -25,7 +25,7 @@ import {MyApp} from "../../app/app.component";
   templateUrl: 'profile.html',
 })
 export class ProfilePage {
-
+  IOS_BACK= "";
   setGender = "";
   male = "";
   fmale = "";
@@ -88,7 +88,7 @@ export class ProfilePage {
   not_added = "";
   update = "";
   isValidFormSubmitted = false;
-
+  @ViewChild(Navbar) navbar: Navbar;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -176,6 +176,10 @@ export class ProfilePage {
         this.errServer = "لم يتم الحفظ الشبكه مشغوله";
         this.not_added = "عذرا حدث خطأ أثناء تحديث قائمة الطوارئ الخاصة بك";
         this.update = "تم تحديث قائمة الطوارئ الخاصة بك بنجاح";
+        this.IOS_BACK = "عودة";
+        if (this.platform.is('ios')) {
+          this.navbar.setBackButtonText(this.IOS_BACK);
+        }
         this.storage.set('lang', 'arabic');
         this.translate.setDefaultLang('ar');
         this.platform.setDir('rtl', true);
@@ -208,6 +212,10 @@ export class ProfilePage {
         this.errServer = "Saved failed , Internal Server Error";
         this.not_added = "not_added";
         this.update = "update";
+        this.IOS_BACK = "Back";
+        if (this.platform.is('ios')) {
+          this.navbar.setBackButtonText(this.IOS_BACK);
+        }
         this.storage.set('lang', 'english');
         this.translate.setDefaultLang('en');
         this.platform.setDir('ltr', true);
@@ -240,6 +248,10 @@ export class ProfilePage {
         this.errServer = "Saved failed , Internal Server Error";
         this.not_added = "not_added";
         this.update = "update";
+        this.IOS_BACK = "Back";
+        if (this.platform.is('ios')) {
+          this.navbar.setBackButtonText(this.IOS_BACK);
+        }
         this.storage.set('lang', 'english');
         this.translate.setDefaultLang('en');
         this.platform.setDir('ltr', true);
@@ -250,6 +262,7 @@ export class ProfilePage {
 
     });
   }
+
   logOut(){
     this.storage.set('have_account',false);
     this.myProfile ={
@@ -282,8 +295,8 @@ export class ProfilePage {
     this.account.userInformation = this.myProfile;
     this.storage.set('user',this.myProfile);
     this.storage.set('lang','english');
+    this.storage.set('emList', []);
     this.myapp.initializeApp();
-
   }
 }
 export interface Contact {

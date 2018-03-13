@@ -9,8 +9,10 @@ page-home {
   }*/
 
 
-  .fixed-content{
-    z-index: 2 !important;
+ .fixed-content{
+    z-index: 100 !important;
+    height: auto;
+    top: auto;
   }
 
   /*fabs center custom*/

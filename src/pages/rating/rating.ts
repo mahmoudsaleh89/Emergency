@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {IonicPage, LoadingController, NavController, NavParams, ToastController} from 'ionic-angular';
+import {Component, ViewChild} from '@angular/core';
+import {IonicPage, LoadingController, Navbar, NavController, NavParams, Platform, ToastController} from 'ionic-angular';
 import {ConfigProvider} from "../../providers/config/config";
 import {HomePage} from "../home/home";
 import {Storage} from '@ionic/storage';
@@ -21,7 +21,8 @@ export class RatingPage {
   errNote;
   shit: any;
   sending = "";
-
+  IOS_BACK= "";
+  @ViewChild(Navbar) navbar: Navbar;
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public config: ConfigProvider,
@@ -29,7 +30,8 @@ export class RatingPage {
               private storage: Storage,
               public statusBar: StatusBar,
               public loadingCtrl: LoadingController,
-              public account: AccountProvider) {
+              public account: AccountProvider,
+              public platform: Platform) {
     this.setLangAndDirction();
     this.ratingQuestions = [];
 
@@ -140,14 +142,26 @@ export class RatingPage {
         this.successNote = ' شكرا لك ، تم ارسال تقيمك بنجاح ';
         this.errNote = "عذرا ، حدث خطأ اثناء التقيم ،يرجى المحاولة مرة اخرى";
         this.sending = " جاري الارسال ...";
+        this.IOS_BACK = "عودة";
+        if (this.platform.is('ios')) {
+          this.navbar.setBackButtonText(this.IOS_BACK);
+        }
       }
       else if (result == 'english') {
-        this.PleaseWait = 'Please Wait'
+        this.IOS_BACK = "Back";
+        if (this.platform.is('ios')) {
+          this.navbar.setBackButtonText(this.IOS_BACK);
+        }
+        this.PleaseWait = 'Please Wait';
         this.successNote = 'Thank you , submitted successfully';
         this.errNote = "Warning , something wrong please try again  ";
         this.sending = "Sending ...";
       }
       else {
+        this.IOS_BACK = "Back";
+        if (this.platform.is('ios')) {
+          this.navbar.setBackButtonText(this.IOS_BACK);
+        }
         this.PleaseWait = 'Please Wait'
         this.successNote = 'Thank you , submitted successfully';
         this.errNote = "Warning , something wrong please try again  ";

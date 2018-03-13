@@ -75,7 +75,6 @@ export class HomePage {
   ionViewDidEnter() {
     this.loadmap()
 
-
   }
   loadmap() {
     let loader = this.loadingCtrl.create({

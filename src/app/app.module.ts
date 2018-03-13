@@ -36,6 +36,7 @@ import {Sim} from "@ionic-native/sim";
 import { OprationsProvider } from '../providers/oprations/oprations';
 import {ProfileEditPage} from "../pages/profile-edit/profile-edit";
 import {GoogleMaps} from "@ionic-native/google-maps";
+import {QuestionDetailsPage} from "../pages/question-details/question-details";
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -57,7 +58,8 @@ export function createTranslateLoader(http: HttpClient) {
     RatingPage,
     AddClaimPage,
     LoginPage,
-    ProfileEditPage
+    ProfileEditPage,
+    QuestionDetailsPage
   ],
   imports: [
     BrowserModule,
@@ -89,7 +91,8 @@ export function createTranslateLoader(http: HttpClient) {
     RatingPage,
     AddClaimPage,
     LoginPage,
-    ProfileEditPage
+    ProfileEditPage,
+    QuestionDetailsPage
 
   ],
   providers: [

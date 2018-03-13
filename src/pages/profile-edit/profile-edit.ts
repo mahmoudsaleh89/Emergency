@@ -1,6 +1,6 @@
-import {Component, forwardRef, Inject,} from '@angular/core';
+import {Component, forwardRef, Inject, ViewChild,} from '@angular/core';
 import {
-  ActionSheetController, AlertController, IonicPage, LoadingController, NavController, NavParams, Platform,
+  ActionSheetController, AlertController, IonicPage, LoadingController, Navbar, NavController, NavParams, Platform,
   ToastController
 } from 'ionic-angular';
 import {ConfigProvider} from "../../providers/config/config";
@@ -25,7 +25,7 @@ import {FCM} from "@ionic-native/fcm";
   templateUrl: 'profile-edit.html',
 })
 export class ProfileEditPage {
-
+  IOS_BACK= "";
   setGender = "";
   male = "";
   fmale = "";
@@ -97,7 +97,7 @@ export class ProfileEditPage {
   updateErr = "";
   phoneAlreadyRegister = "";
   allfieldrequried = "";
-
+  @ViewChild(Navbar) navbar: Navbar;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -133,7 +133,6 @@ export class ProfileEditPage {
 
           this.emergencyNumberList = res;
         } else {
-
           this.emergencyNumberList = [];
         }
 
@@ -876,7 +875,11 @@ export class ProfileEditPage {
         this.change = "تغير";
         this.updateErr = "خطأ،لم يتم حفظ البيانات";
         this.phoneAlreadyRegister = "هذا الرقم تم تسجيله سابقا";
-        this.allfieldrequried = "لتغير الرقم السري يجب ادخال الرقم السري الحالي والجديد "
+        this.allfieldrequried = "لتغير الرقم السري يجب ادخال الرقم السري الحالي والجديد ";
+        this.IOS_BACK = "عودة";
+        if (this.platform.is('ios')) {
+          this.navbar.setBackButtonText(this.IOS_BACK);
+        }
         this.storage.set('lang', 'arabic');
         this.translate.setDefaultLang('ar');
         this.platform.setDir('rtl', true);
@@ -918,6 +921,10 @@ export class ProfileEditPage {
         this.updateErr = "Error while updating";
         this.phoneAlreadyRegister = "This phone already register !";
         this.allfieldrequried = "To change password you to insert current password and new password";
+        this.IOS_BACK = "Back";
+        if (this.platform.is('ios')) {
+          this.navbar.setBackButtonText(this.IOS_BACK);
+        }
         this.storage.set('lang', 'english');
         this.translate.setDefaultLang('en');
         this.platform.setDir('ltr', true);
@@ -959,6 +966,10 @@ export class ProfileEditPage {
         this.updateErr = "Error while updating";
         this.phoneAlreadyRegister = "This phone already register !";
         this.allfieldrequried = "To change password you to insert current password and new password";
+        this.IOS_BACK = "Back";
+        if (this.platform.is('ios')) {
+          this.navbar.setBackButtonText(this.IOS_BACK);
+        }
         this.storage.set('lang', 'english');
         this.translate.setDefaultLang('en');
         this.platform.setDir('ltr', true);

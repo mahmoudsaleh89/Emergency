@@ -6,6 +6,7 @@ import {Storage} from '@ionic/storage';
 @Injectable()
 export class ConfigProvider {
   linkAPI = "http://192.168.0.230:4201/api/MobileApp/";
+  /*linkAPI = "68.187.183.113/publishOutput/api/MobileApp/";*/
   language = 'ar';
   side = 'right';
   numberObject = {};
@@ -156,7 +157,7 @@ export class ConfigProvider {
         {
           DepartmentId: "2",
           Department: "police",
-          imgSrc: 'assets/imgs/police.svg',
+          imgSrc: 'assets/imgs/police.png',
 
         },
         {
