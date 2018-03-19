@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {MenuController, ModalController, Nav, Platform} from 'ionic-angular';
+import {MenuController, ModalController, Nav, Platform, ToastController} from 'ionic-angular';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {Storage} from '@ionic/storage';
@@ -36,7 +36,8 @@ export class MyApp {
               public translate: TranslateService,
               public modalCtrl: ModalController,
               public menuCtrl: MenuController,
-              public fcm: FCM) {
+              public fcm: FCM,
+              public toastCtrl : ToastController) {
     this.initializeApp();
     this.userNavInfo = this.account.userInformation;
     // used for an example of ngFor and navigation
@@ -51,12 +52,50 @@ export class MyApp {
 
   initializeApp() {
     this.platform.ready().then(() => {
-
+    /*  let a = [
+        {
+          message: " تقييم الخدمه",
+          img: "assets/imgs/survey.svg",
+          describe: "من خلال هذا التقييم يتم تحسين الخدمات المقدمه",
+          notifyType: "1",
+          notifyData: [
+            {
+              qusID: 1,
+              qusText: "this is qustions text 1",
+              value: 0,
+              seen: false
+            },
+            {
+              qusID: 2,
+              qusText: "this is qustions text 2",
+              value: 0,
+              seen: true
+            },
+            {
+              qusID: 3,
+              qusText: "this is qustions text 3",
+              value: 0,
+              seen: true
+            }
+          ]
+        },
+        {
+          message: "news",
+          img: "assets/imgs/text-lines.svg",
+          describe: "some describe for news ",
+          notifyType: "2",
+          notifyData: {
+            qusID: 1,
+            qusText: "this is qustions text  type 2 describe ",
+            seen: false
+          }
+        }
+      ]
+      this.storage.set('notificationList',a);*/
       /*this.splashScreen.hide();*/
       this.statusBar.backgroundColorByHexString('#253746');
       this.storage.get('first_run')
         .then((res) => {
-
           console.log('homeComp', res);
           if (res == true || res == null || res == 'undefind') {
             this.storage.set('first_run', false);
@@ -101,7 +140,6 @@ export class MyApp {
             this.storage.get('user')
               .then((userInfo) => {
                 console.log(userInfo.length);
-
                 if (userInfo.Id != "") {
                   this.account.userInformation = userInfo;
                   this.storage.set('user', this.account.userInformation);
@@ -511,7 +549,47 @@ export class MyApp {
             });
 
         });
+
       this.fcm.onNotification().subscribe(data => {
+        this.storage.get('notificationList')
+          .then((res)=>{
+            let resList : any;
+            if (res){
+              let resList : any = res;
+              resList.push(data);
+              this.storage.set('notificationList',resList);
+            }else {
+              let resList = [];
+              resList.push(data);
+              this.storage.set('notificationList',resList);
+            }
+          })
+          .catch((err)=>{
+            let resList = [];
+            resList.push(data);
+            this.storage.set('notificationList',resList);
+          })
+        if (data.wasTapped) {
+          this.config.alertNotify = true;
+          console.log(data);
+        } else {
+          this.config.alertNotify = true;
+          console.log(data);
+          this.toastCtrl.create({
+            message: data.textmessage,
+            duration: 5000,
+            position: 'bottom'
+          }).present();
+          console.log("Received in foreground");
+        }
+        /*this method for change token id*/
+        this.fcm.onTokenRefresh().subscribe(token => {
+         console.log(token)
+        });
+      });
+
+
+    /*  this.fcm.onNotification().subscribe(data => {
         if (data.wasTapped) {
 
           console.log(data);
@@ -521,12 +599,12 @@ export class MyApp {
 
           console.log("Received in foreground");
         }
-        /*this method for change token id*/
+        /!*this method for change token id*!/
         this.fcm.onTokenRefresh().subscribe(token => {
           this.storage.get('lang').then((data) => {
           });
         });
-      });
+      });*/
      /* setTimeout(() => {
         this.splashScreen.hide();
       }, 100);*/

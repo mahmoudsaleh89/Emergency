@@ -135,12 +135,11 @@ export class HomePage {
           let markerOptions: MarkerOptions = {
             position: loc,
             title: desc,
-            icon: 'gray',
+            icon: 'assets/imgs/pin.png',
           };
           this.map.addMarker(markerOptions).then(() => {
             loader.dismiss();
           });
-
         })
 
       })
@@ -403,7 +402,8 @@ export class HomePage {
         this.map.one(GoogleMapsEvent.MAP_READY).then(() => {
           let markerOptions: MarkerOptions = {
             position: loc,
-            title: desc
+            title: desc,
+            icon: 'assets/imgs/pin.png',
           };
           this.map.addMarker(markerOptions).then((mrker: Marker) => {
             mrker.showInfoWindow();
@@ -413,7 +413,6 @@ export class HomePage {
       });
 
   }
-
 
   onDirectCall() {
 

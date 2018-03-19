@@ -5,14 +5,21 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <ion-item *ngFor="let notify of notifications" (click)="onShowNotificationDET(notify)">
-      <ion-avatar item-start>
-        <img src="{{notify.img}}" onerror="this.src='assets/imgs/questions.svg'">
-      </ion-avatar>
-      <h2>{{notify.message}}</h2>
-      <p>{{notify.describe}}</p>
+  <ion-list *ngIf="notifications.length > 0">
+    <ion-item [ngClass]="{'not_seen': notify.notifyData.seen == false}" *ngFor="let notify of notifications" (click)="onShowNotificationDET(notify)">
+        <ion-avatar item-start>
+          <img src="{{notify.img}}" onerror="this.src='assets/imgs/questions.svg'">
+        </ion-avatar>
+        <h2>{{notify.message}}</h2>
+        <p>{{notify.describe}}</p>
+
     </ion-item>
   </ion-list>
+
+  <ion-card *ngIf="!notifications.length > 0" padding-horizontal>
+    <ion-card-content text-center>
+      {{'no_notification_text' | translate}}
+    </ion-card-content>
+  </ion-card>
 
 </ion-content>

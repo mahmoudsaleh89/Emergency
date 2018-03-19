@@ -14,6 +14,7 @@ export class ConfigProvider {
   fabsOptions = [];
   ratingQuestions: any;
   emergencyNumberList = [];
+  alertNotify: boolean = false;
 
   constructor(public http: HttpClient,
               private storage: Storage) {
@@ -38,29 +39,22 @@ export class ConfigProvider {
           this.emergencyNumberList = [];
           resolve(this.emergencyNumberList);
         })
-
     });
-
   }
 
   onUpdateEmergencyList() {
-
     this.storage.set('emList', this.emergencyNumberList);
   }
 
-
   onViewEmergencyNumber(index) {
-
     console.log(index);
     return new Promise(resolve => {
       this.storage.get('emList')
         .then((res) => {
           if (res) {
-
             this.emergencyNumberList = res;
             this.emergencyNumberList.map((response) => {
               this.numberObject = response
-
               //console.log('this.numberObject',this.numberObject);
             }).indexOf(index);
             resolve(this.numberObject);
@@ -126,23 +120,65 @@ export class ConfigProvider {
   }
 
   getNotificationList() {
-    return new Promise((resolve) => {
-      this.notifications = [
-        {
-          message: " تقييم الخدمه",
-          img: "assets/imgs/rating.svg",
-          describe: "من خلال هذا التقييم يتم تحسين الخدمات المقدمه",
-          notifyType: "1"
-        },
-        {
-          message: " تقييم الخدمه",
-          img: "assets/imgs/questions.svg",
-          describe: "من خلال هذا التقييم يتم تحسين الخدمات المقدمه",
-          notifyType: "1"
+    debugger;
+    this.notifications = [
+      {
+        message: " تقييم الخدمه",
+        img: "assets/imgs/survey.svg",
+        describe: "من خلال هذا التقييم يتم تحسين الخدمات المقدمه",
+        notifyType: "1",
+        notifyData: [
+          {
+            qusID: 1,
+            qusText: "this is qustions text 1",
+            value: 0,
+            seen: false
+          },
+          {
+            qusID: 2,
+            qusText: "this is qustions text 2",
+            value: 0,
+            seen: true
+          },
+          {
+            qusID: 3,
+            qusText: "this is qustions text 3",
+            value: 0,
+            seen: true
+          }
+        ]
+      },
+      {
+        message: " تقييم الخدمه",
+        img: "assets/imgs/text-lines.svg",
+        describe: "من خلال هذا التقييم يتم تحسين الخدمات المقدمه",
+        notifyType: "2",
+        notifyData: {
+          qusText: "this is qustions text  type 2 describe ",
+          seen: false
         }
-      ];
-      resolve(this.notifications);
-    })
+      }
+    ];
+    return new Promise((resolve) => {
+      this.storage.get('notificationList')
+        .then((data) => {
+          debugger;
+          if (data) {
+            this.notifications = data;
+            resolve(this.notifications);
+          }
+          else {
+            this.notifications = [];
+            resolve(this.notifications);
+          }
+        })
+        .catch((err) => {
+          debugger;
+          this.notifications = [];
+          resolve(this.notifications);
+        })
+
+    });
 
   }
 
