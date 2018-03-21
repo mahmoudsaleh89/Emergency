@@ -185,13 +185,13 @@ export class AccountProvider {
       MobileUserProfileId: mobileUserProfileId,
       Active: active
     };
-console.log(JSON.stringify(body), 'body req');
+    console.log(JSON.stringify(body), 'body req');
     return new Promise(resolve => {
       this.http.post(this.linkAPI + '/SaveProfileRelatives', body)
         .subscribe(
           res => {
             debugger;
-            console.log(res,'SaveProfileRelatives');
+            console.log(res, 'SaveProfileRelatives');
             if (res) {
 
               console.log(this.emergencyNumberList, 'this is update Em list');
@@ -349,5 +349,31 @@ console.log(JSON.stringify(body), 'body req');
 
   }
 
+  onUpdateDeviceToken(phoneNumber, token) {
+
+    let body = {
+      "PhoneNumber": phoneNumber,
+      "DeviceToken": token
+    };
+
+    return new Promise(resolve => {
+      this.http.post(this.linkAPI + '/UpdateDeviceToken', body)
+        .subscribe(
+          res => {
+            if (res) {
+              console.log(res,'sucsses res');
+            } else {
+              console.log(res , "else res");
+
+            }
+            resolve(res);
+          },
+          err => {
+            resolve('no_user_err');
+            console.log('Error occured', err);
+          }
+        );
+    });
+  }
 
 }

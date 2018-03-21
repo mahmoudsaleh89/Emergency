@@ -37,7 +37,7 @@ export class MyApp {
               public modalCtrl: ModalController,
               public menuCtrl: MenuController,
               public fcm: FCM,
-              public toastCtrl : ToastController) {
+              public toastCtrl: ToastController) {
     this.initializeApp();
     this.userNavInfo = this.account.userInformation;
     // used for an example of ngFor and navigation
@@ -52,7 +52,7 @@ export class MyApp {
 
   initializeApp() {
     this.platform.ready().then(() => {
-    /*  let a = [
+      let a = [
         {
           message: " تقييم الخدمه",
           img: "assets/imgs/survey.svg",
@@ -90,9 +90,8 @@ export class MyApp {
             seen: false
           }
         }
-      ]
-      this.storage.set('notificationList',a);*/
-      /*this.splashScreen.hide();*/
+      ];
+      this.storage.set('notificationList', a);
       this.statusBar.backgroundColorByHexString('#253746');
       this.storage.get('first_run')
         .then((res) => {
@@ -551,26 +550,30 @@ export class MyApp {
         });
 
       this.fcm.onNotification().subscribe(data => {
-        this.storage.get('notificationList')
-          .then((res)=>{
-            let resList : any;
-            if (res){
-              let resList : any = res;
-              resList.push(data);
-              this.storage.set('notificationList',resList);
-            }else {
-              let resList = [];
-              resList.push(data);
-              this.storage.set('notificationList',resList);
-            }
-          })
-          .catch((err)=>{
-            let resList = [];
-            resList.push(data);
-            this.storage.set('notificationList',resList);
-          })
+        let resList: any;
+
         if (data.wasTapped) {
-          this.config.alertNotify = true;
+          this.storage.get('notificationList')
+            .then((res) => {
+
+              if (res) {
+                resList = res;
+                resList.push(data);
+                this.storage.set('notificationList', resList);
+                this.config.alertNotify = true;
+              } else {
+                resList = [];
+                resList.push(data);
+                this.storage.set('notificationList', resList);
+                this.config.alertNotify = true;
+              }
+            })
+            .catch((err) => {
+              resList = [];
+              resList.push(data);
+              this.storage.set('notificationList', resList);
+              this.config.alertNotify = true;
+            })
           console.log(data);
         } else {
           this.config.alertNotify = true;
@@ -582,32 +585,36 @@ export class MyApp {
           }).present();
           console.log("Received in foreground");
         }
+
         /*this method for change token id*/
         this.fcm.onTokenRefresh().subscribe(token => {
-         console.log(token)
+          this.storage.get('have_account').then((resp) => {
+            if (resp == true) {
+              this.account.onUpdateDeviceToken(this.account.userInformation.PhoneNumber, token)
+                .then(()=>{
+                console.log('updated device token subsets')
+              }).catch((err)=>{
+                console.log(err, "upatde device token err")
+              })
+            } else {
+              this.storage.get('emergency_phone_box').then((em_phone)=>{
+                if(em_phone){
+                  this.account.onUpdateDeviceToken(em_phone, token)
+                    .then(()=>{
+                      console.log('updated device token subsets')
+                    }).catch((err)=>{
+                    console.log(err, "upatde device token err")
+                  })
+                }else {
+                  console.log('there is no number and not login')
+                }
+              })
+
+            }
+          })
+          console.log(token)
         });
       });
-
-
-    /*  this.fcm.onNotification().subscribe(data => {
-        if (data.wasTapped) {
-
-          console.log(data);
-        } else {
-
-          console.log(data);
-
-          console.log("Received in foreground");
-        }
-        /!*this method for change token id*!/
-        this.fcm.onTokenRefresh().subscribe(token => {
-          this.storage.get('lang').then((data) => {
-          });
-        });
-      });*/
-     /* setTimeout(() => {
-        this.splashScreen.hide();
-      }, 100);*/
     });
 
 
@@ -632,7 +639,8 @@ export class MyApp {
     this.modalCtrl.create(AddClaimPage).present();
     this.menuCtrl.close();
   }
-  onStartTutorials(){
+
+  onStartTutorials() {
     this.modalCtrl.create(TutorialPage).present();
     this.menuCtrl.close();
   }

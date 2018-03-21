@@ -8,6 +8,7 @@ import {HomePage} from '../home/home';
 import {AccountProvider} from '../../providers/account/account';
 import {StatusBar} from '@ionic-native/status-bar';
 import {MyApp} from "../../app/app.component";
+import {FCM} from "@ionic-native/fcm";
 
 @IonicPage()
 @Component({
@@ -43,6 +44,7 @@ export class LoginPage {
               public account: AccountProvider,
               public toastCtrl: ToastController,
               public statusBar: StatusBar,
+              private fcm: FCM,
               @Inject(forwardRef(() => MyApp)) private myapp: MyApp) {
   }
 
@@ -77,7 +79,7 @@ export class LoginPage {
   }
 
   onRegister(regForm: NgForm) {
-
+    let DeviceToken = "";
     this.isValidFormSubmitted = true;
     if (regForm.value.password !== regForm.value.passwordConfirm) {
       this.isValidFormSubmitted = false;
@@ -93,11 +95,12 @@ export class LoginPage {
       content: 'Please wait',
     });
     loader.present();
-    this.account.onCreateProfile("", regForm.value.firstName, regForm.value.lastName, "", regForm.value.phoneNumber, "", this.language_is, regForm.value.password,"")
+
+
+    this.account.onCreateProfile("", regForm.value.firstName, regForm.value.lastName, "", regForm.value.phoneNumber, "", this.language_is, regForm.value.password, DeviceToken)
       .then((res) => {
         loader.dismiss();
         if (res == 'no_user') {
-
           this.statusBar.backgroundColorByHexString('#ed5565');
           let toast = this.toastCtrl.create({
             message: this.PhoneRegsterd,
@@ -135,14 +138,14 @@ export class LoginPage {
           this.account.userInformation = tempRes;
           this.storage.set('lang', this.account.userInformation.Language);
           this.storage.set('user', this.account.userInformation);
-          this.storage.set('have_account',true);
+          this.storage.set('have_account', true);
+
           this.myapp.initializeApp();
           //this.navCtrl.setRoot(HomePage);
         }
 
       })
-      .catch((err) => {
-      })
+      .catch((err) => {})
 
 
   }
@@ -152,7 +155,7 @@ export class LoginPage {
   }
 
   onLogin(form: NgForm) {
-
+    let DeviceToken = "";
     this.isValidFormSubmitted = true;
     if (form.invalid) {
       this.isValidFormSubmitted = false;
@@ -163,28 +166,57 @@ export class LoginPage {
       content: 'Please wait',
     });
     loader.present();
-    this.account.onGetProfile(form.value.phone, form.value.pass)
-      .then((res) => {
+    this.fcm.getToken().then((tokenResp) => {
+      DeviceToken = tokenResp;
+      this.account.onGetProfile(form.value.phone, form.value.pass)
+        .then((res) => {
 
-        loader.dismiss();
-        if (res == 'no_user') {
+          loader.dismiss();
+          if (res == 'no_user') {
 
-          this.statusBar.backgroundColorByHexString('#ed5565');
-          let toast = this.toastCtrl.create({
-            message: this.userErr,
-            duration: 2000,
-            position: 'top',
-            cssClass: "warning_toast"
-          });
+            this.statusBar.backgroundColorByHexString('#ed5565');
+            let toast = this.toastCtrl.create({
+              message: this.userErr,
+              duration: 2000,
+              position: 'top',
+              cssClass: "warning_toast"
+            });
 
-          toast.present();
-          toast.onDidDismiss(() => {
-            this.statusBar.backgroundColorByHexString('#253746');
-          });
+            toast.present();
+            toast.onDidDismiss(() => {
+              this.statusBar.backgroundColorByHexString('#253746');
+            });
 
 
-        }
-        else if (res == 'no_user_err') {
+          }
+          else if (res == 'no_user_err') {
+
+            this.statusBar.backgroundColorByHexString('#ed5565');
+            let toast = this.toastCtrl.create({
+              message: this.errServer,
+              duration: 2000,
+              position: 'top',
+              cssClass: "warning_toast"
+            });
+
+            toast.present();
+            toast.onDidDismiss(() => {
+              this.statusBar.backgroundColorByHexString('#253746');
+            });
+
+          }
+          else {
+
+            let tempRes: any = res;
+            this.account.userInformation = tempRes;
+            this.storage.set('lang', this.account.userInformation.Language);
+            this.storage.set('user', this.account.userInformation);
+            this.storage.set('have_account', true);
+            this.myapp.initializeApp();
+            //this.navCtrl.setRoot(HomePage);
+          }
+        })
+        .catch((err) => {
 
           this.statusBar.backgroundColorByHexString('#ed5565');
           let toast = this.toastCtrl.create({
@@ -198,34 +230,8 @@ export class LoginPage {
           toast.onDidDismiss(() => {
             this.statusBar.backgroundColorByHexString('#253746');
           });
-
-        }
-        else {
-
-          let tempRes: any = res;
-          this.account.userInformation = tempRes;
-          this.storage.set('lang', this.account.userInformation.Language);
-          this.storage.set('user', this.account.userInformation);
-          this.storage.set('have_account',true);
-          this.myapp.initializeApp();
-          //this.navCtrl.setRoot(HomePage);
-        }
-      })
-      .catch((err) => {
-
-        this.statusBar.backgroundColorByHexString('#ed5565');
-        let toast = this.toastCtrl.create({
-          message: this.errServer,
-          duration: 2000,
-          position: 'top',
-          cssClass: "warning_toast"
-        });
-
-        toast.present();
-        toast.onDidDismiss(() => {
-          this.statusBar.backgroundColorByHexString('#253746');
-        });
-      })
+        })
+    })
     console.log(form);
 
   }

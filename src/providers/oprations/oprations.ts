@@ -16,7 +16,7 @@ export class OprationsProvider {
   }
 
 
-  onCreateRequest(phone , userId , departmentID,lat,lng,type,address){
+  onCreateRequest(phone , userId , departmentID,lat,lng,type,address,deviceToken){
     let body = {
       "PhoneNumber":phone ,
       "MobileUserProfileId": userId,
@@ -24,13 +24,13 @@ export class OprationsProvider {
       "Latitude": lat,
       "Longitude": lng,
       "RequestType": type,
-      "Address": address
+      "Address": address,
+      "DeviceToken":deviceToken
     };
     return new Promise(resolve => {
       this.http.post(this.linkAPI + 'CreateRequest', body)
         .subscribe(
           res => {
-
             let response: any = res;
             if(response.IsSuccessfull){
               resolve(response.Result);

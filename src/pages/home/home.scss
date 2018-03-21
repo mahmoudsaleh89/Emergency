@@ -15,10 +15,16 @@ page-home {
     top: auto;
   }
 
-  /*fabs center custom*/
-  /*ion-fab[center]{
-    margin-right: -50px !important;
-  }*/
+  .notification_dots{
+    position: absolute;
+    background-color: #f8ac59;
+    top: 9px;
+    right: 7px;
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+    z-index: 2;
+  }
 
 
 

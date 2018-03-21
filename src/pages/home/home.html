@@ -6,6 +6,7 @@
       </button>
     </ion-buttons>
     <ion-buttons float-start>
+      <div *ngIf="!config.alertNotify" class="notification_dots pulse animated infinite"></div>
       <button class=" " ion-button icon-only (click)="onGoToNotification()">
         <ion-icon  name="notifications"></ion-icon>
       </button>

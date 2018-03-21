@@ -20,6 +20,7 @@ import {
   Marker,
   LatLng, Geocoder
 } from '@ionic-native/google-maps';
+import {FCM} from "@ionic-native/fcm";
 
 declare var google;
 
@@ -61,7 +62,8 @@ export class HomePage {
               private  op: OprationsProvider,
               private toastCtrl: ToastController,
               private statusBar: StatusBar,
-              private loadingCtrl: LoadingController) {
+              private loadingCtrl: LoadingController,
+              private fcm: FCM) {
     this.config.onGetFabsOption().then((data) => {
       this.fabslist = data;
     });
@@ -76,6 +78,7 @@ export class HomePage {
     this.loadmap()
 
   }
+
   loadmap() {
     let loader = this.loadingCtrl.create({
       content: this.PleaseWait,
@@ -418,15 +421,19 @@ export class HomePage {
 
     this.storage.get('have_account')
       .then((res) => {
-
+        let DeviceToken = "";
         if (res == true) {
           this.callNumber.callNumber("112", true)
             .then(() => console.log('Launched dialer!'))
             .catch(() => console.log('Error launching dialer'));
-          this.op.onCreateRequest(this.account.userInformation.PhoneNumber, this.account.userInformation.Id, "", this.lat, this.lng, true, this.location_name)
-            .then((res) => {
-              console.log(res);
-            })
+          this.fcm.getToken().then((tokenResp) => {
+            DeviceToken = tokenResp;
+            this.op.onCreateRequest(this.account.userInformation.PhoneNumber, this.account.userInformation.Id, "", this.lat, this.lng, true, this.location_name, DeviceToken)
+              .then((res) => {
+                console.log(res);
+              })
+          })
+
         }
         else {
           this.storage.get('emergency_phone_box').then((em_phone) => {
@@ -435,36 +442,39 @@ export class HomePage {
               this.callNumber.callNumber("112", true)
                 .then(() => console.log('Launched dialer!'))
                 .catch(() => console.log('Error launching dialer'));
-              this.op.onCreateRequest(em_phone, "", "", this.lat, this.lng, true, this.location_name)
-                .then((res) => {
+              this.fcm.getToken().then((tokenResp) => {
+                DeviceToken = tokenResp;
+                this.op.onCreateRequest(em_phone, "", "", this.lat, this.lng, true, this.location_name, DeviceToken)
+                  .then((res) => {
 
-                  if (res == 'not_send') {
-                    this.statusBar.backgroundColorByHexString('#ed5565');
-                    let toast = this.toastCtrl.create({
-                      message: 'هذا الرقم تم تسجيله سابقا',
-                      duration: 3000,
-                      position: 'top',
-                      cssClass: "warning_toast"
-                    });
-                    toast.present();
-                    toast.onDidDismiss(() => {
-                      this.statusBar.backgroundColorByHexString('#253746');
-                    });
-                  }
-                  else if (res == 'server_err') {
-                    this.statusBar.backgroundColorByHexString('#ed5565');
-                    let toast = this.toastCtrl.create({
-                      message: 'هذا الرقم تم تسجيله سابقا',
-                      duration: 3000,
-                      position: 'top',
-                      cssClass: "warning_toast"
-                    });
-                    toast.present();
-                    toast.onDidDismiss(() => {
-                      this.statusBar.backgroundColorByHexString('#253746');
-                    });
-                  }
-                })
+                    if (res == 'not_send') {
+                      this.statusBar.backgroundColorByHexString('#ed5565');
+                      let toast = this.toastCtrl.create({
+                        message: 'هذا الرقم تم تسجيله سابقا',
+                        duration: 3000,
+                        position: 'top',
+                        cssClass: "warning_toast"
+                      });
+                      toast.present();
+                      toast.onDidDismiss(() => {
+                        this.statusBar.backgroundColorByHexString('#253746');
+                      });
+                    }
+                    else if (res == 'server_err') {
+                      this.statusBar.backgroundColorByHexString('#ed5565');
+                      let toast = this.toastCtrl.create({
+                        message: 'هذا الرقم تم تسجيله سابقا',
+                        duration: 3000,
+                        position: 'top',
+                        cssClass: "warning_toast"
+                      });
+                      toast.present();
+                      toast.onDidDismiss(() => {
+                        this.statusBar.backgroundColorByHexString('#253746');
+                      });
+                    }
+                  })
+              });
             } else {
 
               let alert = this.alertCtrl.create({
@@ -492,8 +502,81 @@ export class HomePage {
                           .then(() => console.log('Launched dialer!'))
                           .catch(() => console.log('Error launching dialer'));
                         this.storage.set('emergency_phone_box', data.phone_number);
-                        //call api
-                        this.op.onCreateRequest(data.phone_number, "", "", this.lat, this.lng, true, this.location_name)
+                        this.fcm.getToken().then((tokenResp) => {
+                          DeviceToken = tokenResp;
+                          this.op.onCreateRequest(data.phone_number, "", "", this.lat, this.lng, true, this.location_name,DeviceToken)
+                            .then((res) => {
+                              if (res == 'not_send') {
+                                this.statusBar.backgroundColorByHexString('#ed5565');
+                                let toast = this.toastCtrl.create({
+                                  message: 'هذا الرقم تم تسجيله سابقا',
+                                  duration: 3000,
+                                  position: 'top',
+                                  cssClass: "warning_toast"
+                                });
+                                toast.present();
+                                toast.onDidDismiss(() => {
+                                  this.statusBar.backgroundColorByHexString('#253746');
+                                });
+                              }
+                              else if (res == 'server_err') {
+                                this.statusBar.backgroundColorByHexString('#ed5565');
+                                let toast = this.toastCtrl.create({
+                                  message: 'هذا الرقم تم تسجيله سابقا',
+                                  duration: 3000,
+                                  position: 'top',
+                                  cssClass: "warning_toast"
+                                });
+                                toast.present();
+                                toast.onDidDismiss(() => {
+                                  this.statusBar.backgroundColorByHexString('#253746');
+                                });
+                              }
+                              else {
+                                this.callNumber.callNumber("112", true)
+                                  .then(() => console.log('Launched dialer!'))
+                                  .catch(() => console.log('Error launching dialer'));
+                              }
+
+                            })
+                        })
+
+                      } else {
+                        //show Error msg
+                        return false;
+                      }
+                    }
+                  }
+                ]
+              });
+              alert.present();
+            }
+          }).catch(() => {
+            let alert = this.alertCtrl.create({
+              title: this.help_title,
+              inputs: [
+                {
+                  name: 'phone_number',
+                  placeholder: this.insert_phone_number,
+                  type: 'tel'
+                }
+              ],
+              buttons: [
+                {
+                  text: this.cancel_requset,
+                  role: 'cancel',
+                  handler: data => {
+                    console.log('Cancel clicked');
+                  }
+                },
+                {
+                  text: this.send_help_requset,
+                  handler: data => {
+                    if (data.phone_number) {
+                      this.storage.set('emergency_phone_box', data.phone_number);
+                      this.fcm.getToken().then((tokenResp) => {
+                        DeviceToken = tokenResp;
+                        this.op.onCreateRequest(data.phone_number, "", "", this.lat, this.lng, true, this.location_name,DeviceToken)
                           .then((res) => {
                             if (res == 'not_send') {
                               this.statusBar.backgroundColorByHexString('#ed5565');
@@ -528,75 +611,9 @@ export class HomePage {
                             }
 
                           })
-                      } else {
-                        //show Error msg
-                        return false;
-                      }
-                    }
-                  }
-                ]
-              });
-              alert.present();
-            }
-          }).catch(() => {
-            let alert = this.alertCtrl.create({
-              title: this.help_title,
-              inputs: [
-                {
-                  name: 'phone_number',
-                  placeholder: this.insert_phone_number,
-                  type: 'tel'
-                }
-              ],
-              buttons: [
-                {
-                  text: this.cancel_requset,
-                  role: 'cancel',
-                  handler: data => {
-                    console.log('Cancel clicked');
-                  }
-                },
-                {
-                  text: this.send_help_requset,
-                  handler: data => {
-                    if (data.phone_number) {
-                      this.storage.set('emergency_phone_box', data.phone_number);
-                      //call api
-                      this.op.onCreateRequest(data.phone_number, "", "", this.lat, this.lng, true, this.location_name)
-                        .then((res) => {
-                          if (res == 'not_send') {
-                            this.statusBar.backgroundColorByHexString('#ed5565');
-                            let toast = this.toastCtrl.create({
-                              message: 'هذا الرقم تم تسجيله سابقا',
-                              duration: 3000,
-                              position: 'top',
-                              cssClass: "warning_toast"
-                            });
-                            toast.present();
-                            toast.onDidDismiss(() => {
-                              this.statusBar.backgroundColorByHexString('#253746');
-                            });
-                          }
-                          else if (res == 'server_err') {
-                            this.statusBar.backgroundColorByHexString('#ed5565');
-                            let toast = this.toastCtrl.create({
-                              message: 'هذا الرقم تم تسجيله سابقا',
-                              duration: 3000,
-                              position: 'top',
-                              cssClass: "warning_toast"
-                            });
-                            toast.present();
-                            toast.onDidDismiss(() => {
-                              this.statusBar.backgroundColorByHexString('#253746');
-                            });
-                          }
-                          else {
-                            this.callNumber.callNumber("112", true)
-                              .then(() => console.log('Launched dialer!'))
-                              .catch(() => console.log('Error launching dialer'));
-                          }
 
-                        })
+                        ;})
+
                     } else {
                       //show Error msg
                       return false;
@@ -616,56 +633,17 @@ export class HomePage {
   }
 
   onSilentCall(depId) {
+    let DeviceToken = "";
     this.storage.get('have_account')
       .then((res) => {
+        let DeviceToken = "";
 
         if (res == true) {
-          this.op.onCreateRequest(this.account.userInformation.PhoneNumber, this.account.userInformation.Id, depId, this.lat, this.lng, false, this.location_name)
-            .then((res) => {
-              if (res == 'not_send') {
-                this.statusBar.backgroundColorByHexString('#ed5565');
-                let toast = this.toastCtrl.create({
-                  message: 'هذا الرقم تم تسجيله سابقا',
-                  duration: 3000,
-                  position: 'top',
-                  cssClass: "warning_toast"
-                });
-                toast.present();
-                toast.onDidDismiss(() => {
-                  this.statusBar.backgroundColorByHexString('#253746');
-                });
-              }
-              else if (res == 'server_err') {
-                this.statusBar.backgroundColorByHexString('#ed5565');
-                let toast = this.toastCtrl.create({
-                  message: 'هذا الرقم تم تسجيله سابقا',
-                  duration: 3000,
-                  position: 'top',
-                  cssClass: "warning_toast"
-                });
-                toast.present();
-                toast.onDidDismiss(() => {
-                  this.statusBar.backgroundColorByHexString('#253746');
-                });
-              }
-              else {
-                let alert = this.alertCtrl.create({
-                  title: this.help_title,
-                  subTitle: this.help_guide,
-                  buttons: [this.OK]
-                });
-                alert.present();
-              }
-            })
-        }
-        else {
-          this.storage.get('emergency_phone_box').then((em_phone) => {
-
-            if (em_phone) {
-
-              this.op.onCreateRequest(em_phone, "", depId, this.lat, this.lng, false, this.location_name)
+          this.fcm.getToken().then((tokenResp) => {
+            if (tokenResp) {
+              DeviceToken = tokenResp;
+              this.op.onCreateRequest(this.account.userInformation.PhoneNumber, this.account.userInformation.Id, depId, this.lat, this.lng, false, this.location_name, DeviceToken)
                 .then((res) => {
-
                   if (res == 'not_send') {
                     this.statusBar.backgroundColorByHexString('#ed5565');
                     let toast = this.toastCtrl.create({
@@ -702,6 +680,95 @@ export class HomePage {
                   }
                 })
             } else {
+              DeviceToken = tokenResp;
+              this.op.onCreateRequest(this.account.userInformation.PhoneNumber, this.account.userInformation.Id, depId, this.lat, this.lng, false, this.location_name, DeviceToken)
+                .then((res) => {
+                  if (res == 'not_send') {
+                    this.statusBar.backgroundColorByHexString('#ed5565');
+                    let toast = this.toastCtrl.create({
+                      message: 'هذا الرقم تم تسجيله سابقا',
+                      duration: 3000,
+                      position: 'top',
+                      cssClass: "warning_toast"
+                    });
+                    toast.present();
+                    toast.onDidDismiss(() => {
+                      this.statusBar.backgroundColorByHexString('#253746');
+                    });
+                  }
+                  else if (res == 'server_err') {
+                    this.statusBar.backgroundColorByHexString('#ed5565');
+                    let toast = this.toastCtrl.create({
+                      message: 'هذا الرقم تم تسجيله سابقا',
+                      duration: 3000,
+                      position: 'top',
+                      cssClass: "warning_toast"
+                    });
+                    toast.present();
+                    toast.onDidDismiss(() => {
+                      this.statusBar.backgroundColorByHexString('#253746');
+                    });
+                  }
+                  else {
+                    let alert = this.alertCtrl.create({
+                      title: this.help_title,
+                      subTitle: this.help_guide,
+                      buttons: [this.OK]
+                    });
+                    alert.present();
+                  }
+                })
+            }
+          })
+
+        }
+        else {
+          this.storage.get('emergency_phone_box').then((em_phone) => {
+
+            if (em_phone) {
+              this.fcm.getToken().then((tokenResp) => {
+                DeviceToken = tokenResp;
+                this.op.onCreateRequest(em_phone, "", depId, this.lat, this.lng, false, this.location_name,DeviceToken)
+                  .then((res) => {
+
+                    if (res == 'not_send') {
+                      this.statusBar.backgroundColorByHexString('#ed5565');
+                      let toast = this.toastCtrl.create({
+                        message: 'هذا الرقم تم تسجيله سابقا',
+                        duration: 3000,
+                        position: 'top',
+                        cssClass: "warning_toast"
+                      });
+                      toast.present();
+                      toast.onDidDismiss(() => {
+                        this.statusBar.backgroundColorByHexString('#253746');
+                      });
+                    }
+                    else if (res == 'server_err') {
+                      this.statusBar.backgroundColorByHexString('#ed5565');
+                      let toast = this.toastCtrl.create({
+                        message: 'هذا الرقم تم تسجيله سابقا',
+                        duration: 3000,
+                        position: 'top',
+                        cssClass: "warning_toast"
+                      });
+                      toast.present();
+                      toast.onDidDismiss(() => {
+                        this.statusBar.backgroundColorByHexString('#253746');
+                      });
+                    }
+                    else {
+                      let alert = this.alertCtrl.create({
+                        title: this.help_title,
+                        subTitle: this.help_guide,
+                        buttons: [this.OK]
+                      });
+                      alert.present();
+                    }
+                  })
+              })
+
+            } else {
 
               let alert = this.alertCtrl.create({
                 title: this.help_title,
@@ -725,46 +792,49 @@ export class HomePage {
                     handler: data => {
                       if (data.phone_number) {
                         this.storage.set('emergency_phone_box', data.phone_number);
-                        //call api
-                        this.op.onCreateRequest(data.phone_number, "", depId, this.lat, this.lng, false, this.location_name)
-                          .then((res) => {
-                            if (res == 'not_send') {
-                              this.statusBar.backgroundColorByHexString('#ed5565');
-                              let toast = this.toastCtrl.create({
-                                message: 'هذا الرقم تم تسجيله سابقا',
-                                duration: 3000,
-                                position: 'top',
-                                cssClass: "warning_toast"
-                              });
-                              toast.present();
-                              toast.onDidDismiss(() => {
-                                this.statusBar.backgroundColorByHexString('#253746');
-                              });
-                            }
-                            else if (res == 'server_err') {
-                              this.statusBar.backgroundColorByHexString('#ed5565');
-                              let toast = this.toastCtrl.create({
-                                message: 'هذا الرقم تم تسجيله سابقا',
-                                duration: 3000,
-                                position: 'top',
-                                cssClass: "warning_toast"
-                              });
-                              toast.present();
-                              toast.onDidDismiss(() => {
-                                this.statusBar.backgroundColorByHexString('#253746');
-                              });
-                            }
-                            else {
+                        this.fcm.getToken().then((tokenResp) => {
+                          DeviceToken = tokenResp;
+                          this.op.onCreateRequest(data.phone_number, "", depId, this.lat, this.lng, false, this.location_name,DeviceToken)
+                            .then((res) => {
+                              if (res == 'not_send') {
+                                this.statusBar.backgroundColorByHexString('#ed5565');
+                                let toast = this.toastCtrl.create({
+                                  message: 'هذا الرقم تم تسجيله سابقا',
+                                  duration: 3000,
+                                  position: 'top',
+                                  cssClass: "warning_toast"
+                                });
+                                toast.present();
+                                toast.onDidDismiss(() => {
+                                  this.statusBar.backgroundColorByHexString('#253746');
+                                });
+                              }
+                              else if (res == 'server_err') {
+                                this.statusBar.backgroundColorByHexString('#ed5565');
+                                let toast = this.toastCtrl.create({
+                                  message: 'هذا الرقم تم تسجيله سابقا',
+                                  duration: 3000,
+                                  position: 'top',
+                                  cssClass: "warning_toast"
+                                });
+                                toast.present();
+                                toast.onDidDismiss(() => {
+                                  this.statusBar.backgroundColorByHexString('#253746');
+                                });
+                              }
+                              else {
 
-                              let alert = this.alertCtrl.create({
-                                title: this.help_title,
-                                subTitle: this.help_guide,
-                                buttons: [this.OK]
-                              });
-                              alert.present();
-                            }
+                                let alert = this.alertCtrl.create({
+                                  title: this.help_title,
+                                  subTitle: this.help_guide,
+                                  buttons: [this.OK]
+                                });
+                                alert.present();
+                              }
 
-                          })
+                            })
+                          });
+
                       } else {
                         //show Error msg
                         return false;
@@ -798,42 +868,45 @@ export class HomePage {
                   handler: data => {
                     if (data.phone_number) {
                       this.storage.set('emergency_phone_box', data.phone_number);
-                      //call api
-                      this.op.onCreateRequest(data.phone_number, "", "", this.lat, this.lng, true, this.location_name)
-                        .then((res) => {
-                          if (res == 'not_send') {
-                            this.statusBar.backgroundColorByHexString('#ed5565');
-                            let toast = this.toastCtrl.create({
-                              message: 'هذا الرقم تم تسجيله سابقا',
-                              duration: 3000,
-                              position: 'top',
-                              cssClass: "warning_toast"
-                            });
-                            toast.present();
-                            toast.onDidDismiss(() => {
-                              this.statusBar.backgroundColorByHexString('#253746');
-                            });
-                          }
-                          else if (res == 'server_err') {
-                            this.statusBar.backgroundColorByHexString('#ed5565');
-                            let toast = this.toastCtrl.create({
-                              message: 'هذا الرقم تم تسجيله سابقا',
-                              duration: 3000,
-                              position: 'top',
-                              cssClass: "warning_toast"
-                            });
-                            toast.present();
-                            toast.onDidDismiss(() => {
-                              this.statusBar.backgroundColorByHexString('#253746');
-                            });
-                          }
-                          else {
-                            this.callNumber.callNumber("112", true)
-                              .then(() => console.log('Launched dialer!'))
-                              .catch(() => console.log('Error launching dialer'));
-                          }
+                      this.fcm.getToken().then((tokenResp) => {
+                        DeviceToken = tokenResp;
+                        this.op.onCreateRequest(data.phone_number, "", "", this.lat, this.lng, true, this.location_name,DeviceToken)
+                          .then((res) => {
+                            if (res == 'not_send') {
+                              this.statusBar.backgroundColorByHexString('#ed5565');
+                              let toast = this.toastCtrl.create({
+                                message: 'هذا الرقم تم تسجيله سابقا',
+                                duration: 3000,
+                                position: 'top',
+                                cssClass: "warning_toast"
+                              });
+                              toast.present();
+                              toast.onDidDismiss(() => {
+                                this.statusBar.backgroundColorByHexString('#253746');
+                              });
+                            }
+                            else if (res == 'server_err') {
+                              this.statusBar.backgroundColorByHexString('#ed5565');
+                              let toast = this.toastCtrl.create({
+                                message: 'هذا الرقم تم تسجيله سابقا',
+                                duration: 3000,
+                                position: 'top',
+                                cssClass: "warning_toast"
+                              });
+                              toast.present();
+                              toast.onDidDismiss(() => {
+                                this.statusBar.backgroundColorByHexString('#253746');
+                              });
+                            }
+                            else {
+                              this.callNumber.callNumber("112", true)
+                                .then(() => console.log('Launched dialer!'))
+                                .catch(() => console.log('Error launching dialer'));
+                            }
 
-                        })
+                          })
+                      })
+
                     } else {
                       //show Error msg
                       return false;
@@ -854,6 +927,7 @@ export class HomePage {
   }
 
   onVoiceCall(depId) {
+    let DeviceToken = "";
     this.storage.get('have_account')
       .then((res) => {
 
@@ -861,7 +935,11 @@ export class HomePage {
           this.callNumber.callNumber("112", true)
             .then(() => console.log('Launched dialer!'))
             .catch(() => console.log('Error launching dialer'));
-          this.op.onCreateRequest(this.account.userInformation.PhoneNumber, this.account.userInformation.Id, depId, this.lat, this.lng, true, this.location_name)
+          this.fcm.getToken().then((tokenResp) => {
+            DeviceToken = tokenResp;
+
+          });
+          this.op.onCreateRequest(this.account.userInformation.PhoneNumber, this.account.userInformation.Id, depId, this.lat, this.lng, true, this.location_name,DeviceToken)
             .then((res) => {
               console.log(res);
             })
@@ -873,7 +951,11 @@ export class HomePage {
               this.callNumber.callNumber("112", true)
                 .then(() => console.log('Launched dialer!'))
                 .catch(() => console.log('Error launching dialer'));
-              this.op.onCreateRequest(em_phone, "", depId, this.lat, this.lng, true, this.location_name)
+              this.fcm.getToken().then((tokenResp) => {
+                DeviceToken = tokenResp;
+
+              });
+              this.op.onCreateRequest(em_phone, "", depId, this.lat, this.lng, true, this.location_name,DeviceToken)
                 .then((res) => {
 
                   if (res == 'not_send') {
@@ -930,8 +1012,11 @@ export class HomePage {
                           .then(() => console.log('Launched dialer!'))
                           .catch(() => console.log('Error launching dialer'));
                         this.storage.set('emergency_phone_box', data.phone_number);
-                        //call api
-                        this.op.onCreateRequest(data.phone_number, "", depId, this.lat, this.lng, true, this.location_name)
+                        this.fcm.getToken().then((tokenResp) => {
+                          DeviceToken = tokenResp;
+
+                        });
+                        this.op.onCreateRequest(data.phone_number, "", depId, this.lat, this.lng, true, this.location_name,DeviceToken)
                           .then((res) => {
                             if (res == 'not_send') {
                               this.statusBar.backgroundColorByHexString('#ed5565');
@@ -994,42 +1079,45 @@ export class HomePage {
                   handler: data => {
                     if (data.phone_number) {
                       this.storage.set('emergency_phone_box', data.phone_number);
-                      //call api
-                      this.op.onCreateRequest(data.phone_number, "", "", this.lat, this.lng, true, this.location_name)
-                        .then((res) => {
-                          if (res == 'not_send') {
-                            this.statusBar.backgroundColorByHexString('#ed5565');
-                            let toast = this.toastCtrl.create({
-                              message: 'هذا الرقم تم تسجيله سابقا',
-                              duration: 3000,
-                              position: 'top',
-                              cssClass: "warning_toast"
-                            });
-                            toast.present();
-                            toast.onDidDismiss(() => {
-                              this.statusBar.backgroundColorByHexString('#253746');
-                            });
-                          }
-                          else if (res == 'server_err') {
-                            this.statusBar.backgroundColorByHexString('#ed5565');
-                            let toast = this.toastCtrl.create({
-                              message: 'هذا الرقم تم تسجيله سابقا',
-                              duration: 3000,
-                              position: 'top',
-                              cssClass: "warning_toast"
-                            });
-                            toast.present();
-                            toast.onDidDismiss(() => {
-                              this.statusBar.backgroundColorByHexString('#253746');
-                            });
-                          }
-                          else {
-                            this.callNumber.callNumber("112", true)
-                              .then(() => console.log('Launched dialer!'))
-                              .catch(() => console.log('Error launching dialer'));
-                          }
+                      this.fcm.getToken().then((tokenResp) => {
+                        DeviceToken = tokenResp;
+                        this.op.onCreateRequest(data.phone_number, "", "", this.lat, this.lng, true, this.location_name,DeviceToken)
+                          .then((res) => {
+                            if (res == 'not_send') {
+                              this.statusBar.backgroundColorByHexString('#ed5565');
+                              let toast = this.toastCtrl.create({
+                                message: 'هذا الرقم تم تسجيله سابقا',
+                                duration: 3000,
+                                position: 'top',
+                                cssClass: "warning_toast"
+                              });
+                              toast.present();
+                              toast.onDidDismiss(() => {
+                                this.statusBar.backgroundColorByHexString('#253746');
+                              });
+                            }
+                            else if (res == 'server_err') {
+                              this.statusBar.backgroundColorByHexString('#ed5565');
+                              let toast = this.toastCtrl.create({
+                                message: 'هذا الرقم تم تسجيله سابقا',
+                                duration: 3000,
+                                position: 'top',
+                                cssClass: "warning_toast"
+                              });
+                              toast.present();
+                              toast.onDidDismiss(() => {
+                                this.statusBar.backgroundColorByHexString('#253746');
+                              });
+                            }
+                            else {
+                              this.callNumber.callNumber("112", true)
+                                .then(() => console.log('Launched dialer!'))
+                                .catch(() => console.log('Error launching dialer'));
+                            }
 
-                        })
+                          })
+                      });
+
                     } else {
                       //show Error msg
                       return false;
